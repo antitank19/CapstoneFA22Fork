@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "R9LnsC64xJTE15Eh6e/y0rbbMDzX4noiDAZiKru29ewxG4Xw267FaKteVgTP2wwPZcRRPfZa7zoflQn6uQoZNw==",
+  "dgSpecHash": "1ny7RWTB17QIgT6p+iaOqGE++EjBefQ7U/IrsuIPHEJZEyOuYfr9DS7OsG04WL+z9HciBt36SK6rZFXYk13CxA==",
   "success": true,
   "projectFilePath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\API\\API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\innoc\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
+    "C:\\Users\\innoc\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
-    "C:\\Users\\innoc\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\innoc\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.9\\microsoft.entityframeworkcore.6.0.9.nupkg.sha512",

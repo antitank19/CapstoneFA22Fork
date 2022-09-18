@@ -16,14 +16,7 @@ var secret = builder.Configuration["TotallyNotConnectionString:Secret"];
 
 builder.Services.AddApplicationService(secret);
 
-/*
-
-builder.Services.AddDbContext<ApplicationContext>(
-    option =>
-    {
-        option.UseSqlServer(secret);
-    });
-*/
+builder.Services.AddScopedService();
 
 builder.Services.AddSwaggerGen(
     c =>
