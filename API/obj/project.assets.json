@@ -3256,23 +3256,6 @@
           "bin/placeholder/Infrastructure.dll": {}
         }
       },
-      "Service/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "Domain": "1.0.0",
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.9",
-          "Microsoft.Extensions.Configuration.Abstractions": "6.0.0",
-          "Microsoft.IdentityModel.JsonWebTokens": "6.23.1",
-          "System.IdentityModel.Tokens.Jwt": "6.23.1"
-        },
-        "compile": {
-          "bin/placeholder/Service.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Service.dll": {}
-        }
-      },
       "Utilities/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -3283,7 +3266,6 @@
           "Microsoft.Extensions.Configuration.Abstractions": "6.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
           "Microsoft.IdentityModel.JsonWebTokens": "6.23.1",
-          "Service": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.23.1"
         },
         "compile": {
@@ -9935,11 +9917,6 @@
       "type": "project",
       "path": "../Infrastructure/Infrastructure.csproj",
       "msbuildProject": "../Infrastructure/Infrastructure.csproj"
-    },
-    "Service/1.0.0": {
-      "type": "project",
-      "path": "../Service/Service.csproj",
-      "msbuildProject": "../Service/Service.csproj"
     },
     "Utilities/1.0.0": {
       "type": "project",
