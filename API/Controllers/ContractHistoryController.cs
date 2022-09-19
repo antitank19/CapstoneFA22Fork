@@ -1,15 +1,16 @@
-using Application.IService;
 using AutoMapper;
 using Domain.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
+using Service.IService;
 
 namespace API.Controllers;
 
+[Route("api/[controller]/[action]")]
+[ApiController]
 public class ContractHistoryController : ControllerBase
 {
     private readonly IContractHistoryService _contractService;
     private readonly IMapper _mapper;
-
 
     public ContractHistoryController(IContractHistoryService contractService, IMapper mapper)
     {

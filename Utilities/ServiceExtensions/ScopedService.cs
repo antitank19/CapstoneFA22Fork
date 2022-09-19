@@ -1,8 +1,8 @@
 using Application.IRepository;
-using Application.IService;
 using Application.Repository;
-using Application.Service;
 using Microsoft.Extensions.DependencyInjection;
+using Service.IService;
+using Service.Service;
 
 namespace Utilities.ServiceExtensions;
 

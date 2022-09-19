@@ -1,17 +1,24 @@
-using Application.IService;
 using AutoMapper;
 using Domain.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
+using Service.IService;
 
 namespace API.Controllers;
 
+[Route("api/[controller]/[action]")]
+[ApiController]
 public class ContractController : ControllerBase
 {
     private readonly IContractService _contractService;
     private readonly IMapper _mapper;
 
-    
-    
+
+    public ContractController(IContractService contractService, IMapper mapper)
+    {
+        _contractService = contractService;
+        _mapper = mapper;
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetContractList()
     {

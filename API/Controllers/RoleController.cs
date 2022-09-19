@@ -1,10 +1,12 @@
-using Application.Service;
 using AutoMapper;
 using Domain.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
+using Service.Service;
 
 namespace API.Controllers;
 
+[Route("api/[controller]/[action]")]
+[ApiController]
 public class RoleController : ControllerBase
 {
     private readonly RoleService _roleService;

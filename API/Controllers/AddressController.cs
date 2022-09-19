@@ -1,17 +1,18 @@
-using Application.IService;
 using AutoMapper;
 using Domain.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
+using Service.IService;
 
 namespace API.Controllers;
 
+[Route("api/[controller]/[action]")]
+[ApiController]
 public class AddressController : ControllerBase
 {
     private readonly ICityService _cityService;
     private readonly IDistrictService _districtService;
     private readonly IWardService _wardService;
     private readonly IMapper _mapper;
-
 
     public AddressController(ICityService cityService, IDistrictService districtService, IWardService wardService, IMapper mapper)
     {

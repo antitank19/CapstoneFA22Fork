@@ -1,10 +1,12 @@
-using Application.IService;
 using AutoMapper;
 using Domain.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
+using Service.IService;
 
 namespace API.Controllers;
 
+[Route("api/[controller]/[action]")]
+[ApiController]
 public class RoomTypeController : ControllerBase
 {
     private readonly IRoomTypeService _roomTypeService;

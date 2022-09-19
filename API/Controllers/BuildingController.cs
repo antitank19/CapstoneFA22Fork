@@ -1,7 +1,7 @@
-using Application.IService;
 using AutoMapper;
 using Domain.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
+using Service.IService;
 
 namespace API.Controllers;
 
