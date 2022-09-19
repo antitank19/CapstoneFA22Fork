@@ -12,11 +12,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-var secret = builder.Configuration["TotallyNotConnectionString:Secret"];
+var config = builder.Configuration;
+
+var secret = config["TotallyNotConnectionString:Secret"];
 
 builder.Services.AddApplicationService(secret);
 
+builder.Services.AddJwtAuthenticationService(config);
+
 builder.Services.AddScopedService();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddSwaggerGen(
     c =>
@@ -34,6 +40,23 @@ builder.Services.AddSwaggerGen(
     }
 );
 
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy", 
+    corsPolicyBuilder =>
+    {
+    corsPolicyBuilder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();  
+    })
+);
+
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
+    o.AddPolicy("Manager", policy => policy.RequireClaim("Manager"));
+    o.AddPolicy("Student", policy => policy.RequireClaim("Student"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +67,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
