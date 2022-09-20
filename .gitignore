@@ -148,3 +148,8 @@ Utilities/obj/project.assets.json
 Utilities/obj/project.nuget.cache
 Utilities/obj/Utilities.csproj.nuget.dgspec.json
 Utilities/obj/Utilities.csproj.nuget.g.props
+*.BuildWithSkipAnalyzers
+*.vsidx
+*.config
+*.v2
+*.1
