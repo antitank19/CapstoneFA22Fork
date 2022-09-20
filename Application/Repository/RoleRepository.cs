@@ -1,10 +1,18 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Infrastructure;
 
 namespace Application.Repository;
 
 public class RoleRepository : IRoleRepository
 {
+    private readonly ApplicationContext context;
+
+    public RoleRepository(ApplicationContext context)
+    {
+        this.context = context;
+    }
+
     public IQueryable<Role> GetRoleList()
     {
         throw new NotImplementedException();
