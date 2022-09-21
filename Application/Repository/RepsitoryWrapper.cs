@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Repository
 {
-    public class RepositoryWrapper  : IReposityWrapper
+    public class RepositoryWrapper  : IRepositoryWrapper
     {
         private readonly ApplicationContext context;
 

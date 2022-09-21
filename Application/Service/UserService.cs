@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class UserService : IUserService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public UserService(IReposityWrapper reposities)
+    public UserService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

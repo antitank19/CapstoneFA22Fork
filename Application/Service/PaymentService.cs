@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class PaymentService : IPaymentService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public PaymentService(IReposityWrapper reposities)
+    public PaymentService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

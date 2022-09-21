@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class WardService : IWardService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public WardService(IReposityWrapper reposities)
+    public WardService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

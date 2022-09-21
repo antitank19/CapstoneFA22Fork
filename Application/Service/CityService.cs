@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class CityService : ICityService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public CityService(IReposityWrapper reposities)
+    public CityService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

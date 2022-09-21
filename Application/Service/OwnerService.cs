@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class OwnerService : IOwnerService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public OwnerService(IReposityWrapper reposities)
+    public OwnerService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

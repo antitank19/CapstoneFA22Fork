@@ -6,9 +6,9 @@ namespace Application.Service;
 
 public class BuildingService : IBuildingService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public BuildingService(IReposityWrapper reposities)
+    public BuildingService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class DistrictService : IDistrictService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public DistrictService(IReposityWrapper reposities)
+    public DistrictService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

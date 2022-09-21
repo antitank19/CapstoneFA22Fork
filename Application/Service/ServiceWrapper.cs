@@ -14,9 +14,9 @@ namespace Application.Service
     public class ServiceWrapper : IServiceWrapper
     {
         //private readonly ApplicationContext context;
-        private readonly IReposityWrapper reposities;
+        private readonly IRepositoryWrapper reposities;
 
-        public ServiceWrapper(IReposityWrapper? reposities, ApplicationContext? context)
+        public ServiceWrapper(IRepositoryWrapper? reposities, ApplicationContext? context)
         {
             if (reposities == null)
             {

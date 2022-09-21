@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.IRepository
 {
-    public interface IReposityWrapper
+    public interface IRepositoryWrapper
     {
         internal IBuildingRepository Buildings { get; }
         internal ICityRepository Cities { get; }

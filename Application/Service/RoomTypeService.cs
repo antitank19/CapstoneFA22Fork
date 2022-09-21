@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class RoomTypeService : IRoomTypeService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public RoomTypeService(IReposityWrapper reposities)
+    public RoomTypeService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

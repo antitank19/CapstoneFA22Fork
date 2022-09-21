@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class RentEntityService : IRentEntityService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public RentEntityService(IReposityWrapper reposities)
+    public RentEntityService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

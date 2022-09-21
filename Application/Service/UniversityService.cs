@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class UniversityService : IUniversityService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public UniversityService(IReposityWrapper reposities)
+    public UniversityService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

@@ -5,9 +5,9 @@ namespace Application.Service;
 
 public class RoleService : IRoleService
 {
-    private readonly IReposityWrapper reposities;
+    private readonly IRepositoryWrapper reposities;
 
-    public RoleService(IReposityWrapper reposities)
+    public RoleService(IRepositoryWrapper reposities)
     {
         this.reposities = reposities;
     }

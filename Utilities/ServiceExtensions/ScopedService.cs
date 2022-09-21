@@ -60,7 +60,7 @@ public static class ScopedService
         services.AddScoped<IWardRepository, WardRepository>();
         */
         services.AddScoped<IServiceWrapper, ServiceWrapper>();
-        services.AddScoped<IReposityWrapper, RepositoryWrapper>();
+        services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
         return services;
 
