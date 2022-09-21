@@ -1,10 +1,18 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Infrastructure;
 
 namespace Application.Repository;
 
 public class PaymentTypeRepository : IPaymentTypeRepository
 {
+    private readonly ApplicationContext context;
+
+    public PaymentTypeRepository(ApplicationContext context)
+    {
+        this.context = context;
+    }
+
     public IQueryable<PaymentType> GetPaymentTypeList()
     {
         throw new NotImplementedException();

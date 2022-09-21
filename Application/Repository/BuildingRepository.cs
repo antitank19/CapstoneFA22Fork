@@ -1,13 +1,21 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Infrastructure;
 
 namespace Application.Repository;
 
 public class BuildingRepository : IBuildingRepository
 {
+    private readonly ApplicationContext context;
+
+    public BuildingRepository(ApplicationContext context)
+    {
+        this.context = context;
+    }
+
     public IQueryable<Building> GetBuildingList()
     {
-        throw new NotImplementedException();
+        return context.BuildingForRent;
     }
 
     public IQueryable<Building> GetBuildingListByName(string name)
