@@ -1,10 +1,18 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Infrastructure;
 
 namespace Application.Repository;
 
 public class RoomTypeRepository : IRoomTypeRepository
 {
+    private readonly ApplicationContext context;
+
+    public RoomTypeRepository(ApplicationContext context)
+    {
+        this.context = context;
+    }
+
     public IQueryable<RoomType> GetRoomTypeList()
     {
         throw new NotImplementedException();

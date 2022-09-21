@@ -1,10 +1,18 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Infrastructure;
 
 namespace Application.Repository;
 
 public class ContractRepository : IContractRepository
 {
+    private readonly ApplicationContext context;
+
+    public ContractRepository(ApplicationContext context)
+    {
+        this.context = context;
+    }
+
     public IQueryable<Contract> GetContractList()
     {
         throw new NotImplementedException();

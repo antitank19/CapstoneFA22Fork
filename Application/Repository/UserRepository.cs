@@ -1,10 +1,18 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Infrastructure;
 
 namespace Application.Repository;
 
 public class UserRepository : IUserRepository
 {
+    private readonly ApplicationContext context;
+
+    public UserRepository(ApplicationContext context)
+    {
+        this.context = context;
+    }
+
     public IQueryable<User> GetUserList()
     {
         throw new NotImplementedException();

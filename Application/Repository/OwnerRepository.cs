@@ -1,10 +1,18 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Infrastructure;
 
 namespace Application.Repository;
 
 public class OwnerRepository : IOwnerRepository
 {
+    private readonly ApplicationContext context;
+
+    public OwnerRepository(ApplicationContext context)
+    {
+        this.context = context;
+    }
+
     public IQueryable<Owner> GetOwnerList()
     {
         throw new NotImplementedException();

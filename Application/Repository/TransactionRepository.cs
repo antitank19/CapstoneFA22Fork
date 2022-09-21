@@ -1,10 +1,18 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Infrastructure;
 
 namespace Application.Repository;
 
 public class TransactionRepository : ITransactionRepository
 {
+    private readonly ApplicationContext context;
+
+    public TransactionRepository(ApplicationContext context)
+    {
+        this.context = context;
+    }
+
     public IQueryable<Transaction> GetTransactionList()
     {
         throw new NotImplementedException();
