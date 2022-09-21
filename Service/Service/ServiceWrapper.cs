@@ -53,7 +53,7 @@ namespace Service.Service
             {
                 if (buildings == null)
                 {
-                    buildings = new Service.BuildingService(reposities);
+                    buildings = new BuildingService(reposities);
                 }
                 return buildings;
             }
@@ -65,7 +65,7 @@ namespace Service.Service
             {
                 if (cities == null)
                 {
-                    cities = new Application.Service.CityService(reposities);
+                    cities = new CityService(reposities);
                 }
                 return cities;
             }
@@ -77,7 +77,7 @@ namespace Service.Service
             {
                 if (contracts == null)
                 {
-                    contracts = new Application.Service.ContractService(reposities);
+                    contracts = new ContractService(reposities);
                 }
                 return contracts;
             }
@@ -95,13 +95,14 @@ namespace Service.Service
             }
         }
 
+        /*
         public IDistrictService Districts
         {
             get
             {
                 if (districts == null)
                 {
-                    districts = new Application.Service.DistrictService(reposities);
+                    districts = new DistrictService(reposities);
                 }
                 return districts;
             }
@@ -113,7 +114,7 @@ namespace Service.Service
             {
                 if (owners == null)
                 {
-                    owners = new Application.Service.OwnerService(reposities);
+                    owners = new OwnerService(reposities);
                 }
                 return owners;
             }
@@ -125,7 +126,7 @@ namespace Service.Service
             {
                 if (payments == null)
                 {
-                    payments = new Application.Service.PaymentService(reposities);
+                    payments = new PaymentService(reposities);
                 }
                 return payments;
             }
@@ -137,7 +138,7 @@ namespace Service.Service
             {
                 if (paymentTypes == null)
                 {
-                    paymentTypes = new Application.Service.PaymentTypeService(reposities);
+                    paymentTypes = new PaymentTypeService(reposities);
                 }
                 return paymentTypes;
             }
@@ -149,7 +150,7 @@ namespace Service.Service
             {
                 if (rentEntities == null)
                 {
-                    rentEntities = new Application.Service.RentEntityService(reposities);
+                    rentEntities = new RentEntityService(reposities);
                 }
                 return rentEntities;
             }
@@ -161,7 +162,7 @@ namespace Service.Service
             {
                 if (roles == null)
                 {
-                    roles = new Application.Service.RoleService(reposities);
+                    roles = new RoleService(reposities);
                 }
                 return roles;
             }
@@ -173,7 +174,7 @@ namespace Service.Service
             {
                 if (rooms == null)
                 {
-                    rooms = new Application.Service.RoomService(reposities);
+                    rooms = new RoomService(reposities);
                 }
                 return rooms;
             }
@@ -185,7 +186,7 @@ namespace Service.Service
             {
                 if (roomTypes == null)
                 {
-                    roomTypes = new Application.Service.RoomTypeService(reposities);
+                    roomTypes = new RoomTypeService(reposities);
                 }
                 return roomTypes;
             }
@@ -197,7 +198,7 @@ namespace Service.Service
             {
                 if (transactions == null)
                 {
-                    transactions = new Application.Service.TransactionService(reposities);
+                    transactions = new TransactionService(reposities);
                 }
                 return transactions;
             }
@@ -209,7 +210,7 @@ namespace Service.Service
             {
                 if (universities == null)
                 {
-                    universities = new Application.Service.UniversityService(reposities);
+                    universities = new UniversityService(reposities);
                 }
                 return universities;
             }
@@ -221,7 +222,7 @@ namespace Service.Service
             {
                 if (users == null)
                 {
-                    users = new Application.Service.UserService(reposities);
+                    users = new UserService(reposities);
                 }
                 return users;
             }
@@ -233,11 +234,12 @@ namespace Service.Service
             {
                 if (wards == null)
                 {
-                    wards = new Application.Service.WardService(reposities);
+                    wards = new WardService(reposities);
                 }
                 return wards;
             }
         }
+        */
 
         public ITokenService Tokens => throw new NotImplementedException();
     }
