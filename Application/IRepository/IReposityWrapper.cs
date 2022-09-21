@@ -9,21 +9,21 @@ namespace Application.IRepository
 {
     public interface IRepositoryWrapper
     {
-        internal IBuildingRepository Buildings { get; }
-        internal ICityRepository Cities { get; }
-        internal IContractRepository Contracts { get; }
-        internal IContractHistoryRepository ContractHistories { get; }
-        internal IDistrictRepository Districts { get; }
-        internal IOwnerRepository Owners { get; }
-        internal IPaymentRepository Payments { get; }
-        internal IPaymentTypeRepository PaymentTypes { get; }
-        internal IRentEntityRepository RentEntities { get; }
-        internal IRoleRepository Roles { get; }
-        internal IRoomRepository Rooms { get; }
-        internal IRoomTypeRepository RoomTypes { get; }
-        internal ITransactionRepository Transactions { get; }
-        internal IUniversityRepository Universities { get; }
-        internal IUserRepository Users { get; }
-        internal IWardRepository Wards { get; }
+        public IBuildingRepository Buildings { get; }
+        public ICityRepository Cities { get; }
+        public IContractRepository Contracts { get; }
+        public IContractHistoryRepository ContractHistories { get; }
+        public IDistrictRepository Districts { get; }
+        public IOwnerRepository Owners { get; }
+        public IPaymentRepository Payments { get; }
+        public IPaymentTypeRepository PaymentTypes { get; }
+        public IRentEntityRepository RentEntities { get; }
+        public IRoleRepository Roles { get; }
+        public IRoomRepository Rooms { get; }
+        public IRoomTypeRepository RoomTypes { get; }
+        public ITransactionRepository Transactions { get; }
+        public IUniversityRepository Universities { get; }
+        public IUserRepository Users { get; }
+        public IWardRepository Wards { get; }
     }
 }
