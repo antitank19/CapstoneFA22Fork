@@ -10,6 +10,7 @@ public static class ScopedService
 {
     public static IServiceCollection AddScopedService(this IServiceCollection services)
     {
+        /*
         services.AddScoped<IBuildingService, BuildingService>();
         services.AddScoped<IBuildingRepository, BuildingRepository>();
 
@@ -57,6 +58,9 @@ public static class ScopedService
 
         services.AddScoped<IWardService, WardService>();
         services.AddScoped<IWardRepository, WardRepository>();
+        */
+        services.AddScoped<IServiceWrapper, ServiceWrapper>();
+        services.AddScoped<IReposityWrapper, RepositoryWrapper>();
 
         return services;
 
