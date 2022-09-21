@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Application.Repository
 {
-    internal class RepsitoryWrapper  : IReposityWrapper
+    public class RepositoryWrapper  : IReposityWrapper
     {
         private readonly ApplicationContext context;
 
-        public RepsitoryWrapper(ApplicationContext context)
+        public RepositoryWrapper(ApplicationContext context)
         {
             this.context = context;
         }
@@ -35,7 +35,6 @@ namespace Application.Repository
         private IUserRepository users ;
         private IWardRepository wards ;
         #endregion 
-
         public IBuildingRepository Buildings
         {
             get
