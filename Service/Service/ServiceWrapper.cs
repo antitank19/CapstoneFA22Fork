@@ -1,15 +1,9 @@
 ﻿using Application.IRepository;
-using Application.IService;
 using Application.Repository;
-using Application.Service;
 using Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Service.IService;
 
-namespace Application.Service
+namespace Service.Service
 {
     public class ServiceWrapper : IServiceWrapper
     {
@@ -59,7 +53,7 @@ namespace Application.Service
             {
                 if (buildings == null)
                 {
-                    buildings = new BuildingService(reposities);
+                    buildings = new Service.BuildingService(reposities);
                 }
                 return buildings;
             }
@@ -71,7 +65,7 @@ namespace Application.Service
             {
                 if (cities == null)
                 {
-                    cities = new CityService(reposities);
+                    cities = new Application.Service.CityService(reposities);
                 }
                 return cities;
             }
@@ -83,7 +77,7 @@ namespace Application.Service
             {
                 if (contracts == null)
                 {
-                    contracts = new ContractService(reposities);
+                    contracts = new Application.Service.ContractService(reposities);
                 }
                 return contracts;
             }
@@ -107,7 +101,7 @@ namespace Application.Service
             {
                 if (districts == null)
                 {
-                    districts = new DistrictService(reposities);
+                    districts = new Application.Service.DistrictService(reposities);
                 }
                 return districts;
             }
@@ -119,7 +113,7 @@ namespace Application.Service
             {
                 if (owners == null)
                 {
-                    owners = new OwnerService(reposities);
+                    owners = new Application.Service.OwnerService(reposities);
                 }
                 return owners;
             }
@@ -131,7 +125,7 @@ namespace Application.Service
             {
                 if (payments == null)
                 {
-                    payments = new PaymentService(reposities);
+                    payments = new Application.Service.PaymentService(reposities);
                 }
                 return payments;
             }
@@ -143,7 +137,7 @@ namespace Application.Service
             {
                 if (paymentTypes == null)
                 {
-                    paymentTypes = new PaymentTypeService(reposities);
+                    paymentTypes = new Application.Service.PaymentTypeService(reposities);
                 }
                 return paymentTypes;
             }
@@ -155,7 +149,7 @@ namespace Application.Service
             {
                 if (rentEntities == null)
                 {
-                    rentEntities = new RentEntityService(reposities);
+                    rentEntities = new Application.Service.RentEntityService(reposities);
                 }
                 return rentEntities;
             }
@@ -167,7 +161,7 @@ namespace Application.Service
             {
                 if (roles == null)
                 {
-                    roles = new RoleService(reposities);
+                    roles = new Application.Service.RoleService(reposities);
                 }
                 return roles;
             }
@@ -179,7 +173,7 @@ namespace Application.Service
             {
                 if (rooms == null)
                 {
-                    rooms = new RoomService(reposities);
+                    rooms = new Application.Service.RoomService(reposities);
                 }
                 return rooms;
             }
@@ -191,7 +185,7 @@ namespace Application.Service
             {
                 if (roomTypes == null)
                 {
-                    roomTypes = new RoomTypeService(reposities);
+                    roomTypes = new Application.Service.RoomTypeService(reposities);
                 }
                 return roomTypes;
             }
@@ -203,7 +197,7 @@ namespace Application.Service
             {
                 if (transactions == null)
                 {
-                    transactions = new TransactionService(reposities);
+                    transactions = new Application.Service.TransactionService(reposities);
                 }
                 return transactions;
             }
@@ -215,7 +209,7 @@ namespace Application.Service
             {
                 if (universities == null)
                 {
-                    universities = new UniversityService(reposities);
+                    universities = new Application.Service.UniversityService(reposities);
                 }
                 return universities;
             }
@@ -227,7 +221,7 @@ namespace Application.Service
             {
                 if (users == null)
                 {
-                    users = new UserService(reposities);
+                    users = new Application.Service.UserService(reposities);
                 }
                 return users;
             }
@@ -239,7 +233,7 @@ namespace Application.Service
             {
                 if (wards == null)
                 {
-                    wards = new WardService(reposities);
+                    wards = new Application.Service.WardService(reposities);
                 }
                 return wards;
             }

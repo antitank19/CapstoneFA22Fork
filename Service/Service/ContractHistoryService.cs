@@ -1,7 +1,7 @@
 using Application.IRepository;
-using Application.IService;
+using Service.IService;
 
-namespace Application.Service;
+namespace Service.Service;
 
 public class ContractHistoryService : IContractHistoryService
 {
