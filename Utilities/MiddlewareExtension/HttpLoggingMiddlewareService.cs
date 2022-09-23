@@ -66,7 +66,7 @@ public class HttpLoggingMiddlewareService
             var buffer = new byte[byteArray];
 
             //Copy into buffer.
-            var readAsync = await request.Body.ReadAsync(buffer, 0, buffer.Length);
+            var readAsync = await request.Body.ReadAsync(buffer);
 
             //Convert the byte[] into a string using UTF8 encoding...
             var bodyAsText = Encoding.UTF8.GetString(buffer);
