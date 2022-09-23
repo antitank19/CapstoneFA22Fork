@@ -1,5 +1,3 @@
-using Infrastructure;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Utilities.MiddlewareExtension;
@@ -41,13 +39,13 @@ builder.Services.AddSwaggerGen(
     }
 );
 
-builder.Services.AddCors(o => o.AddPolicy("MyPolicy", 
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy",
     corsPolicyBuilder =>
     {
-    corsPolicyBuilder
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader();  
+        corsPolicyBuilder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
     })
 );
 
@@ -70,13 +68,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler("/error");
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseMiddleware<HttpLoggingMiddlewareService>();
+app.ConfigMiddleware();
 
 app.MapControllers();
 

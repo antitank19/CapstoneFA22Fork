@@ -9,8 +9,8 @@ namespace API.Controllers;
 [ApiController]
 public class RentEntityController : ControllerBase
 {
-    private readonly IRentEntityService _rentEntityService;
     private readonly IMapper _mapper;
+    private readonly IRentEntityService _rentEntityService;
 
     public RentEntityController(IRentEntityService rentEntityService, IMapper mapper)
     {
@@ -23,23 +23,22 @@ public class RentEntityController : ControllerBase
     {
         return Ok("RentEntities");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteRentEntities(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddRentEntity([FromBody] RentEntityDto rentEntityDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateRentEntity([FromBody] RentEntityDto rentEntityDto)
     {
         return Ok("Update");
     }
-    
 }

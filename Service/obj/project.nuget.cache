@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "t0inYz6Nu42D7BtE9cVSyIzWx/F3x22dJkD0qv3rk2h8WXHW91sp1GWMrWrp3DjCYEfhS36hsvh8Squw5/ngvg==",
+  "dgSpecHash": "z3N+9abTKtCslC6Ess92IoRTHL4GGWlekPLZpD3BoRPrajdMaeGw+mpx5uk/HhN0AQ7bpq2DI2dprEhcI4YLdQ==",
   "success": true,
   "projectFilePath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Service\\Service.csproj",
   "expectedPackageFiles": [
@@ -33,6 +33,7 @@
     "C:\\Users\\innoc\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\innoc\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",

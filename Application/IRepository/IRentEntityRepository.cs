@@ -13,5 +13,4 @@ public interface IRentEntityRepository
     public Task<RentEntity> UpdateRoomEntity(RentEntity rentEntity);
     public Task<bool> DeleteEntityByUserId(int userId);
     public Task<bool> DeleteEntityByRoomId(int roomId);
-
 }

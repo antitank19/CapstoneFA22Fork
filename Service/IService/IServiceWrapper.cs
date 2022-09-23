@@ -1,12 +1,13 @@
-﻿namespace Service.IService
+﻿namespace Service.IService;
+
+public interface IServiceWrapper
 {
-    public interface IServiceWrapper
-    {
-        public IBuildingService Buildings { get; }
-        public ICityService Cities { get; }
-        public IContractService Contracts { get; }
-        public IContractHistoryService ContractHistories { get; }
-        /*
+    public IBuildingService Buildings { get; }
+    public ICityService Cities { get; }
+    public IContractService Contracts { get; }
+
+    public IContractHistoryService ContractHistories { get; }
+    /*
 public IDistrictService Districts { get; }
 public IOwnerService Owners { get; }
 public IPaymentService Payments { get; }
@@ -21,5 +22,4 @@ public IUniversityService Universities { get; }
 public IUserService Users { get; }
 public IWardService Wards { get; }
 */
-    }
 }

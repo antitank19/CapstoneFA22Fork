@@ -24,23 +24,22 @@ public class ContractController : ControllerBase
     {
         return Ok("Get");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteContract(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddContract([FromBody] ContractDto contractDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateContract([FromBody] ContractDto contractDto)
     {
         return Ok("Update");
     }
-    
 }

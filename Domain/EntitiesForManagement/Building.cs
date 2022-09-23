@@ -6,9 +6,12 @@ public class Building
     {
         Rooms = new HashSet<Room>();
     }
+
     public int BuildingId { get; set; }
     public string BuildingName { get; set; }
+
     public string ImageUrl { get; set; }
+
     //public virtual Address Address { get; set; }
     public string Description { get; set; }
     public int? TotalFloor { get; set; }

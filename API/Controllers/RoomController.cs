@@ -9,9 +9,9 @@ namespace API.Controllers;
 [ApiController]
 public class RoomController : ControllerBase
 {
-    private readonly IRoomService _roomService;
     private readonly IMapper _mapper;
-    
+    private readonly IRoomService _roomService;
+
     public RoomController(IRoomService roomService, IMapper mapper)
     {
         _roomService = roomService;
@@ -23,23 +23,22 @@ public class RoomController : ControllerBase
     {
         return Ok("Room");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteRoom(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddRoom([FromBody] RoomDto roomDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateRoom([FromBody] RoomDto roomDto)
     {
         return Ok("Update");
     }
-    
 }

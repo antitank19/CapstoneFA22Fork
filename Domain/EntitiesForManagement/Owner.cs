@@ -6,6 +6,7 @@ public class Owner
     {
         Rooms = new HashSet<Room>();
     }
+
     public int OwnerId { get; set; }
     public string OwnerName { get; set; }
     public int OwnerPhone { get; set; }

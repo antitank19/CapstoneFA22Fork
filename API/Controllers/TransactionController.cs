@@ -9,8 +9,8 @@ namespace API.Controllers;
 [ApiController]
 public class TransactionController : ControllerBase
 {
-    private readonly ITransactionService _transactionService;
     private readonly IMapper _mapper;
+    private readonly ITransactionService _transactionService;
 
     public TransactionController(ITransactionService transactionService, IMapper mapper)
     {
@@ -24,21 +24,21 @@ public class TransactionController : ControllerBase
         return Ok("Transaction");
     }
 
-    [HttpDelete] public async Task<IActionResult> DeleteTransaction(int id)
+    [HttpDelete]
+    public async Task<IActionResult> DeleteTransaction(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddTransaction([FromBody] TransactionDto transactionDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateTransaction([FromBody] TransactionDto transactionDto)
     {
         return Ok("Update");
     }
-    
 }

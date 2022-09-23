@@ -9,8 +9,8 @@ namespace API.Controllers;
 [ApiController]
 public class RoomTypeController : ControllerBase
 {
-    private readonly IRoomTypeService _roomTypeService;
     private readonly IMapper _mapper;
+    private readonly IRoomTypeService _roomTypeService;
 
     public RoomTypeController(IRoomTypeService roomTypeService, IMapper mapper)
     {
@@ -23,24 +23,22 @@ public class RoomTypeController : ControllerBase
     {
         return Ok("RoomType");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteRoomType(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddRoomType([FromBody] RoomTypeDto roomTypeDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateRoomType([FromBody] RoomTypeDto roomTypeDto)
     {
         return Ok("Update");
     }
-
-    
 }

@@ -11,10 +11,11 @@ public class AddressController : ControllerBase
 {
     private readonly ICityService _cityService;
     private readonly IDistrictService _districtService;
-    private readonly IWardService _wardService;
     private readonly IMapper _mapper;
+    private readonly IWardService _wardService;
 
-    public AddressController(ICityService cityService, IDistrictService districtService, IWardService wardService, IMapper mapper)
+    public AddressController(ICityService cityService, IDistrictService districtService, IWardService wardService,
+        IMapper mapper)
     {
         _cityService = cityService;
         _districtService = districtService;
@@ -27,23 +28,22 @@ public class AddressController : ControllerBase
     {
         return Ok("Add");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteAddress(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddAddress([FromBody] AddressDto addressDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateAddress([FromBody] AddressDto addressDto)
     {
         return Ok("Update");
     }
-    
 }

@@ -6,6 +6,7 @@ public class Payment
     {
         Transaction = new HashSet<Transaction>();
     }
+
     public int PaymentId { get; set; }
     public int Amount { get; set; }
     public string PaymentStatus { get; set; }

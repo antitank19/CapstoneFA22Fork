@@ -63,6 +63,5 @@ public static class ScopedService
         services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
         return services;
-
     }
 }

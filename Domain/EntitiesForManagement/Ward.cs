@@ -6,6 +6,7 @@ public class Ward
     {
         Buildings = new HashSet<Building>();
     }
+
     public int WardId { get; set; }
     public string WardName { get; set; }
     public int DistrictId { get; set; }

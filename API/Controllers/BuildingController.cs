@@ -5,7 +5,6 @@ using Service.IService;
 
 namespace API.Controllers;
 
-
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class BuildingController : ControllerBase
@@ -24,23 +23,22 @@ public class BuildingController : ControllerBase
     {
         return Ok("Building");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteBuilding(int id)
     {
         return Ok("DeleteBuilding");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddBuilding([FromBody] BuildingDto buildingDto)
     {
         return Ok("AddBuilding");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateBuilding([FromBody] BuildingDto buildingDto)
     {
         return Ok("UpdateBuilding");
     }
-    
 }

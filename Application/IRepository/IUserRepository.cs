@@ -11,5 +11,4 @@ public interface IUserRepository
     public Task<User> AddUser(User user);
     public Task<User> UpdateUser(User user);
     public Task<bool> DeleteUser(int userId);
-
 }

@@ -7,6 +7,7 @@ public class Contract
         ContractHistory = new HashSet<ContractHistory>();
         Payment = new HashSet<Payment>();
     }
+
     public int ContractId { get; set; }
     public int UserId { get; set; } // User Id
     public DateTime DateSigned { get; set; }

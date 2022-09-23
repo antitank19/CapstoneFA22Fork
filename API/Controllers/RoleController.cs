@@ -9,8 +9,8 @@ namespace API.Controllers;
 [ApiController]
 public class RoleController : ControllerBase
 {
-    private readonly RoleService _roleService;
     private readonly IMapper _mapper;
+    private readonly RoleService _roleService;
 
 
     public RoleController(RoleService roleService, IMapper mapper)
@@ -24,23 +24,22 @@ public class RoleController : ControllerBase
     {
         return Ok("Role");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteRole(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddRole([FromBody] RoleDto roleDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateRole([FromBody] RoleDto roleDto)
     {
         return Ok("Update");
     }
-    
 }

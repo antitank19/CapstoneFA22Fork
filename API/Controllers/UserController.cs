@@ -9,8 +9,8 @@ namespace API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly IUserService _userService;
     private readonly IMapper _mapper;
+    private readonly IUserService _userService;
 
     public UserController(IUserService userService, IMapper mapper)
     {
@@ -23,23 +23,22 @@ public class UserController : ControllerBase
     {
         return Ok("User");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeleteUser(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddUser([FromBody] UserDto userDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateUser([FromBody] UserDto userDto)
     {
         return Ok("Update");
     }
-    
 }

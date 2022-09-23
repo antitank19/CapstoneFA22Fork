@@ -9,8 +9,8 @@ namespace API.Controllers;
 [ApiController]
 public class PaymentController : ControllerBase
 {
-    private readonly IPaymentService _paymentService;
     private readonly IMapper _mapper;
+    private readonly IPaymentService _paymentService;
 
 
     public PaymentController(IPaymentService paymentService, IMapper mapper)
@@ -24,23 +24,22 @@ public class PaymentController : ControllerBase
     {
         return Ok("List");
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> DeletePayment(int id)
     {
         return Ok("Delete");
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddPayment([FromBody] PaymentDto paymentDto)
     {
         return Ok("Add");
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdatePayment([FromBody] PaymentDto paymentDto)
     {
         return Ok("Update");
     }
-    
 }
