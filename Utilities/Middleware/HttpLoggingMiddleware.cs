@@ -31,7 +31,6 @@ public class HttpLoggingMiddleware
         //Log it
         _logger.LogInformation("${Request}", request);
 
-
         //Create a new memory stream and use it for the temp reponse body
         await using var responseBody = new MemoryStream();
         context.Response.Body = responseBody;
@@ -47,7 +46,6 @@ public class HttpLoggingMiddleware
         //Copy the contents of the new memory stream, which contains the response to the original stream, which is then returned to the client.
         await responseBody.CopyToAsync(originalBodyStream);
     }
-
 
     private static async Task<string> GetRequestAsTextAsync(HttpRequest request)
     {
