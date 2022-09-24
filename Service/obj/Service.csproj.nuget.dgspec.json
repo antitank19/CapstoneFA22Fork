@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\RiderProjects\\ManagementBackEndTestBrance\\Service\\Service.csproj": {}
+    "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj": {}
   },
   "projects": {
-    "D:\\RiderProjects\\ManagementBackEndTestBrance\\Application\\Application.csproj": {
+    "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Application\\Application.csproj",
+        "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Application\\Application.csproj",
+        "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\innoc\\.nuget\\packages\\",
-        "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Application\\obj\\",
+        "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\innoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,11 +28,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj"
+              "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj"
               },
-              "D:\\RiderProjects\\ManagementBackEndTestBrance\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Infrastructure\\Infrastructure.csproj"
+              "D:\\RiderProjects\\ManagementBackEndTestBranch\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -65,14 +65,14 @@
         }
       }
     },
-    "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj": {
+    "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj",
+        "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\innoc\\.nuget\\packages\\",
-        "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\obj\\",
+        "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\innoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -125,14 +125,14 @@
         }
       }
     },
-    "D:\\RiderProjects\\ManagementBackEndTestBrance\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\RiderProjects\\ManagementBackEndTestBranch\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\innoc\\.nuget\\packages\\",
-        "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Infrastructure\\obj\\",
+        "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\innoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -149,8 +149,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj"
+              "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj"
               }
             }
           }
@@ -217,14 +217,14 @@
         }
       }
     },
-    "D:\\RiderProjects\\ManagementBackEndTestBrance\\Service\\Service.csproj": {
+    "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Service\\Service.csproj",
+        "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Service\\Service.csproj",
+        "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj",
         "packagesPath": "C:\\Users\\innoc\\.nuget\\packages\\",
-        "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Service\\obj\\",
+        "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\innoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -241,11 +241,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\RiderProjects\\ManagementBackEndTestBrance\\Application\\Application.csproj": {
-                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Application\\Application.csproj"
+              "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj": {
+                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj"
               },
-              "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Domain\\Domain.csproj"
+              "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj"
               }
             }
           }

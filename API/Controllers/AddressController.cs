@@ -9,18 +9,13 @@ namespace API.Controllers;
 [ApiController]
 public class AddressController : ControllerBase
 {
-    private readonly ICityService _cityService;
-    private readonly IDistrictService _districtService;
     private readonly IMapper _mapper;
-    private readonly IWardService _wardService;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public AddressController(ICityService cityService, IDistrictService districtService, IWardService wardService,
-        IMapper mapper)
+    public AddressController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _cityService = cityService;
-        _districtService = districtService;
-        _wardService = wardService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

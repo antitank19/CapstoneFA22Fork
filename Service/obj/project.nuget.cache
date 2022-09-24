@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "z3N+9abTKtCslC6Ess92IoRTHL4GGWlekPLZpD3BoRPrajdMaeGw+mpx5uk/HhN0AQ7bpq2DI2dprEhcI4YLdQ==",
+  "dgSpecHash": "V1BM71gy11zKEAhy6jj/NYqQ5TciMpAe0Ae9wG3DqlrYphIjbx63l5ebFkOIDj+cwEHDZy9TUg2XRpC1gbjxYA==",
   "success": true,
-  "projectFilePath": "D:\\RiderProjects\\ManagementBackEndTestBrance\\Service\\Service.csproj",
+  "projectFilePath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\innoc\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.9\\microsoft.aspnetcore.authentication.jwtbearer.6.0.9.nupkg.sha512",
     "C:\\Users\\innoc\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

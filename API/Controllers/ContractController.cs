@@ -9,14 +9,13 @@ namespace API.Controllers;
 [ApiController]
 public class ContractController : ControllerBase
 {
-    private readonly IContractService _contractService;
     private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
 
-
-    public ContractController(IContractService contractService, IMapper mapper)
+    public ContractController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _contractService = contractService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

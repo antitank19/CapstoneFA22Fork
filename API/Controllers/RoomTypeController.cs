@@ -10,12 +10,12 @@ namespace API.Controllers;
 public class RoomTypeController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IRoomTypeService _roomTypeService;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public RoomTypeController(IRoomTypeService roomTypeService, IMapper mapper)
+    public RoomTypeController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _roomTypeService = roomTypeService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

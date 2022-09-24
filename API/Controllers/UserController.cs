@@ -10,12 +10,12 @@ namespace API.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IUserService _userService;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public UserController(IUserService userService, IMapper mapper)
+    public UserController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _userService = userService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

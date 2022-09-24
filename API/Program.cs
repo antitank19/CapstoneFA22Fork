@@ -13,9 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 var config = builder.Configuration;
 
-var secret = config["TotallyNotConnectionString:Secret"];
+builder.Logging.AddLoggerConfig();
 
-builder.Services.AddApplicationService(secret);
+builder.Services.AddApplicationService(config);
 
 builder.Services.AddJwtAuthenticationService(config);
 
@@ -55,9 +55,6 @@ builder.Services.AddAuthorization(o =>
     o.AddPolicy("Manager", policy => policy.RequireClaim("Manager"));
     o.AddPolicy("Student", policy => policy.RequireClaim("Student"));
 });
-
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
 
 var app = builder.Build();
 

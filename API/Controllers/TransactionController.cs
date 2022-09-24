@@ -10,12 +10,12 @@ namespace API.Controllers;
 public class TransactionController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly ITransactionService _transactionService;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public TransactionController(ITransactionService transactionService, IMapper mapper)
+    public TransactionController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _transactionService = transactionService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

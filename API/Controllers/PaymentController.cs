@@ -10,13 +10,12 @@ namespace API.Controllers;
 public class PaymentController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IPaymentService _paymentService;
+    private readonly IServiceWrapper _serviceWrapper;
 
-
-    public PaymentController(IPaymentService paymentService, IMapper mapper)
+    public PaymentController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _paymentService = paymentService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

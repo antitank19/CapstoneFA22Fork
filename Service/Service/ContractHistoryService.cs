@@ -5,10 +5,10 @@ namespace Service.Service;
 
 public class ContractHistoryService : IContractHistoryService
 {
-    private readonly IRepositoryWrapper reposities;
+    private readonly IRepositoryWrapper _repositoryWrapper;
 
-    public ContractHistoryService(IRepositoryWrapper reposities)
+    public ContractHistoryService(IRepositoryWrapper repositoryWrapper)
     {
-        this.reposities = reposities;
+        _repositoryWrapper = repositoryWrapper;
     }
 }

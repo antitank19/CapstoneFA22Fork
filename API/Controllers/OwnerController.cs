@@ -10,12 +10,13 @@ namespace API.Controllers;
 public class OwnerController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IOwnerService _ownerService;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public OwnerController(IOwnerService ownerService, IMapper mapper)
+
+    public OwnerController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _ownerService = ownerService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

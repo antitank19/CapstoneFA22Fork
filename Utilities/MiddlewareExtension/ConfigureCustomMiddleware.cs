@@ -7,7 +7,6 @@ public static class ConfigureCustomMiddleware
 {
     public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app)
     {
-        app.UseMiddleware<HttpLoggingMiddleware>();
         app.UseMiddleware<ExceptionMiddleware>();
         return app;
     }

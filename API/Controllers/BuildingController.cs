@@ -9,13 +9,13 @@ namespace API.Controllers;
 [ApiController]
 public class BuildingController : ControllerBase
 {
-    private readonly IBuildingService _buildingService;
     private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public BuildingController(IBuildingService buildingService, IMapper mapper)
+    public BuildingController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _buildingService = buildingService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

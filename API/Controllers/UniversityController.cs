@@ -10,12 +10,12 @@ namespace API.Controllers;
 public class UniversityController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IUniversityService _universityService;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public UniversityController(IUniversityService universityService, IMapper mapper)
+    public UniversityController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _universityService = universityService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]

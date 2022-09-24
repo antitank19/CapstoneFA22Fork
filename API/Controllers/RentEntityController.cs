@@ -10,12 +10,12 @@ namespace API.Controllers;
 public class RentEntityController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IRentEntityService _rentEntityService;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public RentEntityController(IRentEntityService rentEntityService, IMapper mapper)
+    public RentEntityController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _rentEntityService = rentEntityService;
         _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     [HttpGet]
