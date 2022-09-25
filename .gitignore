@@ -153,3 +153,6 @@ Utilities/obj/Utilities.csproj.nuget.g.props
 *.config
 *.v2
 *.1
+API/appsettings.json
+*.editorconfig
+*.cache
