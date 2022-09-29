@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FOMO.Management.Enums;
+namespace Application.EntitesStatus;
 
 public enum DistrictEnum
 {

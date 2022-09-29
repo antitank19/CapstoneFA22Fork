@@ -2,14 +2,13 @@ using AutoMapper;
 using Domain.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
-using Service.Service;
 
 namespace API.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class RoleController : ControllerBase
-{ 
+{
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 

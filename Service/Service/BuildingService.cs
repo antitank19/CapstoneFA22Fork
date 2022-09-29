@@ -11,7 +11,7 @@ public class BuildingService : IBuildingService
     {
         _repositoryWrapper = repositoryWrapper;
     }
-    
+
     public object GetList()
     {
         return _repositoryWrapper.Buildings.GetBuildingList();

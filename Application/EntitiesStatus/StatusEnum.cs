@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FOMO.Management.EntitesStatus;
+namespace Application.EntitiesStatus;
 
 public enum StatusEnum
 {

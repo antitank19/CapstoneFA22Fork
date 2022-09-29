@@ -21,7 +21,7 @@ public class BuildingController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetBuildingList()
     {
-        return Ok("Building");
+        throw new Exception("Building");
     }
 
     [HttpDelete]

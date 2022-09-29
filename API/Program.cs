@@ -1,60 +1,36 @@
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Utilities.BindEntities;
 using Utilities.MiddlewareExtension;
 using Utilities.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 var config = builder.Configuration;
 
+var logCheck = builder.Services.Configure<LogSettings>(config.GetSection("ApplicationSettings"));
+
 builder.Logging.AddLoggerConfig();
+
+builder.Services.AddRegisteredService(config);
 
 builder.Services.AddApplicationService(config);
 
 builder.Services.AddJwtAuthenticationService(config);
 
-builder.Services.AddScopedService();
-
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddSwaggerGen(
-    c =>
-    {
-        c.SwaggerDoc("v1",
-            new OpenApiInfo { Title = "Management Api", Version = "v1" });
-        c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-        {
-            Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
-            In = ParameterLocation.Header,
-            Name = "Authorization",
-            Type = SecuritySchemeType.ApiKey
-        });
-        c.OperationFilter<SecurityRequirementsOperationFilter>();
-    }
-);
+builder.Services.AddSwaggerService();
+   
+builder.Services.AddCorsService();
 
-builder.Services.AddCors(o => o.AddPolicy("MyPolicy",
-    corsPolicyBuilder =>
-    {
-        corsPolicyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    })
-);
-
-builder.Services.AddAuthorization(o =>
-{
-    o.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
-    o.AddPolicy("Manager", policy => policy.RequireClaim("Manager"));
-    o.AddPolicy("Student", policy => policy.RequireClaim("Student"));
-});
+builder.Services.AddAuthorizationService();
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FOMO.Management.Enums;
+namespace Application.EntitiesStatus;
 
 public enum WardEnum
 {
