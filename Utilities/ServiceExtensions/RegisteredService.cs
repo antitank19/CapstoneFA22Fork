@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IO;
 using Service.IService;
 using Service.Service;
-using Utilities.BindEntities;
 using Utilities.Extension;
 
 namespace Utilities.ServiceExtensions;
@@ -22,14 +21,14 @@ public static class RegisteredService
         services.AddScoped<IServiceWrapper, ServiceWrapper>();
         services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
         
-        // logging to file service register 
-        services.Configure<LogSettings>(configuration.GetSection("IsLoggerEnabled"));
-
-        var isEnabled = configuration.GetSection("IsLoggerEnabled").Value;
-        if (isEnabled == "true")
-        {
-            services.AddScoped<LoggingExtension>();
-        }
+        // logging check
+        var isEnabled = configuration.GetSection("LogSettings:IsLoggerEnabled").Value;
+        
+        Console.WriteLine(isEnabled);
+        if (isEnabled != "True") 
+            return services;
+        Console.WriteLine("Logging enabled");
+        services.AddSingleton<LoggingExtension>();
 
         return services;
     }

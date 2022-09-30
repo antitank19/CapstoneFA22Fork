@@ -1,7 +1,3 @@
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
-using Utilities.BindEntities;
 using Utilities.MiddlewareExtension;
 using Utilities.ServiceExtensions;
 
@@ -14,11 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 var config = builder.Configuration;
 
-var logCheck = builder.Services.Configure<LogSettings>(config.GetSection("ApplicationSettings"));
+builder.Services.AddRegisteredService(config);
 
 builder.Logging.AddLoggerConfig();
-
-builder.Services.AddRegisteredService(config);
 
 builder.Services.AddApplicationService(config);
 
@@ -49,7 +43,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.ConfigMiddleware();
+app.ConfigMiddleware(config);
 
 app.MapControllers();
 

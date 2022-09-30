@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IO;
 using Microsoft.Net.Http.Headers;
-using Utilities.BindEntities;
 
 namespace Utilities.Middleware;
 
@@ -22,43 +22,34 @@ public class LoggingMiddleware
     private readonly ILogger _logger;
     private readonly RequestDelegate _next;
     private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
-    private LogSettings _settings;
-
 
     public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory,
-        IActionResultExecutor<ObjectResult> executor, LogSettings settings)
+        IActionResultExecutor<ObjectResult> executor)
     {
         _next = next;
         _logger = loggerFactory.CreateLogger<LoggingMiddleware>();
         _executor = executor;
-        _settings = settings;
         _recyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
     }
-
+  
     public async Task InvokeAsync(HttpContext context)
     {
         var requestData = GetRequestData(context);
         var requestDisplayUrl = context.Request.GetDisplayUrl();
         try
         {
-            if (_settings.IsLoggerEnabled)
-            {
                 await LogRequest(context.Request);
                 await LogResponseAsync(context);
-            }
         }
         catch (Exception ex)
         {
             var routeData = context.GetRouteData();
 
-            if (_settings.IsLoggerEnabled)
-            {
-                // TODO: implement logging to files here, adding 3rd party logger here ^^
-                _logger.LogError(ex,
+            // TODO: implement logging to files here, adding 3rd party logger here ^^
+            _logger.LogError(ex,
                     "An unhandled exception has occurred while executing the request. " +
                     "\nUrl: {RequestDisplayUrl}. " +
                     "\nRequest Data: {RequestData}", requestDisplayUrl, requestData);
-            }
 
             ClearCacheHeaders(context.Response);
 
