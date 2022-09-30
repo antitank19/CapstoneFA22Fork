@@ -21,7 +21,7 @@ public class AddressController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAddressList()
     {
-        return Ok("Add");
+        return Ok("AS");
     }
 
     [HttpDelete]

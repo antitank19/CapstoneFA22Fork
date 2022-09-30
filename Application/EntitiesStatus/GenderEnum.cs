@@ -1,4 +1,4 @@
-namespace Persistence.EntitesStatus;
+namespace Application.EntitiesStatus;
 
 public enum GenderEnum
 {

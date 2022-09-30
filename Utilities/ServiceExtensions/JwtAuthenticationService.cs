@@ -18,11 +18,11 @@ public static class JwtAuthenticationService
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
-                        (configuration["Jwt:NotTokenKeyForSureSourceTrustMeDude"])),
+                        (configuration["JwtToken:NotTokenKeyForSureSourceTrustMeDude"])),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"]
+                    ValidIssuer = configuration["JwtToken:Issuer"],
+                    ValidAudience = configuration["JwtToken:Audience"]
                 };
             });
         return services;

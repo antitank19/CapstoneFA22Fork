@@ -18,48 +18,21 @@ builder.Services.AddEndpointsApiExplorer();
 
 var config = builder.Configuration;
 
+builder.Services.AddRegisteredService(config);
+
 builder.Logging.AddLoggerConfig();
 
 builder.Services.AddApplicationService(config);
 
 builder.Services.AddJwtAuthenticationService(config);
 
-builder.Services.AddScopedService();
-
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddSwaggerGen(
-    c =>
-    {
-        c.SwaggerDoc("v1",
-            new OpenApiInfo { Title = "Management Api", Version = "v1" });
-        c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-        {
-            Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
-            In = ParameterLocation.Header,
-            Name = "Authorization",
-            Type = SecuritySchemeType.ApiKey
-        });
-        c.OperationFilter<SecurityRequirementsOperationFilter>();
-    }
-);
+builder.Services.AddSwaggerService();
+   
+builder.Services.AddCorsService();
 
-builder.Services.AddCors(o => o.AddPolicy("MyPolicy",
-    corsPolicyBuilder =>
-    {
-        corsPolicyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    })
-);
-
-builder.Services.AddAuthorization(o =>
-{
-    o.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
-    o.AddPolicy("Manager", policy => policy.RequireClaim("Manager"));
-    o.AddPolicy("Student", policy => policy.RequireClaim("Student"));
-});
+builder.Services.AddAuthorizationService();
 
 var app = builder.Build();
 
@@ -78,7 +51,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.ConfigMiddleware();
+app.ConfigMiddleware(config);
 
 app.MapControllers();
 
