@@ -156,3 +156,4 @@ Utilities/obj/Utilities.csproj.nuget.g.props
 API/appsettings.json
 *.editorconfig
 *.cache
+.vs/ManagementBackEndTestBranch/v17/HierarchyCache.v1.txt
