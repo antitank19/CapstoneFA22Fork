@@ -4,5 +4,5 @@ namespace Service.IService;
 
 public interface ITokenService
 {
-    string CreateToken(User user);
+    string CreateToken(Renter user);
 }

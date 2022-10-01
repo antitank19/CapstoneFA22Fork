@@ -4,11 +4,11 @@ namespace Application.IRepository;
 
 public interface IUserRepository
 {
-    public IQueryable<User> GetUserList();
-    public IQueryable<User> GetUserListByRole(int roleId);
-    public IQueryable<User> GetUserContainingName(string name);
-    public IQueryable<User> GetUserDetail(int userId);
-    public Task<User> AddUser(User user);
-    public Task<User> UpdateUser(User user);
-    public Task<bool> DeleteUser(int userId);
+    public IQueryable<Renter> GetRenterList();
+    public IQueryable<Renter> GetRenterListByRole(int roleId);
+    public IQueryable<Renter> GetRenterContainingName(string name);
+    public IQueryable<Renter> GetRenterDetail(int renterId);
+    public Task<Renter> AddRenter(Renter renter);
+    public Task<Renter> UpdateRenter(Renter user);
+    public Task<bool> DeleteRenter(int renterId);
 }

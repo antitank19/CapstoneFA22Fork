@@ -6,9 +6,7 @@ public interface IBuildingRepository
 {
     public IQueryable<Building> GetBuildingList();
     public IQueryable<Building> GetBuildingListByName(string name);
-    public IQueryable<Building> GetBuildingByCity(City city);
-    public IQueryable<Building> GetBuildingByDistrict(District district);
-    public IQueryable<Building> GetBuildingByWard(Ward ward);
+    public IQueryable<Building> GetBuildingByAppartment(Appartment appartment);
     public IQueryable<Building> GetBuildingDetail(int buildingId);
     public Task<Building> AddBuilding(Building building);
     public Task<Building> UpdateBuilding(Building building);

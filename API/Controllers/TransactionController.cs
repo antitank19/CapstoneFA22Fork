@@ -31,13 +31,13 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddTransaction([FromBody] TransactionDto transactionDto)
+    public async Task<IActionResult> AddTransaction([FromBody] BillDto transactionDto)
     {
         return Ok("Add");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateTransaction([FromBody] TransactionDto transactionDto)
+    public async Task<IActionResult> UpdateTransaction([FromBody] BillDto transactionDto)
     {
         return Ok("Update");
     }

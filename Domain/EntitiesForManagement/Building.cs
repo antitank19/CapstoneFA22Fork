@@ -4,7 +4,7 @@ public class Building
 {
     public Building()
     {
-        Rooms = new HashSet<Room>();
+        Flats = new HashSet<Flat>();
     }
 
     public int BuildingId { get; set; }
@@ -19,7 +19,7 @@ public class Building
     public int? CoordinateX { get; set; }
     public int? CoordinateY { get; set; }
     public int Status { get; set; }
-    public int WardId { get; set; }
-    public virtual Ward Ward { get; set; }
-    public virtual ICollection<Room> Rooms { get; set; }
+    public int AppartmentId { get; set; }
+    public virtual Appartment Appartment { get; set; }
+    public virtual ICollection<Flat> Flats { get; set; }
 }

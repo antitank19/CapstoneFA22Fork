@@ -36,3 +36,6 @@ D:\RiderProjects\ManagementBackEndTestBranch\Service\obj\Debug\net6.0\Service.dl
 D:\RiderProjects\ManagementBackEndTestBranch\Service\obj\Debug\net6.0\refint\Service.dll
 D:\RiderProjects\ManagementBackEndTestBranch\Service\obj\Debug\net6.0\Service.pdb
 D:\RiderProjects\ManagementBackEndTestBranch\Service\obj\Debug\net6.0\ref\Service.dll
+D:\FPT\22.3FA\Capstone\Project\Back-end\Service\obj\Debug\net6.0\Service.dll
+D:\FPT\22.3FA\Capstone\Project\Back-end\Service\obj\Debug\net6.0\refint\Service.dll
+D:\FPT\22.3FA\Capstone\Project\Back-end\Service\obj\Debug\net6.0\Service.pdb

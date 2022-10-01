@@ -4,8 +4,8 @@ public class Contract
 {
     public Contract()
     {
-        ContractHistory = new HashSet<ContractHistory>();
-        Payment = new HashSet<Payment>();
+        ContractHistories = new HashSet<ContractHistory>();
+        Invoices = new HashSet<Invoice>();
     }
 
     public int ContractId { get; set; }
@@ -15,6 +15,8 @@ public class Contract
     public DateTime EndDate { get; set; }
     public DateTime LastUpdated { get; set; }
     public string ContractStatus { get; set; }
-    public virtual ICollection<Payment> Payment { get; set; }
-    public virtual ICollection<ContractHistory> ContractHistory { get; set; }
+    public int FlatId { get; set; }
+    public Flat Flat { get; set; }             
+    public virtual ICollection<Invoice> Invoices { get; set; }
+    public virtual ICollection<ContractHistory> ContractHistories { get; set; }
 }

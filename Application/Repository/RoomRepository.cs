@@ -4,7 +4,7 @@ using Infrastructure;
 
 namespace Application.Repository;
 
-public class RoomRepository : IRoomRepository
+public class RoomRepository : IFlatRepository
 {
     private readonly ApplicationContext context;
 
@@ -13,27 +13,27 @@ public class RoomRepository : IRoomRepository
         this.context = context;
     }
 
-    public IQueryable<Room> GetRoomList()
+    public IQueryable<Flat> GetFlatList()
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<Room> GetRoomDetail(int roomId)
+    public IQueryable<Flat> GetFlatDetail(int roomId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Room> AddRoom(Room room)
+    public Task<Flat> AddFlat(Flat room)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Room> UpdateRoom(Room room)
+    public Task<Flat> UpdateFlat(Flat room)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteRoom(int roomId)
+    public Task<bool> DeleteFlat(int roomId)
     {
         throw new NotImplementedException();
     }

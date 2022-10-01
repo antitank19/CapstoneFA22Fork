@@ -17,7 +17,7 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
 
-    public string CreateToken(User user)
+    public string CreateToken(Renter user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -25,7 +25,7 @@ public class TokenService : ITokenService
         {
             new(ClaimTypes.Role, user.Role.RoleName),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.NameIdentifier, user.UserId.ToString())
+            new(ClaimTypes.NameIdentifier, user.RenterId.ToString())
         };
 
         var securityKey = new SymmetricSecurityKey(

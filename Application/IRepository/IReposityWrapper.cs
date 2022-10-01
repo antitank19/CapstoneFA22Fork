@@ -12,7 +12,7 @@ public interface IRepositoryWrapper
     public IPaymentTypeRepository PaymentTypes { get; }
     public IRentEntityRepository RentEntities { get; }
     public IRoleRepository Roles { get; }
-    public IRoomRepository Rooms { get; }
+    public IFlatRepository Rooms { get; }
     public IRoomTypeRepository RoomTypes { get; }
     public ITransactionRepository Transactions { get; }
     public IUniversityRepository Universities { get; }

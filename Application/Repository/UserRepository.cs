@@ -13,37 +13,37 @@ public class UserRepository : IUserRepository
         this.context = context;
     }
 
-    public IQueryable<User> GetUserList()
+    public IQueryable<Renter> GetRenterList()
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<User> GetUserListByRole(int roleId)
+    public IQueryable<Renter> GetRenterListByRole(int roleId)
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<User> GetUserContainingName(string name)
+    public IQueryable<Renter> GetRenterContainingName(string name)
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<User> GetUserDetail(int userId)
+    public IQueryable<Renter> GetRenterDetail(int userId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<User> AddUser(User user)
+    public Task<Renter> AddRenter(Renter user)
     {
         throw new NotImplementedException();
     }
 
-    public Task<User> UpdateUser(User user)
+    public Task<Renter> UpdateRenter(Renter user)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteUser(int userId)
+    public Task<bool> DeleteRenter(int userId)
     {
         throw new NotImplementedException();
     }

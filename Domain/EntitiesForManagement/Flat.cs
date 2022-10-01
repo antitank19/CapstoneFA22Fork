@@ -1,0 +1,15 @@
+namespace Domain.EntitiesForManagement;
+
+public class Flat
+{
+    public int FlatId { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string Status { get; set; }
+    public int FlatTypeId { get; set; }
+    public virtual FlatType FlatType { get; set; }
+    public int BuildingId { get; set; }
+    public virtual Building Building { get; set; }
+    public virtual ICollection<Feedback> FeedBacks { get; set; }
+    public virtual ICollection<Contract> Contracts { get; set; }
+}

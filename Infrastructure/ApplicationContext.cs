@@ -10,22 +10,33 @@ public class ApplicationContext : DbContext
     {
     }
 
-    //public virtual DbSet<Address> Address { get; set; }
-    public virtual DbSet<Building> BuildingForRent { get; set; }
-    public virtual DbSet<Contract> Contract { get; set; }
-    public virtual DbSet<ContractHistory> ContractHistory { get; set; }
-    public virtual DbSet<Payment> Payment { get; set; }
+    public virtual DbSet<Account> Accounts { get; set; }
+    public virtual DbSet<Appartment> Appartments { get; set; }
+    public virtual DbSet<Area> Areas { get; set; }
+    public virtual DbSet<Bill> Bills { get; set; }
+    public virtual DbSet<Building> Buildings { get; set; }
+    public virtual DbSet<Contract> Contracts { get; set; }
+    public virtual DbSet<ContractHistory> ContractHistories { get; set; }
+    public virtual DbSet<Expense> Expenses { get; set; }
+    public virtual DbSet<ExpenseType> ExpenseTypes { get; set; }
+    public virtual DbSet<Feedback> Feedbacks { get; set; }
+    public virtual DbSet<FeedbackType> FeedbackTypes { get; set; }
+    public virtual DbSet<Flat> Flats { get; set; }
+    public virtual DbSet<FlatType> FlatTypes { get; set; }
+    public virtual DbSet<Invoice> Invoices { get; set; }
+    public virtual DbSet<InvoiceHistory> InvoiceHistories { get; set; }
+    public virtual DbSet<Major> Majors { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+    public virtual DbSet<Payment> Payments { get; set; }
     public virtual DbSet<PaymentType> PaymentType { get; set; }
-    public virtual DbSet<Role> Role { get; set; }
-    public virtual DbSet<Room> Room { get; set; }
-    public virtual DbSet<RoomType> RoomType { get; set; }
-    public virtual DbSet<Transaction> Transaction { get; set; }
+    public virtual DbSet<Renter> Renters { get; set; }
+    public virtual DbSet<Request> Requests { get; set; }
+    public virtual DbSet<RequestType> RequestTypes { get; set; }
+    public virtual DbSet<Role> Roles { get; set; }
+    public virtual DbSet<Service> Services { get; set; }
+    public virtual DbSet<ServiceType> ServiceTypes { get; set; }
     public virtual DbSet<University> University { get; set; }
-    public virtual DbSet<RentEntity> RentEntity { get; set; }
-    public virtual DbSet<Owner> Owner { get; set; }
-    public virtual DbSet<City> City { get; set; }
-    public virtual DbSet<District> District { get; set; }
-    public virtual DbSet<Ward> Ward { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

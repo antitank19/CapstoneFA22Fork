@@ -11,37 +11,29 @@ public class AutoMapper : Profile
         // Basic DTOs
         CreateMap<Building, BuildingDto>()
             .ReverseMap();
-        CreateMap<City, CityDto>()
-            .ReverseMap();
         CreateMap<ContractHistory, ContractHistoryDto>()
             .ReverseMap();
         CreateMap<Contract, ContractDto>()
-            .ReverseMap();
-        CreateMap<District, DistrictDto>()
-            .ReverseMap();
-        CreateMap<Owner, OwnerDto>()
             .ReverseMap();
         CreateMap<Payment, PaymentDto>()
             .ReverseMap();
         CreateMap<PaymentType, PaymentTypeDto>()
             .ReverseMap();
-        CreateMap<RentEntity, RentEntityDto>()
-            .ReverseMap();
         CreateMap<Role, RoleDto>()
             .ReverseMap();
-        CreateMap<Room, RoomDto>()
+        CreateMap<Flat, RoomDto>()
             .ReverseMap();
-        CreateMap<RoomType, RoomTypeDto>()
+        CreateMap<FlatType, FlatTypeDto>()
             .ReverseMap();
-        CreateMap<Transaction, TransactionDto>()
+        CreateMap<Bill, BillDto>()
             .ReverseMap();
         CreateMap<University, UniversityDto>()
             .ReverseMap();
-        CreateMap<User, UserDto>()
+        CreateMap<Renter, UserDto>()
             .ReverseMap()
             // For Odata Explicit Expansion
             .ForAllMembers(o => o.ExplicitExpansion());
-        CreateMap<Ward, WardDto>()
+        CreateMap<Appartment, WardDto>()
             .ReverseMap();
     }
 }

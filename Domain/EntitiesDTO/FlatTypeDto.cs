@@ -1,5 +1,5 @@
 namespace Domain.EntitiesDTO;
 
-public class TransactionDto
+public class FlatTypeDto
 {
 }

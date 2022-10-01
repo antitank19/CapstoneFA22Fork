@@ -15,5 +15,5 @@ public class ContractHistory
     public string ContractHistoryStatus { get; set; }
     public DateTime ContractExpiredDate { get; set; }
     public virtual Contract Contract { get; set; }
-    public virtual User User { get; set; }
+    public virtual Renter User { get; set; }
 }

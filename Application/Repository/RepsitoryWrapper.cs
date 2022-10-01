@@ -102,7 +102,7 @@ public class RepositoryWrapper : IRepositoryWrapper
         }
     }
 
-    public IRoomRepository Rooms
+    public IFlatRepository Rooms
     {
         get
         {
@@ -168,7 +168,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IPaymentTypeRepository paymentTypes;
     private IRentEntityRepository rentEntities;
     private IRoleRepository roles;
-    private IRoomRepository rooms;
+    private IFlatRepository rooms;
     private IRoomTypeRepository roomTypes;
     private ITransactionRepository transactions;
     private IUniversityRepository universities;

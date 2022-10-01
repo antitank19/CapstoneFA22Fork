@@ -15,25 +15,11 @@ public class BuildingRepository : IBuildingRepository
 
     public IQueryable<Building> GetBuildingList()
     {
-        return context.BuildingForRent;
+        return context.Buildings;
     }
 
-    public IQueryable<Building> GetBuildingListByName(string name)
-    {
-        throw new NotImplementedException();
-    }
 
-    public IQueryable<Building> GetBuildingByCity(City city)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IQueryable<Building> GetBuildingByDistrict(District district)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IQueryable<Building> GetBuildingByWard(Ward ward)
+    public IQueryable<Building> GetBuildingByAppartment(Appartment ward)
     {
         throw new NotImplementedException();
     }
@@ -54,6 +40,11 @@ public class BuildingRepository : IBuildingRepository
     }
 
     public Task<bool> DeleteBuilding(Building building)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IQueryable<Building> GetBuildingListByName(string name)
     {
         throw new NotImplementedException();
     }

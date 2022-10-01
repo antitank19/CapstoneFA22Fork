@@ -2,11 +2,11 @@ using Domain.EntitiesForManagement;
 
 namespace Application.IRepository;
 
-public interface IRoomRepository
+public interface IFlatRepository
 {
-    public IQueryable<Room> GetRoomList();
-    public IQueryable<Room> GetRoomDetail(int roomId);
-    public Task<Room> AddRoom(Room room);
-    public Task<Room> UpdateRoom(Room room);
-    public Task<bool> DeleteRoom(int roomId);
+    public IQueryable<Flat> GetFlatList();
+    public IQueryable<Flat> GetFlatDetail(int flatId);
+    public Task<Flat> AddFlat(Flat flat);
+    public Task<Flat> UpdateFlat(Flat flat);
+    public Task<bool> DeleteFlat(int flatId);
 }
