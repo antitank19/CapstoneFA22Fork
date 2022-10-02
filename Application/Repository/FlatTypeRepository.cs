@@ -4,36 +4,36 @@ using Infrastructure;
 
 namespace Application.Repository;
 
-public class RoomTypeRepository : IRoomTypeRepository
+public class FlatTypeRepository : IFlatTypeRepository
 {
     private readonly ApplicationContext context;
 
-    public RoomTypeRepository(ApplicationContext context)
+    public FlatTypeRepository(ApplicationContext context)
     {
         this.context = context;
     }
 
-    public IQueryable<RoomType> GetRoomTypeList()
+    public IQueryable<FlatType> GetFlatTypeList()
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<RoomType> GetRoomTypeDetail(int roomTypeId)
+    public IQueryable<FlatType> GetFlatTypeDetail(int flatType)
     {
         throw new NotImplementedException();
     }
 
-    public Task<RoomType> AddRoomType(RoomType roomType)
+    public Task<FlatType> AddFlatType(FlatType roomType)
     {
         throw new NotImplementedException();
     }
 
-    public Task<RoomType> UpdateRoomType(RoomType roomType)
+    public Task<FlatType> UpdateFlatType(FlatType roomType)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteRoomType(int roomTypeId)
+    public Task<bool> DeleteFlatType(int flatType)
     {
         throw new NotImplementedException();
     }

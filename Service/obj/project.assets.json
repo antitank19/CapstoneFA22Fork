@@ -2352,19 +2352,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\innoc\\.nuget\\packages\\": {}
+    "C:\\Users\\DELL\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj",
+      "projectUniqueName": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Service\\Service.csproj",
       "projectName": "Service",
-      "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj",
-      "packagesPath": "C:\\Users\\innoc\\.nuget\\packages\\",
-      "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\obj\\",
+      "projectPath": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Service\\Service.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Service\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\innoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2378,11 +2378,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj": {
-              "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj"
+            "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Application\\Application.csproj": {
+              "projectPath": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Application\\Application.csproj"
             },
-            "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj": {
-              "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj"
+            "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Domain\\Domain.csproj"
             }
           }
         }
@@ -2420,7 +2420,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -2429,7 +2430,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.304\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

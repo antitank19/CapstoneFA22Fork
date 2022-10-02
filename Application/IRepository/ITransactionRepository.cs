@@ -2,11 +2,11 @@ using Domain.EntitiesForManagement;
 
 namespace Application.IRepository;
 
-public interface ITransactionRepository
+public interface IBillRepository
 {
-    public IQueryable<Transaction> GetTransactionList();
-    public IQueryable<Transaction> GetTransactionDetail(int transactionId);
-    public Task<Transaction> AddTransaction(Transaction transaction);
-    public Task<Transaction> UpdateTransaction(Transaction transaction);
-    public Task<bool> DeleteTransaction(int transactionId);
+    public IQueryable<Bill> GetBillList();
+    public IQueryable<Bill> GetBillDetail(int billId);
+    public Task<Bill> AddBill(Bill bill);
+    public Task<Bill> UpdateBill(Bill bill);
+    public Task<bool> DeleteBill(int billId);
 }

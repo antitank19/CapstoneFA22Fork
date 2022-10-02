@@ -57,15 +57,6 @@ public class RepositoryWrapper : IRepositoryWrapper
         }
     }
 
-    public IOwnerRepository Owners
-    {
-        get
-        {
-            if (owners == null) owners = new OwnerRepository(context);
-            return owners;
-        }
-    }
-
     public IPaymentRepository Payments
     {
         get
@@ -84,15 +75,6 @@ public class RepositoryWrapper : IRepositoryWrapper
         }
     }
 
-    public IRentEntityRepository RentEntities
-    {
-        get
-        {
-            if (rentEntities == null) rentEntities = new RentEntityRepository(context);
-            return rentEntities;
-        }
-    }
-
     public IRoleRepository Roles
     {
         get
@@ -106,25 +88,25 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (rooms == null) rooms = new RoomRepository(context);
+            if (rooms == null) rooms = new FlatRepository(context);
             return rooms;
         }
     }
 
-    public IRoomTypeRepository RoomTypes
+    public IFlatTypeRepository RoomTypes
     {
         get
         {
-            if (roomTypes == null) roomTypes = new RoomTypeRepository(context);
+            if (roomTypes == null) roomTypes = new FlatTypeRepository(context);
             return roomTypes;
         }
     }
 
-    public ITransactionRepository Transactions
+    public IBillRepository Bills
     {
         get
         {
-            if (transactions == null) transactions = new TransactionRepository(context);
+            if (transactions == null) transactions = new BillRepository(context);
             return transactions;
         }
     }
@@ -163,14 +145,12 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IContractRepository contracts;
     private IContractHistoryRepository contractHistories;
     private IDistrictRepository districts;
-    private IOwnerRepository owners;
     private IPaymentRepository payments;
     private IPaymentTypeRepository paymentTypes;
-    private IRentEntityRepository rentEntities;
     private IRoleRepository roles;
     private IFlatRepository rooms;
-    private IRoomTypeRepository roomTypes;
-    private ITransactionRepository transactions;
+    private IFlatTypeRepository roomTypes;
+    private IBillRepository transactions;
     private IUniversityRepository universities;
     private IUserRepository users;
     private IWardRepository wards;

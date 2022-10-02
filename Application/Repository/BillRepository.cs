@@ -4,36 +4,36 @@ using Infrastructure;
 
 namespace Application.Repository;
 
-public class RoomRepository : IFlatRepository
+public class BillRepository : IBillRepository
 {
     private readonly ApplicationContext context;
 
-    public RoomRepository(ApplicationContext context)
+    public BillRepository(ApplicationContext context)
     {
         this.context = context;
     }
 
-    public IQueryable<Flat> GetFlatList()
+    public IQueryable<Bill> GetBillList()
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<Flat> GetFlatDetail(int roomId)
+    public IQueryable<Bill> GetBillDetail(int transactionId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Flat> AddFlat(Flat room)
+    public Task<Bill> AddBill(Bill transaction)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Flat> UpdateFlat(Flat room)
+    public Task<Bill> UpdateBill(Bill transaction)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteFlat(int roomId)
+    public Task<bool> DeleteBill(int transactionId)
     {
         throw new NotImplementedException();
     }

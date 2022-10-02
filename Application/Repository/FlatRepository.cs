@@ -4,41 +4,36 @@ using Infrastructure;
 
 namespace Application.Repository;
 
-public class OwnerRepository : IOwnerRepository
+public class FlatRepository : IFlatRepository
 {
     private readonly ApplicationContext context;
 
-    public OwnerRepository(ApplicationContext context)
+    public FlatRepository(ApplicationContext context)
     {
         this.context = context;
     }
 
-    public IQueryable<Owner> GetOwnerList()
+    public IQueryable<Flat> GetFlatList()
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<Owner> GetOwnerContainingName(string name)
+    public IQueryable<Flat> GetFlatDetail(int roomId)
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<Owner> GetOwnerDetail(int ownerId)
+    public Task<Flat> AddFlat(Flat room)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Owner> AddOwner(Owner user)
+    public Task<Flat> UpdateFlat(Flat room)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Owner> UpdateOwner(Owner user)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> DeleteOwner(int ownerId)
+    public Task<bool> DeleteFlat(int roomId)
     {
         throw new NotImplementedException();
     }

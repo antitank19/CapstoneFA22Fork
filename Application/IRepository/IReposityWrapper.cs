@@ -7,14 +7,12 @@ public interface IRepositoryWrapper
     public IContractRepository Contracts { get; }
     public IContractHistoryRepository ContractHistories { get; }
     public IDistrictRepository Districts { get; }
-    public IOwnerRepository Owners { get; }
     public IPaymentRepository Payments { get; }
     public IPaymentTypeRepository PaymentTypes { get; }
-    public IRentEntityRepository RentEntities { get; }
     public IRoleRepository Roles { get; }
     public IFlatRepository Rooms { get; }
-    public IRoomTypeRepository RoomTypes { get; }
-    public ITransactionRepository Transactions { get; }
+    public IFlatTypeRepository RoomTypes { get; }
+    public IBillRepository Bills { get; }
     public IUniversityRepository Universities { get; }
     public IUserRepository Users { get; }
     public IWardRepository Wards { get; }
