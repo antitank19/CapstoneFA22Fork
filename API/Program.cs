@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.OData;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
 using Utilities.MiddlewareExtension;
 using Utilities.ServiceExtensions;
 

@@ -146,15 +146,15 @@ public class ServiceWrapper : IServiceWrapper
         }
     }
 
-    public IUserService Users
+    public IUserService Renters
     {
         get
         {
-            if (users == null)
+            if (_renters == null)
             {
-                users = new UserService(reposities);
+                _renters = new UserService(reposities);
             }
-            return users;
+            return _renters;
         }
     }
 

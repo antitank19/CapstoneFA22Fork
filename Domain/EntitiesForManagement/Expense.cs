@@ -4,6 +4,11 @@ namespace Domain.EntitiesForManagement
 {
     public class Expense
     {
+        public Expense()
+        {
+            ExpenseHistory = new HashSet<ExpenseHistory>();
+        }
+
         public int ExpenseId { get; set; }
         public string Name { get; set; }
         [ForeignKey("Supervisor")]
@@ -11,5 +16,6 @@ namespace Domain.EntitiesForManagement
         public virtual Account Supervisor { get; set; }
         public int ExpenseTypeId { get; set; }
         public virtual ExpenseType ExpenseType { get; set; }
+        public virtual ICollection<ExpenseHistory> ExpenseHistory { get; set; }
     }
 }

@@ -2,7 +2,7 @@ using Domain.EntitiesForManagement;
 
 namespace Application.IRepository;
 
-public interface IUserRepository
+public interface IRenterRepository
 {
     public IQueryable<Renter> GetRenterList();
     public IQueryable<Renter> GetRenterListByRole(int roleId);

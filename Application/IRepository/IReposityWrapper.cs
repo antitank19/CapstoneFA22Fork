@@ -14,6 +14,6 @@ public interface IRepositoryWrapper
     public IFlatTypeRepository RoomTypes { get; }
     public IBillRepository Bills { get; }
     public IUniversityRepository Universities { get; }
-    public IUserRepository Users { get; }
-    public IWardRepository Wards { get; }
+    public IRenterRepository Renters { get; }
+    public IAccountRepository Accounts { get; }
 }

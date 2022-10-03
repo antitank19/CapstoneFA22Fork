@@ -19,7 +19,7 @@ public IRoomTypeService RoomTypes { get; }
 public ITokenService Tokens { get; }
 public ITransactionService Transactions { get; }
 public IUniversityService Universities { get; }
-public IUserService Users { get; }
+public IUserService Renters { get; }
 public IWardService Wards { get; }
 */
 }

@@ -1,5 +1,6 @@
 namespace Application.IRepository;
 
-public interface IWardRepository
+public interface IBillRepository
 {
+    
 }
