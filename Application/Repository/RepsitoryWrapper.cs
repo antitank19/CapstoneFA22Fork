@@ -120,21 +120,21 @@ public class RepositoryWrapper : IRepositoryWrapper
         }
     }
 
-    public IUserRepository Users
+    public IRenterRepository Renters
     {
         get
         {
-            if (users == null) users = new UserRepository(context);
-            return users;
+            if (_renters == null) _renters = new RenterRepository(context);
+            return _renters;
         }
     }
 
-    public IWardRepository Wards
+    public IAccountRepository Accounts
     {
         get
         {
-            if (wards == null) wards = new WardRepository(context);
-            return wards;
+            if (accounts == null) accounts = new AccountRepository(context);
+            return accounts;
         }
     }
 
@@ -152,8 +152,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IFlatTypeRepository roomTypes;
     private IBillRepository transactions;
     private IUniversityRepository universities;
-    private IUserRepository users;
-    private IWardRepository wards;
+    private IRenterRepository _renters;
+    private IAccountRepository accounts;
 
     #endregion
 }

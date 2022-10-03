@@ -4,11 +4,11 @@ using Infrastructure;
 
 namespace Application.Repository;
 
-public class UserRepository : IUserRepository
+public class RenterRepository : IRenterRepository
 {
     private readonly ApplicationContext context;
 
-    public UserRepository(ApplicationContext context)
+    public RenterRepository(ApplicationContext context)
     {
         this.context = context;
     }

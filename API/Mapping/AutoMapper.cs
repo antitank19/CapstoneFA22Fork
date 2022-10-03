@@ -33,7 +33,10 @@ public class AutoMapper : Profile
             .ReverseMap()
             // For Odata Explicit Expansion
             .ForAllMembers(o => o.ExplicitExpansion());
+        /*
         CreateMap<Appartment, WardDto>()
             .ReverseMap();
+        */
+        
     }
 }
