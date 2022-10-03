@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20221002050815_NewDB")]
+    partial class NewDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,12 +252,20 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<float>("Price")
                         .HasColumnType("real");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("ContractHistoryId");
 
                     b.HasIndex("ContractId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ContractHistories");
                 });
@@ -472,9 +482,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InvoiceId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -490,8 +497,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("InvoiceHistoryId");
-
-                    b.HasIndex("InvoiceId");
 
                     b.ToTable("InvoiceHistories");
                 });
@@ -836,6 +841,21 @@ namespace Infrastructure.Migrations
                     b.ToTable("University");
                 });
 
+            modelBuilder.Entity("InvoiceInvoiceHistory", b =>
+                {
+                    b.Property<int>("InvoiceHistoriesInvoiceHistoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InvoicesInvoiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InvoiceHistoriesInvoiceHistoryId", "InvoicesInvoiceId");
+
+                    b.HasIndex("InvoicesInvoiceId");
+
+                    b.ToTable("InvoiceInvoiceHistory");
+                });
+
             modelBuilder.Entity("Domain.EntitiesForManagement.Account", b =>
                 {
                     b.HasOne("Domain.EntitiesForManagement.Role", "Role")
@@ -911,7 +931,15 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.EntitiesForManagement.Renter", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Contract");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Expense", b =>
@@ -996,17 +1024,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Contract");
 
                     b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.InvoiceHistory", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.Invoice", "Invoice")
-                        .WithMany("InvoiceHistories")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Order", b =>
@@ -1107,6 +1124,21 @@ namespace Infrastructure.Migrations
                     b.Navigation("ServiceType");
                 });
 
+            modelBuilder.Entity("InvoiceInvoiceHistory", b =>
+                {
+                    b.HasOne("Domain.EntitiesForManagement.InvoiceHistory", null)
+                        .WithMany()
+                        .HasForeignKey("InvoiceHistoriesInvoiceHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.EntitiesForManagement.Invoice", null)
+                        .WithMany()
+                        .HasForeignKey("InvoicesInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.EntitiesForManagement.Account", b =>
                 {
                     b.Navigation("Expenses");
@@ -1161,8 +1193,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.EntitiesForManagement.Invoice", b =>
                 {
                     b.Navigation("Bills");
-
-                    b.Navigation("InvoiceHistories");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Order", b =>

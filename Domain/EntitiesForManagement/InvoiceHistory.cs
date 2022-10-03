@@ -9,6 +9,7 @@
         public DateTime SendDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string Image { get; set; }
-        public virtual ICollection<Invoice> Invoices { get; set; }
+        public int InvoiceId { get; set; }
+        public virtual Invoice Invoice { get; set; }
     }
 }
