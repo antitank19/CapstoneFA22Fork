@@ -7,12 +7,12 @@ namespace API.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class UserController : ControllerBase
+public class RenterController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public UserController(IMapper mapper, IServiceWrapper serviceWrapper)
+    public RenterController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;

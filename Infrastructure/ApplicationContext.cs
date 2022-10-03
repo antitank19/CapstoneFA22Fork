@@ -19,6 +19,7 @@ public class ApplicationContext : DbContext
     public virtual DbSet<ContractHistory> ContractHistories { get; set; }
     public virtual DbSet<Expense> Expenses { get; set; }
     public virtual DbSet<ExpenseType> ExpenseTypes { get; set; }
+    public virtual DbSet<ExpenseHistory> ExpenseHistories { get; set; }
     public virtual DbSet<Feedback> Feedbacks { get; set; }
     public virtual DbSet<FeedbackType> FeedbackTypes { get; set; }
     public virtual DbSet<Flat> Flats { get; set; }
