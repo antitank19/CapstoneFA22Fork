@@ -13,6 +13,11 @@ public class BillRepository : IBillRepository
         this.context = context;
     }
 
+    /// <summary>
+    /// Get a list of all bills
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public IQueryable<Bill> GetBillList()
     {
         throw new NotImplementedException();

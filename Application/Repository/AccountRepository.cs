@@ -35,7 +35,12 @@ public class AccountRepository : IAccountRepository
             StringComparison.CurrentCultureIgnoreCase));
     }
 
-    public IQueryable<Account> GetAccount(int accountId)
+    /// <summary>
+    /// Get account details by Id
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <returns></returns>
+    public IQueryable<Account> GetAccountDetail(int accountId)
     {
         return context.Accounts
             .Where(a => a.AccountId == accountId);
@@ -58,21 +63,18 @@ public class AccountRepository : IAccountRepository
     /// </summary>
     /// <param name="account"></param>
     /// <returns></returns>
-    public async Task<Account?> UpdateAccount(Account account)
+    public async Task<Account?> UpdateAccount(Account? account)
     {
         try
         {
             var accountData = await context.Accounts
                 .FirstOrDefaultAsync(x => x.AccountId == account.AccountId);
-            if (accountData != null)
-            {
-                accountData.Email ??= account.Email;
-                accountData.Password ??= account.Password;
-                accountData.Phone ??= account.Phone;
-                await context.SaveChangesAsync();
-            }
-            else
+            if (accountData == null)
                 return null;
+            accountData.Email = account?.Email ?? accountData.Email ;
+            accountData.Password = account?.Password ?? accountData.Password;
+            accountData.Phone = account?.Phone ?? accountData.Phone;
+            await context.SaveChangesAsync();
         }
         catch (Exception e)
         {

@@ -1,6 +1,7 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Repository;
 
@@ -13,28 +14,78 @@ public class RoleRepository : IRoleRepository
         this.context = context;
     }
 
+    /// <summary>
+    /// Get all roles
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public IQueryable<Role> GetRoleList()
     {
-        throw new NotImplementedException();
+        return context.Roles;
     }
 
+    /// <summary>
+    /// Get role details by id
+    /// </summary>
+    /// <param name="roleId"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public IQueryable<Role> GetRoleDetail(int roleId)
     {
-        throw new NotImplementedException();
+        return context.Roles
+            .Where(x => x.RoleId == roleId);
     }
 
-    public Task<Role> AddRole(Role role)
+    /// <summary>
+    /// Add new role
+    /// </summary>
+    /// <param name="role"></param>
+    /// <returns></returns>
+    public async Task<Role> AddRole(Role role)
     {
-        throw new NotImplementedException();
+        await context.Roles.AddAsync(role);
+        await context.SaveChangesAsync();
+        return role;
     }
 
-    public Task<Role> UpdateRole(Role role)
+    /// <summary>
+    /// Update role details
+    /// </summary>
+    /// <param name="role"></param>
+    /// <returns></returns>
+    public async Task<Role?> UpdateRole(Role role)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var roleData = await context.Roles
+                .FirstOrDefaultAsync(x => x.RoleId == role.RoleId);
+            if (roleData == null)
+                return null;
+            roleData.RoleName ??= role.RoleName;
+            await context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
+        return role;
     }
 
-    public Task<bool> DeleteRole(int roleId)
+    /// <summary>
+    /// Disable Role
+    /// </summary>
+    /// <param name="roleId"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<bool> DeleteRole(int roleId)
     {
-        throw new NotImplementedException();
+        var roleFound = await context.Roles
+            .FirstOrDefaultAsync(x => x.RoleId == roleId);
+        if (roleFound == null)
+            return false;
+        _ = roleFound.Status == !roleFound.Status;
+        await context.SaveChangesAsync();
+        return true;
     }
 }
