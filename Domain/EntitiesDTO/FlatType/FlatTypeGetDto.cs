@@ -1,9 +1,17 @@
-namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesForManagement;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-<<<<<<<< HEAD:Domain/EntitiesDTO/FlatType/FlatTypeGetDto.cs
-public class FlatTypeGetDto
-========
-public class RenterDto
->>>>>>>> ExperimentalBranch:Domain/EntitiesDTO/RenterDto.cs
+namespace Domain.EntitiesDTO
 {
+    public class FlatTypeGetDto
+    {
+        public int FlatTypeId { get; set; }
+        public int Capacity { get; set; }
+        public string Status { get; set; }
+        public virtual ICollection<Flat> Flats { get; set; }
+    }
 }

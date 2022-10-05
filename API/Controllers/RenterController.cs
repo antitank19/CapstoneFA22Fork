@@ -37,13 +37,13 @@ public class RenterController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddUser([FromBody] RenterDto renterDto)
+    public async Task<IActionResult> AddUser([FromBody] RenterGetDto renterDto)
     {
         return Ok("AddExpenseHistory");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateUser([FromBody] RenterDto renterDto)
+    public async Task<IActionResult> UpdateUser([FromBody] RenterGetDto renterDto)
     {
         return Ok("UpdateExpenseHistory");
     }

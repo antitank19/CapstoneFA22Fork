@@ -1,6 +1,5 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
-using Domain.EntitiesDTO.ContractHistory;
 using Domain.EntitiesForManagement;
 
 namespace API.Mapping;
@@ -17,13 +16,13 @@ public class AutoMapper : Profile
             .ReverseMap();
         CreateMap<Contract, ContractGetDto>()
             .ReverseMap();
-        CreateMap<Payment, PaymentDto>()
+        CreateMap<Payment, PaymentGetDto>()
             .ReverseMap();
-        CreateMap<PaymentType, PaymentTypeDto>()
+        CreateMap<PaymentType, PaymentTypeGetDto>()
             .ReverseMap();
         CreateMap<Role, RoleGetDto>()
             .ReverseMap();
-        CreateMap<Flat, RoomDto>()
+        CreateMap<Flat, FlatGetDto>()
             .ReverseMap();
         CreateMap<FlatType, FlatTypeGetDto>()
             .ReverseMap();
@@ -31,7 +30,7 @@ public class AutoMapper : Profile
             .ReverseMap();
         CreateMap<University, UniversityGetDto>()
             .ReverseMap();
-        CreateMap<Renter, RenterDto>()
+        CreateMap<Renter, RenterGetDto>()
             .ReverseMap()
             // For Odata Explicit Expansion
             .ForAllMembers(o => o.ExplicitExpansion());

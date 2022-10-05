@@ -31,13 +31,13 @@ public class PaymentTypeController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddPaymentType([FromBody] PaymentTypeDto paymentDto)
+    public async Task<IActionResult> AddPaymentType([FromBody] PaymentTypeGetDto paymentDto)
     {
         return Ok("AddExpenseHistory");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdatePaymentType([FromBody] PaymentTypeDto paymentDto)
+    public async Task<IActionResult> UpdatePaymentType([FromBody] PaymentTypeGetDto paymentDto)
     {
         return Ok("UpdateExpenseHistory");
     }

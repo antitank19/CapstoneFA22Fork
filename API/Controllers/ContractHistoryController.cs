@@ -1,5 +1,5 @@
 using AutoMapper;
-using Domain.EntitiesDTO.ContractHistory;
+using Domain.EntitiesDTO;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 
