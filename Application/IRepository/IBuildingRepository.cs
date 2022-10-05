@@ -1,15 +1,12 @@
-﻿using Domain.EntitiesForManagement;
-using System.Linq;
-using System.Threading.Tasks;
+using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
+namespace Application.IRepository;
+
+public interface IBuildingRepository
 {
-    public interface IBuildingRepository
-    {
-        public IQueryable<Building> GetList();
-        public IQueryable<Building> GetDetail(int Id);
-        public Task<Building> Add(Building entity);
-        public Task<Building> Update(Building entity);
-        public Task<bool> Delete(int id);
-    }
+    public IQueryable<Building?> GetBuildingList();
+    public IQueryable<Building?> GetBuildingDetail(int buildingId);
+    public Task<Building?> AddBuilding(Building? building);
+    public Task<Building?> UpdateBuilding(Building? building);
+    public Task<bool> DeleteBuilding(int id);
 }

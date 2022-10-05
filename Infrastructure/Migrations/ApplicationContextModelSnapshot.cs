@@ -59,13 +59,13 @@ namespace Infrastructure.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Appartment", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Apartment", b =>
                 {
-                    b.Property<int>("AppartmentId")
+                    b.Property<int>("ApartmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppartmentId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApartmentId"), 1L, 1);
 
                     b.Property<int>("AreaId")
                         .HasColumnType("int");
@@ -74,7 +74,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AppartmentId");
+                    b.HasKey("ApartmentId");
 
                     b.HasIndex("AreaId");
 
@@ -152,7 +152,7 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BuildingId"), 1L, 1);
 
-                    b.Property<int>("AppartmentId")
+                    b.Property<int>("ApartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("BuildingName")
@@ -184,7 +184,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("BuildingId");
 
-                    b.HasIndex("AppartmentId");
+                    b.HasIndex("ApartmentId");
 
                     b.ToTable("Buildings");
                 });
@@ -781,7 +781,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Service", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.ServiceEntity", b =>
                 {
                     b.Property<int>("ServiceId")
                         .ValueGeneratedOnAdd()
@@ -872,7 +872,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Appartment", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Apartment", b =>
                 {
                     b.HasOne("Domain.EntitiesForManagement.Area", "Area")
                         .WithMany("Appartments")
@@ -904,13 +904,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Building", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.Appartment", "Appartment")
+                    b.HasOne("Domain.EntitiesForManagement.Apartment", "Apartment")
                         .WithMany("Buildings")
-                        .HasForeignKey("AppartmentId")
+                        .HasForeignKey("ApartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Appartment");
+                    b.Navigation("Apartment");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Contract", b =>
@@ -1068,7 +1068,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.EntitiesForManagement.Service", "Service")
+                    b.HasOne("Domain.EntitiesForManagement.ServiceEntity", "ServiceEntity")
                         .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1076,7 +1076,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("Service");
+                    b.Navigation("ServiceEntity");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Payment", b =>
@@ -1128,7 +1128,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("RequestType");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Service", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.ServiceEntity", b =>
                 {
                     b.HasOne("Domain.EntitiesForManagement.ServiceType", "ServiceType")
                         .WithMany("Services")
@@ -1146,7 +1146,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("Invoices");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Appartment", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Apartment", b =>
                 {
                     b.Navigation("Buildings");
                 });

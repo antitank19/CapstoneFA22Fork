@@ -1,40 +1,84 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Repository;
 
 public class FlatRepository : IFlatRepository
 {
-    private readonly ApplicationContext context;
+    private readonly ApplicationContext _context;
 
     public FlatRepository(ApplicationContext context)
     {
-        this.context = context;
+        _context = context;
     }
 
+    /// <summary>
+    ///     Get all flats
+    /// </summary>
+    /// <returns></returns>
     public IQueryable<Flat> GetFlatList()
     {
-        throw new NotImplementedException();
+        return _context.Flats.AsQueryable();
     }
 
-    public IQueryable<Flat> GetFlatDetail(int roomId)
+    /// <summary>
+    ///     Get flat by id
+    /// </summary>
+    /// <param name="flatId"></param>
+    /// <returns></returns>
+    public IQueryable<Flat> GetFlatDetail(int flatId)
     {
-        throw new NotImplementedException();
+        return _context.Flats
+            .Where(x => x.FlatId == flatId);
     }
 
-    public Task<Flat> AddFlat(Flat room)
+    /// <summary>
+    ///     AddInvoiceHistory new flat
+    /// </summary>
+    /// <param name="flat"></param>
+    /// <returns></returns>
+    public async Task<Flat> AddFlat(Flat flat)
     {
-        throw new NotImplementedException();
+        await _context.Flats.AddAsync(flat);
+        await _context.SaveChangesAsync();
+        return flat;
     }
 
-    public Task<Flat> UpdateFlat(Flat room)
+    /// <summary>
+    ///     Update Flat details
+    /// </summary>
+    /// <param name="flat"></param>
+    /// <returns></returns>
+    public async Task<Flat?> UpdateFlat(Flat? flat)
     {
-        throw new NotImplementedException();
+        var flatData = await _context.Flats
+            .FirstOrDefaultAsync(x => x.FlatId == flat!.FlatId);
+        if (flatData == null)
+            return null;
+
+        flatData.Name = flat?.Name ?? flatData.Name;
+        flatData.Description = flat?.Description ?? flatData.Description;
+        flatData.Status = flat?.Status ?? flatData.Status;
+
+        await _context.SaveChangesAsync();
+        return flatData;
     }
 
-    public Task<bool> DeleteFlat(int roomId)
+    /// <summary>
+    ///     Delete Flat
+    /// </summary>
+    /// <param name="flatId"></param>
+    /// <returns></returns>
+    public async Task<bool> DeleteFlat(int flatId)
     {
-        throw new NotImplementedException();
+        var flatFound = await _context.Flats
+            .FindAsync(flatId.ToString());
+        if (flatFound == null)
+            return false;
+        _context.Flats.Remove(flatFound);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

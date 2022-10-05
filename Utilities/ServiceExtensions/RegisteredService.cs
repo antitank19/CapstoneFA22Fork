@@ -11,21 +11,21 @@ namespace Utilities.ServiceExtensions;
 
 public static class RegisteredService
 {
-    public static IServiceCollection AddRegisteredService(this IServiceCollection services, 
+    public static IServiceCollection AddRegisteredService(this IServiceCollection services,
         IConfiguration configuration)
     {
-        // RecyclableMemoryStreamManager service register 
+        // RecyclableMemoryStreamManager serviceEntity register 
         services.AddScoped<RecyclableMemoryStreamManager>();
 
         // wrapper services register
         services.AddScoped<IServiceWrapper, ServiceWrapper>();
         services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
-        
+
         // logging check
         var isEnabled = configuration.GetSection("LogSettings:IsLoggerEnabled").Value;
-        
+
         Console.WriteLine(isEnabled);
-        if (isEnabled != "True") 
+        if (isEnabled != "True")
             return services;
         Console.WriteLine("Logging enabled");
         services.AddSingleton<LoggingExtension>();

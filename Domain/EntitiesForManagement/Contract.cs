@@ -15,8 +15,10 @@ public class Contract
     public DateTime EndDate { get; set; }
     public DateTime LastUpdated { get; set; }
     public string ContractStatus { get; set; }
+    public float Price { get; set; }
     public int FlatId { get; set; }
-    public Flat Flat { get; set; }             
+    public Flat Flat { get; set; }
+    public virtual Renter Renter { get; set; }
     public virtual ICollection<Invoice> Invoices { get; set; }
     public virtual ICollection<ContractHistory> ContractHistories { get; set; }
 }

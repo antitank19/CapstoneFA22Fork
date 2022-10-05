@@ -10,4 +10,5 @@ public interface IAccountRepository
     public Task<Account> AddAccount(Account account);
     public Task<Account?> UpdateAccount(Account account);
     public Task<bool> ToggleAccount(int accountId);
+    public Task<bool> DeleteAccount(int accountId);
 }

@@ -5,35 +5,37 @@ namespace Application.Repository;
 
 public class RepositoryWrapper : IRepositoryWrapper
 {
-    private readonly ApplicationContext context;
+    private readonly ApplicationContext _context;
 
     public RepositoryWrapper(ApplicationContext context)
     {
-        this.context = context;
+        _context = context;
     }
 
     public IAccountRepository Accounts
     {
         get
         {
-            if (accounts == null) accounts = new AccountRepository(context);
-            return accounts;
+            if (_accounts == null) _accounts = new AccountRepository(_context);
+            return _accounts;
         }
     }
-    public IAppartmentRepository Appartments
+
+    public IApartmentRepository Apartments
     {
         get
         {
-            if (appartments == null) appartments = new AppartmentRepository(context);
-            return appartments;
+            if (_apartments == null) _apartments = new ApartmentRepository(_context);
+            return _apartments;
         }
     }
+
     public IAreaRepository Areas
     {
         get
         {
-            if (areas == null) areas = new AreaRepository(context);
-            return areas;
+            if (_areas == null) _areas = new AreaRepository(_context);
+            return _areas;
         }
     }
 
@@ -41,16 +43,17 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (bills == null) bills = new BillRepository(context);
-            return bills;
+            if (_bills == null) _bills = new BillRepository(_context);
+            return _bills;
         }
     }
+
     public IBuildingRepository Buildings
     {
         get
         {
-            if (buildings == null) buildings = new BuildingRepository(context);
-            return buildings;
+            if (_buildings == null) _buildings = new BuildingRepository(_context);
+            return _buildings;
         }
     }
 
@@ -58,8 +61,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (contracts == null) contracts = new ContractRepository(context);
-            return contracts;
+            if (_contracts == null) _contracts = new ContractRepository(_context);
+            return _contracts;
         }
     }
 
@@ -67,8 +70,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (contractHistories == null) contractHistories = new ContractHistoryRepository(context);
-            return contractHistories;
+            if (_contractHistories == null) _contractHistories = new ContractHistoryRepository(_context);
+            return _contractHistories;
         }
     }
 
@@ -76,16 +79,17 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (expenses == null) expenses = new ExpenseRepository(context);
-            return expenses;
+            if (_expenses == null) _expenses = new ExpenseRepository(_context);
+            return _expenses;
         }
     }
+
     public IExpenseHistoryRepository ExpenseHistories
     {
         get
         {
-            if (expenseHistories == null) expenseHistories = new ExpenseHistoryRepository(context);
-            return expenseHistories;
+            if (_expenseHistories == null) _expenseHistories = new ExpenseHistoryRepository(_context);
+            return _expenseHistories;
         }
     }
 
@@ -93,8 +97,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (expenseTypes == null) expenseTypes = new ExpenseTypeRepository(context);
-            return expenseTypes;
+            if (_expenseTypes == null) _expenseTypes = new ExpenseTypeRepository(_context);
+            return _expenseTypes;
         }
     }
 
@@ -102,16 +106,17 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (feedbacks == null) feedbacks = new FeedbackRepository(context);
-            return feedbacks;
+            if (_feedbacks == null) _feedbacks = new FeedbackRepository(_context);
+            return _feedbacks;
         }
     }
+
     public IFeedbackTypeRepository FeedbackTypes
     {
         get
         {
-            if (feedbackTypes == null) feedbackTypes = new FeedbackTypeRepository(context);
-            return feedbackTypes;
+            if (_feedbackTypes == null) _feedbackTypes = new FeedbackTypeRepository(_context);
+            return _feedbackTypes;
         }
     }
 
@@ -119,8 +124,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (flats == null) flats = new FlatRepository(context);
-            return flats;
+            if (_flats == null) _flats = new FlatRepository(_context);
+            return _flats;
         }
     }
 
@@ -128,8 +133,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (flatTypes == null) flatTypes = new FlatTypeRepository(context);
-            return flatTypes;
+            if (_flatTypes == null) _flatTypes = new FlatTypeRepository(_context);
+            return _flatTypes;
         }
     }
 
@@ -137,8 +142,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (invoices == null) invoices = new InvoiceRepository(context);
-            return invoices;
+            if (_invoices == null) _invoices = new InvoiceRepository(_context);
+            return _invoices;
         }
     }
 
@@ -146,8 +151,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (invoiceHistories == null) invoiceHistories = new InvoiceHistoryRepository(context);
-            return invoiceHistories;
+            if (_invoiceHistories == null) _invoiceHistories = new InvoiceHistoryRepository(_context);
+            return _invoiceHistories;
         }
     }
 
@@ -155,8 +160,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (majors == null) majors = new MajorRepository(context);
-            return majors;
+            if (_majors == null) _majors = new MajorRepository(_context);
+            return _majors;
         }
     }
 
@@ -164,8 +169,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (orders == null) orders = new OrderRepository(context);
-            return orders;
+            if (_orders == null) _orders = new OrderRepository(_context);
+            return _orders;
         }
     }
 
@@ -173,8 +178,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (orderDetails == null) orderDetails = new OrderDetailRepository(context);
-            return orderDetails;
+            if (_orderDetails == null) _orderDetails = new OrderDetailRepository(_context);
+            return _orderDetails;
         }
     }
 
@@ -182,16 +187,17 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (payments == null) payments = new PaymentRepository(context);
-            return payments;
+            if (_payments == null) _payments = new PaymentRepository(_context);
+            return _payments;
         }
     }
+
     public IPaymentTypeRepository PaymentTypes
     {
         get
         {
-            if (paymentTypes == null) paymentTypes = new PaymentTypeRepository(context);
-            return paymentTypes;
+            if (_paymentTypes == null) _paymentTypes = new PaymentTypeRepository(_context);
+            return _paymentTypes;
         }
     }
 
@@ -199,8 +205,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (renters == null) renters = new RenterRepository(context);
-            return renters;
+            if (_renters == null) _renters = new RenterRepository(_context);
+            return _renters;
         }
     }
 
@@ -208,16 +214,17 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (requests == null) requests = new RequestRepository(context);
-            return requests;
+            if (_requests == null) _requests = new RequestRepository(_context);
+            return _requests;
         }
     }
+
     public IRequestTypeRepository RequestTypes
     {
         get
         {
-            if (requestTypes == null) requestTypes = new RequestTypeRepository(context);
-            return requestTypes;
+            if (_requestTypes == null) _requestTypes = new RequestTypeRepository(_context);
+            return _requestTypes;
         }
     }
 
@@ -225,66 +232,68 @@ public class RepositoryWrapper : IRepositoryWrapper
     {
         get
         {
-            if (roles == null) roles = new RoleRepository(context);
-            return roles;
+            if (_roles == null) _roles = new RoleRepository(_context);
+            return _roles;
         }
     }
-    public IServiceRepository Services
+
+    public IServiceEntityRepository ServiceEntities
     {
         get
         {
-            if (services == null) services = new ServiceRepository(context);
-            return services;
+            if (_servicesEntity == null) _servicesEntity = new ServiceEntityRepository(_context);
+            return _servicesEntity;
         }
     }
+
     public IServiceTypeRepository ServiceTypes
     {
         get
         {
-            if (serviceTypes == null) serviceTypes = new ServiceTypeRepository(context);
-            return serviceTypes;
+            if (_serviceTypes == null) _serviceTypes = new ServiceTypeRepository(_context);
+            return _serviceTypes;
         }
     }
+
     public IUniversityRepository Universities
     {
         get
         {
-            if (universities == null) universities = new UniversityRepository(context);
-            return universities;
+            if (_universities == null) _universities = new UniversityRepository(_context);
+            return _universities;
         }
     }
 
-
     #region fields
 
-    private IAccountRepository accounts;
-    private IAppartmentRepository appartments;
-    private IAreaRepository areas;
-    private IBillRepository bills;
-    private IBuildingRepository buildings;
-    private IContractRepository contracts;
-    private IContractHistoryRepository contractHistories;
-    private IExpenseRepository expenses;
-    private IExpenseHistoryRepository expenseHistories;
-    private IExpenseTypeRepository expenseTypes;    
-    private IFeedbackRepository feedbacks;
-    private IFeedbackTypeRepository feedbackTypes;
-    private IFlatRepository flats;
-    private IFlatTypeRepository flatTypes;
-    private IInvoiceRepository invoices;
-    private IInvoiceHistoryRepository invoiceHistories;
-    private IMajorRepository majors;
-    private IOrderRepository orders;
-    private IOrderDetailRepository orderDetails;
-    private IPaymentRepository payments;
-    private IPaymentTypeRepository paymentTypes;
-    private IRenterRepository renters;
-    private IRequestRepository requests;
-    private IRequestTypeRepository requestTypes;
-    private IRoleRepository roles;
-    private IServiceRepository services;
-    private IServiceTypeRepository serviceTypes;
-    private IUniversityRepository universities;
+    private IAccountRepository _accounts;
+    private IApartmentRepository _apartments;
+    private IAreaRepository _areas;
+    private IBillRepository _bills;
+    private IBuildingRepository _buildings;
+    private IContractHistoryRepository _contractHistories;
+    private IContractRepository _contracts;
+    private IExpenseHistoryRepository _expenseHistories;
+    private IExpenseRepository _expenses;
+    private IExpenseTypeRepository _expenseTypes;
+    private IFeedbackRepository _feedbacks;
+    private IFeedbackTypeRepository _feedbackTypes;
+    private IFlatRepository _flats;
+    private IFlatTypeRepository _flatTypes;
+    private IInvoiceHistoryRepository _invoiceHistories;
+    private IInvoiceRepository _invoices;
+    private IMajorRepository _majors;
+    private IOrderDetailRepository _orderDetails;
+    private IOrderRepository _orders;
+    private IPaymentRepository _payments;
+    private IPaymentTypeRepository _paymentTypes;
+    private IRenterRepository _renters;
+    private IRequestRepository _requests;
+    private IRequestTypeRepository _requestTypes;
+    private IRoleRepository _roles;
+    private IServiceEntityRepository _servicesEntity;
+    private IServiceTypeRepository _serviceTypes;
+    private IUniversityRepository _universities;
 
     #endregion
 }

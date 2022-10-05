@@ -30,15 +30,15 @@ public class LoggingMiddleware
         _executor = executor;
         _recyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
     }
-  
+
     public async Task InvokeAsync(HttpContext context)
     {
         var requestData = GetRequestData(context);
         var requestDisplayUrl = context.Request.GetDisplayUrl();
         try
         {
-                await LogRequest(context.Request);
-                await LogResponseAsync(context);
+            await LogRequest(context.Request);
+            await LogResponseAsync(context);
         }
         catch (Exception ex)
         {
@@ -46,9 +46,9 @@ public class LoggingMiddleware
 
             // TODO: implement logging to files here, adding 3rd party logger here ^^
             _logger.LogError(ex,
-                    "An unhandled exception has occurred while executing the request. " +
-                    "\nUrl: {RequestDisplayUrl}. " +
-                    "\nRequest Data: {RequestData}", requestDisplayUrl, requestData);
+                "An unhandled exception has occurred while executing the request. " +
+                "\nUrl: {RequestDisplayUrl}. " +
+                "\nRequest Data: {RequestData}", requestDisplayUrl, requestData);
 
             ClearCacheHeaders(context.Response);
 

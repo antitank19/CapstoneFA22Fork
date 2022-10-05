@@ -27,18 +27,18 @@ public class UniversityController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteBuilding(int id)
     {
-        return Ok("Delete");
+        return Ok("DeleteExpenseHistory");
     }
 
     [HttpPost]
     public async Task<IActionResult> AddBuilding([FromBody] UniversityDto universityDto)
     {
-        return Ok("Add");
+        return Ok("AddExpenseHistory");
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateUniversity([FromBody] UniversityDto universityDto)
     {
-        return Ok("Update");
+        return Ok("UpdateExpenseHistory");
     }
 }

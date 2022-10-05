@@ -27,18 +27,18 @@ public class PaymentTypeController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeletePaymentType(int id)
     {
-        return Ok("Delete");
+        return Ok("DeleteExpenseHistory");
     }
 
     [HttpPost]
     public async Task<IActionResult> AddPaymentType([FromBody] PaymentTypeDto paymentDto)
     {
-        return Ok("Add");
+        return Ok("AddExpenseHistory");
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdatePaymentType([FromBody] PaymentTypeDto paymentDto)
     {
-        return Ok("Update");
+        return Ok("UpdateExpenseHistory");
     }
 }

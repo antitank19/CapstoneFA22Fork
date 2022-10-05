@@ -18,6 +18,12 @@ public class RenterController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Login()
+    {
+        return Ok();
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetUserList()
     {
@@ -27,18 +33,18 @@ public class RenterController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteUser(int id)
     {
-        return Ok("Delete");
+        return Ok("DeleteExpenseHistory");
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddUser([FromBody] UserDto userDto)
+    public async Task<IActionResult> AddUser([FromBody] RenterDto renterDto)
     {
-        return Ok("Add");
+        return Ok("AddExpenseHistory");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateUser([FromBody] UserDto userDto)
+    public async Task<IActionResult> UpdateUser([FromBody] RenterDto renterDto)
     {
-        return Ok("Update");
+        return Ok("UpdateExpenseHistory");
     }
 }

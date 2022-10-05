@@ -4,7 +4,6 @@ using Utilities.Middleware;
 
 namespace Utilities.MiddlewareExtension;
 
-
 public static class ConfigureCustomMiddleware
 {
     public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, IConfiguration configuration)
@@ -15,7 +14,7 @@ public static class ConfigureCustomMiddleware
             Console.WriteLine("Logger is enabled");
             app.UseMiddleware<LoggingMiddleware>();
         }
+
         return app;
     }
-    
 }

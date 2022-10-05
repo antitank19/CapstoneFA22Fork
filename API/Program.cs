@@ -4,13 +4,13 @@ using Utilities.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// AddExpenseHistory services to the container.
 /*
-builder.Services.AddControllers();
+builder.ServicesEntity.AddControllers();
 */
-//Add odata to api
+//AddExpenseHistory odata to api
 builder.Services.AddControllers()
-    .AddOData(o=>o.EnableQueryFeatures());
+    .AddOData(o => o.EnableQueryFeatures());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -27,7 +27,7 @@ builder.Services.AddJwtAuthenticationService(config);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddSwaggerService();
-   
+
 builder.Services.AddCorsService();
 
 builder.Services.AddAuthorizationService();

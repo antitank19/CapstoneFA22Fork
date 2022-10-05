@@ -1,13 +1,13 @@
 ﻿using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
+namespace Application.IRepository;
+
+public interface IAreaRepository
 {
-    public interface IAreaRepository
-    {
-        public IQueryable<Area> GetList();
-        public IQueryable<Area> GetDetail(int Id);
-        public Task<Area> Add(Area entity);
-        public Task<Area> Update(Area entity);
-        public Task<bool> Delete(int id);
-    }
+    public IQueryable<Area> GetAreaList();
+    public IQueryable<Area> GetAreaDetail(int areaId);
+    public Task<Area> AddArea(Area area);
+    public Task<Area?> UpdateArea(Area? area);
+    public Task<bool> ToggleArea(int areaId);
+    public Task<bool> DeleteArea(int areaId);
 }

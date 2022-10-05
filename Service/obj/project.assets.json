@@ -2348,23 +2348,24 @@
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.9",
       "Microsoft.Extensions.Configuration.Abstractions >= 6.0.0",
       "Microsoft.IdentityModel.JsonWebTokens >= 6.23.1",
+      "Microsoft.IdentityModel.Tokens >= 6.23.1",
       "System.IdentityModel.Tokens.Jwt >= 6.23.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\DELL\\.nuget\\packages\\": {}
+    "C:\\Users\\innoc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Service\\Service.csproj",
+      "projectUniqueName": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj",
       "projectName": "Service",
-      "projectPath": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Service\\Service.csproj",
-      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Service\\obj\\",
+      "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\Service.csproj",
+      "packagesPath": "C:\\Users\\innoc\\.nuget\\packages\\",
+      "outputPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Service\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\innoc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2378,11 +2379,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Application\\Application.csproj": {
-              "projectPath": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Application\\Application.csproj"
+            "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj": {
+              "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Application\\Application.csproj"
             },
-            "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Domain\\Domain.csproj": {
-              "projectPath": "D:\\FPT\\22.3FA\\Capstone\\Project\\Back-end\\Domain\\Domain.csproj"
+            "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\RiderProjects\\ManagementBackEndTestBranch\\Domain\\Domain.csproj"
             }
           }
         }
@@ -2409,6 +2410,10 @@
             "target": "Package",
             "version": "[6.23.1, )"
           },
+          "Microsoft.IdentityModel.Tokens": {
+            "target": "Package",
+            "version": "[6.23.1, )"
+          },
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[6.23.1, )"
@@ -2420,8 +2425,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -2430,7 +2434,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.304\\RuntimeIdentifierGraph.json"
       }
     }
   }

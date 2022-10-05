@@ -1,13 +1,14 @@
 ﻿using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
+namespace Application.IRepository;
+
+public interface IInvoiceHistoryRepository
 {
-    public interface IInvoiceHistoryRepository
-    {
-        public IQueryable<InvoiceHistory> GetList();
-        public IQueryable<InvoiceHistory> GetDetail(int Id);
-        public Task<InvoiceHistory> Add(InvoiceHistory entity);
-        public Task<InvoiceHistory> Update(InvoiceHistory entity);
-        public Task<bool> Delete(int id);
-    }
+    public IQueryable<InvoiceHistory> GetInvoiceHistoryList();
+
+    // TODO : Get invoice history based on room id
+    public IQueryable<InvoiceHistory> GetInvoiceHistoryDetail(int invoiceHistoryId);
+    public Task<InvoiceHistory> AddInvoiceHistory(InvoiceHistory invoiceHistory);
+    public Task<InvoiceHistory?> UpdateInvoiceHistory(InvoiceHistory invoiceHistory);
+    public Task<bool> DeleteInvoiceHistory(int invoiceHistoryId);
 }

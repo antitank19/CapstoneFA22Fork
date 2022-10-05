@@ -27,18 +27,18 @@ public class ContractController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteContract(int id)
     {
-        return Ok("Delete");
+        return Ok("DeleteExpenseHistory");
     }
 
     [HttpPost]
     public async Task<IActionResult> AddContract([FromBody] ContractDto contractDto)
     {
-        return Ok("Add");
+        return Ok("AddExpenseHistory");
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateContract([FromBody] ContractDto contractDto)
     {
-        return Ok("Update");
+        return Ok("UpdateExpenseHistory");
     }
 }
