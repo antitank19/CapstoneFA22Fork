@@ -1,6 +1,9 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
+using Domain.EntitiesForManagement;
+using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service.IService;
 
 namespace API.Controllers;
@@ -18,27 +21,94 @@ public class UniversityController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
+    private readonly ApplicationContext _context;
+
+    public UniversityController(ApplicationContext context)
+    {
+        _context = context;
+    }
+
+    // GET: api/Universities
     [HttpGet]
-    public async Task<IActionResult> GetUniversityList()
+    public async Task<ActionResult<IEnumerable<University>>> GetUniversity()
     {
-        return Ok("University");
+        return await _context.University.ToListAsync();
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteBuilding(int id)
+    // GET: api/Universities/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<University>> GetUniversity(int id)
     {
-        return Ok("DeleteExpenseHistory");
+        var university = await _context.University.FindAsync(id);
+
+        if (university == null)
+        {
+            return NotFound();
+        }
+
+        return university;
     }
 
+    // PUT: api/Universities/5
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutUniversity(int id, University university)
+    {
+        if (id != university.UniversityId)
+        {
+            return BadRequest();
+        }
+
+        _context.Entry(university).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!UniversityExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return NoContent();
+    }
+
+    // POST: api/Universities
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<IActionResult> AddBuilding([FromBody] UniversityGetDto universityDto)
+    public async Task<ActionResult<University>> PostUniversity(University university)
     {
-        return Ok("AddExpenseHistory");
+        _context.University.Add(university);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction("GetUniversity", new { id = university.UniversityId }, university);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateUniversity([FromBody] UniversityGetDto universityDto)
+    // DELETE: api/Universities/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUniversity(int id)
     {
-        return Ok("UpdateExpenseHistory");
+        var university = await _context.University.FindAsync(id);
+        if (university == null)
+        {
+            return NotFound();
+        }
+
+        _context.University.Remove(university);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool UniversityExists(int id)
+    {
+        return _context.University.Any(e => e.UniversityId == id);
     }
 }

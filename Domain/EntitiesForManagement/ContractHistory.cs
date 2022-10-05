@@ -1,7 +1,12 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace Domain.EntitiesForManagement;
 
 public class ContractHistory
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ContractHistoryId { get; set; }
     public float Price { get; set; }
     public string Description { get; set; }

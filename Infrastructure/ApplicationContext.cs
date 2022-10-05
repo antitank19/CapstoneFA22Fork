@@ -11,7 +11,7 @@ public class ApplicationContext : DbContext
     }
 
     public virtual DbSet<Account> Accounts { get; set; }
-    public virtual DbSet<Apartment> Appartments { get; set; }
+    public virtual DbSet<Apartment> Apartments { get; set; }
     public virtual DbSet<Area> Areas { get; set; }
     public virtual DbSet<Bill> Bills { get; set; }
     public virtual DbSet<Building?> Buildings { get; set; }

@@ -21,7 +21,7 @@ internal class ApartmentRepository : IApartmentRepository
     /// <returns></returns>
     public async Task<Apartment> AddApartment(Apartment apartment)
     {
-        await _context.Appartments.AddAsync(apartment);
+        await _context.Apartments.AddAsync(apartment);
         await _context.SaveChangesAsync();
         return apartment;
     }
@@ -33,13 +33,13 @@ internal class ApartmentRepository : IApartmentRepository
     /// <returns></returns>
     public async Task<bool> DeleteApartment(int apartmentId)
     {
-        var apartmentFound = await _context.Appartments
+        var apartmentFound = await _context.Apartments
             .FindAsync(apartmentId.ToString());
         if (apartmentFound == null)
             return false;
 
         // TODO: Should do a check to delete all related entities
-        _context.Appartments.Remove(apartmentFound);
+        _context.Apartments.Remove(apartmentFound);
         await _context.SaveChangesAsync();
         return true;
     }
@@ -50,7 +50,7 @@ internal class ApartmentRepository : IApartmentRepository
     /// <returns></returns>
     public IQueryable<Apartment> GetApartmentByArea(Area area)
     {
-        return _context.Appartments
+        return _context.Apartments
             .Where(x => x.Area.AreaId == area.AreaId)
             .AsQueryable();
     }
@@ -62,7 +62,7 @@ internal class ApartmentRepository : IApartmentRepository
     /// <returns></returns>
     public IQueryable<Apartment> GetApartmentDetail(int apartmentId)
     {
-        return _context.Appartments
+        return _context.Apartments
             .Where(e => e.ApartmentId == apartmentId);
     }
 
@@ -72,7 +72,7 @@ internal class ApartmentRepository : IApartmentRepository
     /// <returns></returns>
     public IQueryable<Apartment> GetApartmentList()
     {
-        return _context.Appartments.AsQueryable();
+        return _context.Apartments.AsQueryable();
     }
 
     /// <summary>
@@ -82,13 +82,13 @@ internal class ApartmentRepository : IApartmentRepository
     /// <returns></returns>
     public IQueryable<Apartment> GetApartmentListByName(string name)
     {
-        return _context.Appartments
+        return _context.Apartments
             .Where(x => x.Name.Contains(name));
     }
 
     public async Task<Apartment?> UpdateApartment(Apartment? apartment)
     {
-        var apartmentData = await _context.Appartments
+        var apartmentData = await _context.Apartments
             .FirstOrDefaultAsync(x => x.ApartmentId == apartment!.ApartmentId);
 
         if (apartmentData == null)

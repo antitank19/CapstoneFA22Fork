@@ -1,7 +1,12 @@
-﻿namespace Domain.EntitiesForManagement;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.EntitiesForManagement;
 
 public class ServiceEntity
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ServiceId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }

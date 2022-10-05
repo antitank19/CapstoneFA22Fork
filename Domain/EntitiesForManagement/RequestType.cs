@@ -1,7 +1,12 @@
-﻿namespace Domain.EntitiesForManagement;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Domain.EntitiesForManagement;
 
 public class RequestType
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int RequestTypeId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }

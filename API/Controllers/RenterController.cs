@@ -1,6 +1,9 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
+using Domain.EntitiesForManagement;
+using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service.IService;
 
 namespace API.Controllers;
@@ -18,33 +21,94 @@ public class RenterController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Login()
+    private readonly ApplicationContext _context;
+
+    public RenterController(ApplicationContext context)
     {
-        return Ok();
+        _context = context;
     }
 
+    // GET: api/Renters
     [HttpGet]
-    public async Task<IActionResult> GetUserList()
+    public async Task<ActionResult<IEnumerable<Renter>>> GetRenters()
     {
-        return Ok("User");
+        return await _context.Renters.ToListAsync();
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteUser(int id)
+    // GET: api/Renters/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Renter>> GetRenter(int id)
     {
-        return Ok("DeleteExpenseHistory");
+        var renter = await _context.Renters.FindAsync(id);
+
+        if (renter == null)
+        {
+            return NotFound();
+        }
+
+        return renter;
     }
 
+    // PUT: api/Renters/5
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutRenter(int id, Renter renter)
+    {
+        if (id != renter.RenterId)
+        {
+            return BadRequest();
+        }
+
+        _context.Entry(renter).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!RenterExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return NoContent();
+    }
+
+    // POST: api/Renters
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<IActionResult> AddUser([FromBody] RenterGetDto renterDto)
+    public async Task<ActionResult<Renter>> PostRenter(Renter renter)
     {
-        return Ok("AddExpenseHistory");
+        _context.Renters.Add(renter);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction("GetRenter", new { id = renter.RenterId }, renter);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateUser([FromBody] RenterGetDto renterDto)
+    // DELETE: api/Renters/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteRenter(int id)
     {
-        return Ok("UpdateExpenseHistory");
+        var renter = await _context.Renters.FindAsync(id);
+        if (renter == null)
+        {
+            return NotFound();
+        }
+
+        _context.Renters.Remove(renter);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool RenterExists(int id)
+    {
+        return _context.Renters.Any(e => e.RenterId == id);
     }
 }

@@ -1,7 +1,12 @@
-﻿namespace Domain.EntitiesForManagement;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Domain.EntitiesForManagement;
 
 public class OrderDetail
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int OrderDetailId { get; set; }
     public float Amount { get; set; }
     public int OrderId { get; set; }

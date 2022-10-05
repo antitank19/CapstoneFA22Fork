@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace Domain.EntitiesForManagement;
 
 public class Contract
@@ -7,7 +10,8 @@ public class Contract
         ContractHistories = new HashSet<ContractHistory>();
         Invoices = new HashSet<Invoice>();
     }
-
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ContractId { get; set; }
     public int UserId { get; set; } // User Id
     public DateTime DateSigned { get; set; }

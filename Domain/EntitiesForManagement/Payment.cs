@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace Domain.EntitiesForManagement;
 
 public class Payment
@@ -6,7 +9,8 @@ public class Payment
     {
         Bills = new HashSet<Bill>();
     }
-
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int PaymentId { get; set; }
     public string Detail { get; set; }
     public float Amount { get; set; }

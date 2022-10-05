@@ -1,7 +1,12 @@
-﻿namespace Domain.EntitiesForManagement;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Domain.EntitiesForManagement;
 
 public class InvoiceHistory
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int InvoiceHistoryId { get; set; }
     public string Name { get; set; }
     public string Detail { get; set; }

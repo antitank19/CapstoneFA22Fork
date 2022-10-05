@@ -22,128 +22,6 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Account", b =>
-                {
-                    b.Property<int>("AccountId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountId"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AccountId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Apartment", b =>
-                {
-                    b.Property<int>("ApartmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApartmentId"), 1L, 1);
-
-                    b.Property<int>("AreaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ApartmentId");
-
-                    b.HasIndex("AreaId");
-
-                    b.ToTable("Appartments");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Area", b =>
-                {
-                    b.Property<int>("AreaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AreaId"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AreaId");
-
-                    b.ToTable("Areas");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Bill", b =>
-                {
-                    b.Property<int>("BillId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BillId"), 1L, 1);
-
-                    b.Property<string>("Detail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("InvoiceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BillId");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.ToTable("Bills");
-                });
-
             modelBuilder.Entity("Domain.EntitiesForManagement.Building", b =>
                 {
                     b.Property<int>("BuildingId")
@@ -151,9 +29,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BuildingId"), 1L, 1);
-
-                    b.Property<int>("ApartmentId")
-                        .HasColumnType("int");
 
                     b.Property<string>("BuildingName")
                         .IsRequired()
@@ -182,11 +57,31 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("TotalRooms")
                         .HasColumnType("int");
 
+                    b.Property<int>("WardId")
+                        .HasColumnType("int");
+
                     b.HasKey("BuildingId");
 
-                    b.HasIndex("ApartmentId");
+                    b.HasIndex("WardId");
 
-                    b.ToTable("Buildings");
+                    b.ToTable("BuildingForRent", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.EntitiesForManagement.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"), 1L, 1);
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CityId");
+
+                    b.ToTable("City", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Contract", b =>
@@ -207,14 +102,8 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FlatId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("RenterId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -224,11 +113,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ContractId");
 
-                    b.HasIndex("FlatId");
-
-                    b.HasIndex("RenterId");
-
-                    b.ToTable("Contracts");
+                    b.ToTable("Contract", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.ContractHistory", b =>
@@ -253,346 +138,64 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<float>("Price")
                         .HasColumnType("real");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("ContractHistoryId");
 
                     b.HasIndex("ContractId");
 
-                    b.ToTable("ContractHistories");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ContractHistory", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Expense", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.District", b =>
                 {
-                    b.Property<int>("ExpenseId")
+                    b.Property<int>("DistrictId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExpenseId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DistrictId"), 1L, 1);
 
-                    b.Property<int>("ExpenseTypeId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("DistrictName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SupervisorId")
-                        .HasColumnType("int");
+                    b.HasKey("DistrictId");
 
-                    b.HasKey("ExpenseId");
+                    b.HasIndex("CityId");
 
-                    b.HasIndex("ExpenseTypeId");
-
-                    b.HasIndex("SupervisorId");
-
-                    b.ToTable("Expenses");
+                    b.ToTable("District", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.ExpenseHistory", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Owner", b =>
                 {
-                    b.Property<int>("ExpenseHistoryId")
+                    b.Property<int>("OwnerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExpenseHistoryId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OwnerId"), 1L, 1);
 
-                    b.Property<int?>("ExpenseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("OwnerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ExpenseHistoryId");
-
-                    b.HasIndex("ExpenseId");
-
-                    b.ToTable("ExpenseHistories");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.ExpenseType", b =>
-                {
-                    b.Property<int>("ExpenseTypeId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("OwnerPhone")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExpenseTypeId"), 1L, 1);
+                    b.HasKey("OwnerId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ExpenseTypeId");
-
-                    b.ToTable("ExpenseTypes");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Feedback", b =>
-                {
-                    b.Property<int>("FeedbackId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackId"), 1L, 1);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FeedbackTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FlatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RenterId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("FeedbackId");
-
-                    b.HasIndex("FeedbackTypeId");
-
-                    b.HasIndex("FlatId");
-
-                    b.HasIndex("RenterId");
-
-                    b.ToTable("Feedbacks");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.FeedbackType", b =>
-                {
-                    b.Property<int>("FeedbackTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackTypeId"), 1L, 1);
-
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
-
-                    b.HasKey("FeedbackTypeId");
-
-                    b.ToTable("FeedbackTypes");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Flat", b =>
-                {
-                    b.Property<int>("FlatId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FlatId"), 1L, 1);
-
-                    b.Property<int>("BuildingId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FlatTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("FlatId");
-
-                    b.HasIndex("BuildingId");
-
-                    b.HasIndex("FlatTypeId");
-
-                    b.ToTable("Flats");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.FlatType", b =>
-                {
-                    b.Property<int>("FlatTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FlatTypeId"), 1L, 1);
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("FlatTypeId");
-
-                    b.ToTable("FlatTypes");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Invoice", b =>
-                {
-                    b.Property<int>("InvoiceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceId"), 1L, 1);
-
-                    b.Property<int>("ContractId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Detail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("InvoiceId");
-
-                    b.HasIndex("ContractId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Invoices");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.InvoiceHistory", b =>
-                {
-                    b.Property<int>("InvoiceHistoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceHistoryId"), 1L, 1);
-
-                    b.Property<string>("Detail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InvoiceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SendDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("InvoiceHistoryId");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.ToTable("InvoiceHistories");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Major", b =>
-                {
-                    b.Property<int>("MajorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MajorId"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MajorId");
-
-                    b.ToTable("Majors");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RenterId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RequestId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("RenterId");
-
-                    b.HasIndex("RequestId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.OrderDetail", b =>
-                {
-                    b.Property<int>("OrderDetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"), 1L, 1);
-
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderDetailId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("OrderDetails");
+                    b.ToTable("Owner", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Payment", b =>
@@ -603,21 +206,28 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"), 1L, 1);
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContractId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Detail")
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentContent")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<TimeSpan>("PaymentPeriod")
                         .HasColumnType("time");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PaymentTime")
                         .HasColumnType("datetime2");
@@ -625,17 +235,18 @@ namespace Infrastructure.Migrations
                     b.Property<int>("PaymentTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("PaymentId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("ContractId");
 
                     b.HasIndex("PaymentTypeId");
 
-                    b.ToTable("Payments");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Payment", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.PaymentType", b =>
@@ -656,112 +267,58 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("PaymentTypeId");
 
-                    b.ToTable("PaymentType");
+                    b.ToTable("PaymentType", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Renter", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.RentEntity", b =>
                 {
-                    b.Property<int>("RenterId")
+                    b.Property<int>("RentEntityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RenterId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RentEntityId"), 1L, 1);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
+                    b.Property<DateTime>("ExpireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MajorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UniversityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RenterId");
-
-                    b.HasIndex("MajorId");
-
-                    b.HasIndex("UniversityId");
-
-                    b.ToTable("Renters");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Request", b =>
-                {
-                    b.Property<int>("RequestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"), 1L, 1);
-
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RequestTypeId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SolveDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("RequestId");
-
-                    b.HasIndex("RequestTypeId");
-
-                    b.ToTable("Requests");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.RequestType", b =>
-                {
-                    b.Property<int>("RequestTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestTypeId"), 1L, 1);
-
-                    b.Property<string>("Description")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("RentEntityId");
 
-                    b.HasKey("RequestTypeId");
+                    b.HasIndex("RoomId");
 
-                    b.ToTable("RequestTypes");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RentEntity", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Role", b =>
@@ -778,54 +335,96 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.ServiceEntity", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Room", b =>
                 {
-                    b.Property<int>("ServiceId")
+                    b.Property<int>("RoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"), 1L, 1);
+
+                    b.Property<int>("BuildingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContractId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<int?>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoomName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ServiceTypeId")
+                    b.Property<int>("RoomTypeId")
                         .HasColumnType("int");
+
+                    b.HasKey("RoomId");
+
+                    b.HasIndex("BuildingId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("RoomTypeId")
+                        .IsUnique();
+
+                    b.ToTable("Room", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.EntitiesForManagement.RoomType", b =>
+                {
+                    b.Property<int>("RoomTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomTypeId"), 1L, 1);
+
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ServiceId");
+                    b.HasKey("RoomTypeId");
 
-                    b.HasIndex("ServiceTypeId");
-
-                    b.ToTable("Services");
+                    b.ToTable("RoomType", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.ServiceType", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Transaction", b =>
                 {
-                    b.Property<int>("ServiceTypeId")
+                    b.Property<int>("TransactionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceTypeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"), 1L, 1);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ContractStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ServiceTypeId");
+                    b.Property<int>("EncryptedTransactionHash")
+                        .HasColumnType("int");
 
-                    b.ToTable("ServiceTypes");
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("Transaction", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.University", b =>
@@ -858,232 +457,128 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("UniversityId");
 
-                    b.ToTable("University");
+                    b.ToTable("University", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Account", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.User", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.Role", "Role")
-                        .WithMany("Accounts")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Navigation("Role");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Phone")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UniversityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UniversityId");
+
+                    b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Apartment", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Ward", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.Area", "Area")
-                        .WithMany("Appartments")
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("WardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Navigation("Area");
-                });
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WardId"), 1L, 1);
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Bill", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.Invoice", "Invoice")
-                        .WithMany("Bills")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
 
-                    b.HasOne("Domain.EntitiesForManagement.Payment", "Payment")
-                        .WithMany("Bills")
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("WardName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Navigation("Invoice");
+                    b.HasKey("WardId");
 
-                    b.Navigation("Payment");
+                    b.HasIndex("DistrictId");
+
+                    b.ToTable("Ward", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Building", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.Apartment", "Apartment")
+                    b.HasOne("Domain.EntitiesForManagement.Ward", "Ward")
                         .WithMany("Buildings")
-                        .HasForeignKey("ApartmentId")
+                        .HasForeignKey("WardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Apartment");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Contract", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.Flat", "Flat")
-                        .WithMany("Contracts")
-                        .HasForeignKey("FlatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EntitiesForManagement.Renter", null)
-                        .WithMany("Contracts")
-                        .HasForeignKey("RenterId");
-
-                    b.Navigation("Flat");
+                    b.Navigation("Ward");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.ContractHistory", b =>
                 {
                     b.HasOne("Domain.EntitiesForManagement.Contract", "Contract")
-                        .WithMany("ContractHistories")
+                        .WithMany("ContractHistory")
                         .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Contract");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Expense", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.ExpenseType", "ExpenseType")
-                        .WithMany("Expenses")
-                        .HasForeignKey("ExpenseTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EntitiesForManagement.Account", "Supervisor")
-                        .WithMany("Expenses")
-                        .HasForeignKey("SupervisorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ExpenseType");
-
-                    b.Navigation("Supervisor");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.ExpenseHistory", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.Expense", null)
-                        .WithMany("ExpenseHistory")
-                        .HasForeignKey("ExpenseId");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Feedback", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.FeedbackType", "FeedbackType")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("FeedbackTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EntitiesForManagement.Flat", "Flat")
-                        .WithMany("FeedBacks")
-                        .HasForeignKey("FlatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EntitiesForManagement.Renter", "Renter")
+                    b.HasOne("Domain.EntitiesForManagement.User", "User")
                         .WithMany()
-                        .HasForeignKey("RenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FeedbackType");
-
-                    b.Navigation("Flat");
-
-                    b.Navigation("Renter");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Flat", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.Building", "Building")
-                        .WithMany("Flats")
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EntitiesForManagement.FlatType", "FlatType")
-                        .WithMany("Flats")
-                        .HasForeignKey("FlatTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Building");
-
-                    b.Navigation("FlatType");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Invoice", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.Contract", "Contract")
-                        .WithMany("Invoices")
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EntitiesForManagement.Account", "Sender")
-                        .WithMany("Invoices")
-                        .HasForeignKey("SenderId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Contract");
 
-                    b.Navigation("Sender");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.InvoiceHistory", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.District", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.Invoice", "Invoice")
-                        .WithMany("InvoiceHistories")
-                        .HasForeignKey("InvoiceId")
+                    b.HasOne("Domain.EntitiesForManagement.City", null)
+                        .WithMany("Districts")
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Invoice");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Order", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.Renter", "Renter")
-                        .WithMany("Orders")
-                        .HasForeignKey("RenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EntitiesForManagement.Request", "Request")
-                        .WithMany()
-                        .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Renter");
-
-                    b.Navigation("Request");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.OrderDetail", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.Order", "Order")
-                        .WithMany("Details")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EntitiesForManagement.ServiceEntity", "ServiceEntity")
-                        .WithMany()
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("ServiceEntity");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Payment", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
+                    b.HasOne("Domain.EntitiesForManagement.Contract", null)
+                        .WithMany("Payment")
+                        .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1093,16 +588,73 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Order");
+                    b.HasOne("Domain.EntitiesForManagement.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PaymentType");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Renter", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.RentEntity", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.Major", "Major")
+                    b.HasOne("Domain.EntitiesForManagement.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("MajorId")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.EntitiesForManagement.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.EntitiesForManagement.Room", b =>
+                {
+                    b.HasOne("Domain.EntitiesForManagement.Building", "Building")
+                        .WithMany("Rooms")
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.EntitiesForManagement.Owner", null)
+                        .WithMany("Rooms")
+                        .HasForeignKey("OwnerId");
+
+                    b.HasOne("Domain.EntitiesForManagement.RoomType", null)
+                        .WithOne("Room")
+                        .HasForeignKey("Domain.EntitiesForManagement.Room", "RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Building");
+                });
+
+            modelBuilder.Entity("Domain.EntitiesForManagement.Transaction", b =>
+                {
+                    b.HasOne("Domain.EntitiesForManagement.Payment", "Payment")
+                        .WithMany("Transaction")
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("Domain.EntitiesForManagement.User", b =>
+                {
+                    b.HasOne("Domain.EntitiesForManagement.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1112,104 +664,50 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Major");
+                    b.Navigation("Role");
 
                     b.Navigation("University");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Request", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Ward", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.RequestType", "RequestType")
-                        .WithMany("Requests")
-                        .HasForeignKey("RequestTypeId")
+                    b.HasOne("Domain.EntitiesForManagement.District", null)
+                        .WithMany("Wards")
+                        .HasForeignKey("DistrictId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("RequestType");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.ServiceEntity", b =>
-                {
-                    b.HasOne("Domain.EntitiesForManagement.ServiceType", "ServiceType")
-                        .WithMany("Services")
-                        .HasForeignKey("ServiceTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ServiceType");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Account", b =>
-                {
-                    b.Navigation("Expenses");
-
-                    b.Navigation("Invoices");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Apartment", b =>
-                {
-                    b.Navigation("Buildings");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Area", b =>
-                {
-                    b.Navigation("Appartments");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Building", b =>
                 {
-                    b.Navigation("Flats");
+                    b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("Domain.EntitiesForManagement.City", b =>
+                {
+                    b.Navigation("Districts");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Contract", b =>
                 {
-                    b.Navigation("ContractHistories");
+                    b.Navigation("ContractHistory");
 
-                    b.Navigation("Invoices");
+                    b.Navigation("Payment");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Expense", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.District", b =>
                 {
-                    b.Navigation("ExpenseHistory");
+                    b.Navigation("Wards");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.ExpenseType", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.Owner", b =>
                 {
-                    b.Navigation("Expenses");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.FeedbackType", b =>
-                {
-                    b.Navigation("Feedbacks");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Flat", b =>
-                {
-                    b.Navigation("Contracts");
-
-                    b.Navigation("FeedBacks");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.FlatType", b =>
-                {
-                    b.Navigation("Flats");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Invoice", b =>
-                {
-                    b.Navigation("Bills");
-
-                    b.Navigation("InvoiceHistories");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.Order", b =>
-                {
-                    b.Navigation("Details");
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Payment", b =>
                 {
-                    b.Navigation("Bills");
+                    b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.PaymentType", b =>
@@ -1217,31 +715,25 @@ namespace Infrastructure.Migrations
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.Renter", b =>
-                {
-                    b.Navigation("Contracts");
-
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("Domain.EntitiesForManagement.RequestType", b =>
-                {
-                    b.Navigation("Requests");
-                });
-
             modelBuilder.Entity("Domain.EntitiesForManagement.Role", b =>
                 {
-                    b.Navigation("Accounts");
+                    b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Domain.EntitiesForManagement.ServiceType", b =>
+            modelBuilder.Entity("Domain.EntitiesForManagement.RoomType", b =>
                 {
-                    b.Navigation("Services");
+                    b.Navigation("Room")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.University", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Domain.EntitiesForManagement.Ward", b =>
+                {
+                    b.Navigation("Buildings");
                 });
 #pragma warning restore 612, 618
         }
