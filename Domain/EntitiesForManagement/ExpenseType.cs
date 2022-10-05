@@ -1,4 +1,6 @@
-﻿namespace Domain.EntitiesForManagement
+﻿using Domain.EntitiesDTO;
+
+namespace Domain.EntitiesForManagement
 {
     public class ExpenseType
     {
@@ -6,6 +8,6 @@
         public string Name { get; set; }
         public float Price { get; set; }
         public string Status { get; set; }
-        public virtual ICollection<Expense> Expenses { get; set; }
+        public virtual ICollection<ExpenseGetDto> Expenses { get; set; }
     }
 }

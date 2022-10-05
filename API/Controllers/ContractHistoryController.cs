@@ -1,5 +1,5 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.ContractHistory;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 
@@ -31,13 +31,13 @@ public class ContractHistoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddContractHistory([FromBody] ContractHistoryDto contractHistoryDto)
+    public async Task<IActionResult> AddContractHistory([FromBody] ContractHistoryGetDto contractHistoryDto)
     {
         return Ok("Add");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateContractHistory([FromBody] ContractHistoryDto contractHistoryDto)
+    public async Task<IActionResult> UpdateContractHistory([FromBody] ContractHistoryGetDto contractHistoryDto)
     {
         return Ok("Update");
     }

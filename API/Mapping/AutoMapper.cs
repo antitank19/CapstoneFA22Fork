@@ -1,5 +1,6 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.ContractHistory;
 using Domain.EntitiesForManagement;
 
 namespace API.Mapping;
@@ -9,25 +10,25 @@ public class AutoMapper : Profile
     public AutoMapper()
     {
         // Basic DTOs
-        CreateMap<Building, BuildingDto>()
+        CreateMap<Building, BuildingGetDto>()
             .ReverseMap();
-        CreateMap<ContractHistory, ContractHistoryDto>()
+        CreateMap<ContractHistory, ContractHistoryGetDto>()
             .ReverseMap();
-        CreateMap<Contract, ContractDto>()
+        CreateMap<Contract, ContractGetDto>()
             .ReverseMap();
         CreateMap<Payment, PaymentDto>()
             .ReverseMap();
         CreateMap<PaymentType, PaymentTypeDto>()
             .ReverseMap();
-        CreateMap<Role, RoleDto>()
+        CreateMap<Role, RoleGetDto>()
             .ReverseMap();
         CreateMap<Flat, RoomDto>()
             .ReverseMap();
-        CreateMap<FlatType, FlatTypeDto>()
+        CreateMap<FlatType, FlatTypeGetDto>()
             .ReverseMap();
-        CreateMap<Bill, BillDto>()
+        CreateMap<Bill, BillGetDto>()
             .ReverseMap();
-        CreateMap<University, UniversityDto>()
+        CreateMap<University, UniversityGetDto>()
             .ReverseMap();
         CreateMap<Renter, UserDto>()
             .ReverseMap()

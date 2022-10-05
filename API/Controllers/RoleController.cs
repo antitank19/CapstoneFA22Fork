@@ -31,13 +31,13 @@ public class RoleController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddRole([FromBody] RoleDto roleDto)
+    public async Task<IActionResult> AddRole([FromBody] RoleGetDto roleDto)
     {
         return Ok("Add");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateRole([FromBody] RoleDto roleDto)
+    public async Task<IActionResult> UpdateRole([FromBody] RoleGetDto roleDto)
     {
         return Ok("Update");
     }

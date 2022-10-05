@@ -31,13 +31,13 @@ public class RoomTypeController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddRoomType([FromBody] FlatTypeDto roomTypeDto)
+    public async Task<IActionResult> AddRoomType([FromBody] FlatTypeGetDto roomTypeDto)
     {
         return Ok("Add");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateRoomType([FromBody] FlatTypeDto roomTypeDto)
+    public async Task<IActionResult> UpdateRoomType([FromBody] FlatTypeGetDto roomTypeDto)
     {
         return Ok("Update");
     }

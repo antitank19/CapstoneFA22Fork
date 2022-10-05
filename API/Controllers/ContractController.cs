@@ -31,13 +31,13 @@ public class ContractController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddContract([FromBody] ContractDto contractDto)
+    public async Task<IActionResult> AddContract([FromBody] ContractGetDto contractDto)
     {
         return Ok("Add");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateContract([FromBody] ContractDto contractDto)
+    public async Task<IActionResult> UpdateContract([FromBody] ContractGetDto contractDto)
     {
         return Ok("Update");
     }

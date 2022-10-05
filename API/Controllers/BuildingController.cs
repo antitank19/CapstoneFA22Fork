@@ -31,13 +31,13 @@ public class BuildingController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddBuilding([FromBody] BuildingDto buildingDto)
+    public async Task<IActionResult> AddBuilding([FromBody] BuildingGetDto buildingDto)
     {
         return Ok("AddBuilding");
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateBuilding([FromBody] BuildingDto buildingDto)
+    public async Task<IActionResult> UpdateBuilding([FromBody] BuildingGetDto buildingDto)
     {
         return Ok("UpdateBuilding");
     }
