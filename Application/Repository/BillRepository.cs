@@ -1,45 +1,90 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Repository;
 
 public class BillRepository : IBillRepository
 {
-    private readonly ApplicationContext context;
+    private readonly ApplicationContext _context;
 
     public BillRepository(ApplicationContext context)
     {
-        this.context = context;
+        _context = context;
     }
 
     /// <summary>
-    /// Get a list of all bills
+    ///     Get a list of all bills
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public IQueryable<Bill> GetBillList()
     {
-        throw new NotImplementedException();
+        return _context.Bills.AsQueryable();
     }
 
-    public IQueryable<Bill> GetBillDetail(int transactionId)
+    /// <summary>
+    ///     Get bill detail using bill id
+    /// </summary>
+    /// <param name="billId"></param>
+    /// <returns></returns>
+    public IQueryable<Bill> GetBillDetail(int billId)
     {
-        throw new NotImplementedException();
+        return _context.Bills
+            .Where(x => x.BillId == billId);
     }
 
-    public Task<Bill> AddBill(Bill transaction)
+    /// <summary>
+    ///     AddExpenseHistory new bill to user
+    /// </summary>
+    /// <param name="bill"></param>
+    /// <returns></returns>
+    public async Task<Bill> AddBill(Bill bill)
     {
-        throw new NotImplementedException();
+        // TODO : Check adding bill to each user in the room !! Basic for now
+        await _context.Bills.AddAsync(bill);
+        await _context.SaveChangesAsync();
+        return bill;
     }
 
-    public Task<Bill> UpdateBill(Bill transaction)
+    /// <summary>
+    ///     UpdateExpenseHistory bill
+    /// </summary>
+    /// <param name="bill"></param>
+    /// <returns></returns>
+    public async Task<Bill?> UpdateBill(Bill? bill)
     {
-        throw new NotImplementedException();
+        // TODO : Check updating bill to each user in the room !! Basic for now
+        var billData = await _context.Bills
+            //.Include(x => x.Invoice.Contract.Renter.RenterId)
+            .FirstOrDefaultAsync(x => x.BillId == bill!.BillId);
+
+        if (billData == null)
+            return null;
+
+        billData.Detail = bill?.Detail ?? billData.Detail;
+        billData.Name = bill?.Name ?? billData.Name;
+        billData.Status = bill?.Status ?? billData.Status;
+        billData.DueDate = bill?.DueDate ?? billData.DueDate;
+
+        await _context.SaveChangesAsync();
+
+        return billData;
     }
 
-    public Task<bool> DeleteBill(int transactionId)
+    /// <summary>
+    ///     DeleteExpenseHistory bill using id
+    /// </summary>
+    /// <param name="billId"></param>
+    /// <returns></returns>
+    public async Task<bool> DeleteBill(int billId)
     {
-        throw new NotImplementedException();
+        var billFound = await _context.Bills
+            .FirstOrDefaultAsync(x => x.BillId == billId);
+        if (billFound == null)
+            return false;
+        _context.Bills.Remove(billFound);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

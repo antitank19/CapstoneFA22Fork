@@ -1,14 +1,12 @@
 ﻿using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
-{
-    public interface IOrderRepository
-    {
+namespace Application.IRepository;
 
-        public IQueryable<Order> GetList();
-        public IQueryable<Order> GetDetail(int Id);
-        public Task<Order> Add(Order entity);
-        public Task<Order> Update(Order entity);
-        public Task<bool> Delete(int id);
-    }
+public interface IOrderRepository
+{
+    public IQueryable<Order> GetOrderList();
+    public IQueryable<Order> GetOrder(int orderId);
+    public Task<Order> AddOrder(Order order);
+    public Task<Order?> UpdateOrder(Order order);
+    public Task<bool> DeleteOrder(int orderId);
 }

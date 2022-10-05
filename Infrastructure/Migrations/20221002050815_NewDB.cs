@@ -150,7 +150,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.RenameColumn(
                 name: "WardId",
                 table: "Buildings",
-                newName: "AppartmentId");
+                newName: "ApartmentId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_BuildingForRent_WardId",
@@ -793,9 +793,9 @@ namespace Infrastructure.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Buildings_Appartments_AppartmentId",
                 table: "Buildings",
-                column: "AppartmentId",
+                column: "ApartmentId",
                 principalTable: "Appartments",
-                principalColumn: "AppartmentId",
+                principalColumn: "ApartmentId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -1031,7 +1031,7 @@ namespace Infrastructure.Migrations
                 newName: "IX_ContractHistory_ContractId");
 
             migrationBuilder.RenameColumn(
-                name: "AppartmentId",
+                name: "ApartmentId",
                 table: "BuildingForRent",
                 newName: "WardId");
 

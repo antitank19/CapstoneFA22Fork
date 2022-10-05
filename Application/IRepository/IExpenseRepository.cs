@@ -1,13 +1,12 @@
 ﻿using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
+namespace Application.IRepository;
+
+public interface IExpenseRepository
 {
-    public interface IExpenseRepository
-    {
-        public IQueryable<Expense> GetList();
-        public IQueryable<Expense> GetDetail(int Id);
-        public Task<Expense> Add(Expense entity);
-        public Task<Expense> Update(Expense entity);
-        public Task<bool> Delete(int id);
-    }
+    public IQueryable<Expense> GetExpenseList();
+    public IQueryable<Expense> GetExpenseDetail(int expenseId);
+    public Task<Expense> AddExpense(Expense expense);
+    public Task<Expense?> UpdateExpense(Expense expense);
+    public Task<bool> DeleteExpense(int expenseId);
 }

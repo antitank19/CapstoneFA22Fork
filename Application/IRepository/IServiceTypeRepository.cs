@@ -1,13 +1,12 @@
 ﻿using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
+namespace Application.IRepository;
+
+public interface IServiceTypeRepository
 {
-    public interface IServiceTypeRepository
-    {
-        public IQueryable<ServiceType> GetList();
-        public IQueryable<ServiceType> GetDetail(int Id);
-        public Task<ServiceType> Add(ServiceType entity);
-        public Task<ServiceType> Update(ServiceType entity);
-        public Task<bool> Delete(int id);
-    }
+    public IQueryable<ServiceType> GetServiceTypeList();
+    public IQueryable<ServiceType> GetServiceTypeDetail(int serviceTypeId);
+    public Task<ServiceType> AddServiceType(ServiceType serviceType);
+    public Task<ServiceType?> UpdateServiceType(ServiceType serviceType);
+    public Task<bool> DeleteServiceType(int serviceTypeId);
 }

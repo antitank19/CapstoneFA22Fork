@@ -7,6 +7,6 @@ public interface IContractHistoryRepository
     public IQueryable<ContractHistory> GetContractHistoryList();
     public IQueryable<ContractHistory> GetContractHistoryDetail(int contractHistoryId);
     public Task<ContractHistory> AddContractHistory(ContractHistory contractHistory);
-    public Task<ContractHistory> UpdateContractHistory(ContractHistory contractHistory);
-    public Task<bool> DeleteContractHistory(ContractHistory contractHistory);
+    public Task<ContractHistory?> UpdateContractHistory(ContractHistory contractHistory);
+    public Task<bool> DeleteContractHistory(int contractHistory);
 }

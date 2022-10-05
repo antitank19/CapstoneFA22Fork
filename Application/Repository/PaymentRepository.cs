@@ -1,40 +1,89 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Repository;
 
 public class PaymentRepository : IPaymentRepository
 {
-    private readonly ApplicationContext context;
+    private readonly ApplicationContext _context;
 
     public PaymentRepository(ApplicationContext context)
     {
-        this.context = context;
+        _context = context;
     }
 
+    /// <summary>
+    ///     Get all payments
+    /// </summary>
+    /// <returns></returns>
     public IQueryable<Payment> GetPaymentList()
     {
-        throw new NotImplementedException();
+        return _context.Payments.AsQueryable();
     }
 
+    /// <summary>
+    ///     Get payment by id
+    /// </summary>
+    /// <param name="paymentId"></param>
+    /// <returns></returns>
     public IQueryable<Payment> GetPaymentDetail(int paymentId)
     {
-        throw new NotImplementedException();
+        return _context.Payments
+            .Where(x => x.PaymentId == paymentId);
     }
 
-    public Task<Payment> AddPayment(Payment payment)
+    /// <summary>
+    ///     AddFeedback new payment
+    /// </summary>
+    /// <param name="payment"></param>
+    /// <returns></returns>
+    public async Task<Payment> AddPayment(Payment payment)
     {
-        throw new NotImplementedException();
+        await _context.Payments.AddAsync(payment);
+        await _context.SaveChangesAsync();
+        return payment;
     }
 
-    public Task<Payment> UpdatePayment(Payment payment)
+
+    /// <summary>
+    ///     UpdateFeedback payment
+    /// </summary>
+    /// <param name="payment"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<Payment?> UpdatePayment(Payment? payment)
     {
-        throw new NotImplementedException();
+        var paymentData = await _context.Payments
+            .FirstOrDefaultAsync(x => x.PaymentId == payment!.PaymentId);
+        if (paymentData == null)
+            return null;
+        paymentData.Amount = payment?.Amount ?? paymentData.Amount;
+        paymentData.Detail = payment?.Detail ?? paymentData.Detail;
+        paymentData.Status = payment?.Status ?? paymentData.Status;
+        paymentData.PaymentTime = payment?.PaymentTime ?? paymentData.PaymentTime;
+        paymentData.PaymentPeriod = payment?.PaymentPeriod ?? paymentData.PaymentPeriod;
+        paymentData.PaymentTypeId = payment?.PaymentTypeId ?? paymentData.PaymentTypeId;
+
+        await _context.SaveChangesAsync();
+
+        return paymentData;
     }
 
-    public Task<bool> DeletePayment(int userId)
+    /// <summary>
+    ///     DeleteFeedback payment
+    /// </summary>
+    /// <param name="paymentId"></param>
+    /// <returns></returns>
+    public async Task<bool> DeletePayment(int paymentId)
     {
-        throw new NotImplementedException();
+        var paymentFound = await _context.Payments
+            .FindAsync(paymentId.ToString());
+        if (paymentFound == null)
+            return false;
+        _context.Payments.Remove(paymentFound);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

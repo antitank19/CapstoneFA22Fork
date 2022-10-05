@@ -18,8 +18,8 @@ public class Building
     public int? TotalRooms { get; set; }
     public int? CoordinateX { get; set; }
     public int? CoordinateY { get; set; }
-    public int Status { get; set; }
-    public int AppartmentId { get; set; }
-    public virtual Appartment Appartment { get; set; }
+    public bool Status { get; set; }
+    public int ApartmentId { get; set; }
+    public virtual Apartment Apartment { get; set; }
     public virtual ICollection<Flat> Flats { get; set; }
 }

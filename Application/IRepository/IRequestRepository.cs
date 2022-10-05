@@ -1,13 +1,12 @@
 ﻿using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
+namespace Application.IRepository;
+
+public interface IRequestRepository
 {
-    public interface IRequestRepository
-    {
-        public IQueryable<Request> GetList();
-        public IQueryable<Request> GetDetail(int Id);
-        public Task<Request> Add(Request entity);
-        public Task<Request> Update(Request entity);
-        public Task<bool> Delete(int id);
-    }
+    public IQueryable<Request> GetRequestList();
+    public IQueryable<Request> GetRequestDetail(int requestId);
+    public Task<Request> AddRequest(Request request);
+    public Task<Request?> UpdateRequest(Request request);
+    public Task<bool> DeleteRequest(int requestId);
 }

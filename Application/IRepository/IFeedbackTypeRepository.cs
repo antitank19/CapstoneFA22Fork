@@ -1,13 +1,12 @@
 ﻿using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
+namespace Application.IRepository;
+
+public interface IFeedbackTypeRepository
 {
-    public interface IFeedbackTypeRepository
-    {
-        public IQueryable<FeedbackType> GetList();
-        public IQueryable<FeedbackType> GetDetail(int Id);
-        public Task<FeedbackType> Add(FeedbackType entity);
-        public Task<FeedbackType> Update(FeedbackType entity);
-        public Task<bool> Delete(int id);
-    }
+    public IQueryable<FeedbackType> GetFeedbackTypeList();
+    public IQueryable<FeedbackType> GetFeedbackTypeDetail(int feedbackTypeId);
+    public Task<FeedbackType> AddFeedbackType(FeedbackType feedbackType);
+    public Task<FeedbackType?> UpdateFeedbackType(FeedbackType feedbackType);
+    public Task<bool> DeleteFeedbackType(int feedbackTypeId);
 }

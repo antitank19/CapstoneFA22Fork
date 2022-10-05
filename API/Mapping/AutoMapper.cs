@@ -9,6 +9,7 @@ public class AutoMapper : Profile
 {
     public AutoMapper()
     {
+        // TODO : Remapping all DTOs and Entities
         // Basic DTOs
         CreateMap<Building, BuildingGetDto>()
             .ReverseMap();
@@ -30,14 +31,13 @@ public class AutoMapper : Profile
             .ReverseMap();
         CreateMap<University, UniversityGetDto>()
             .ReverseMap();
-        CreateMap<Renter, UserDto>()
+        CreateMap<Renter, RenterDto>()
             .ReverseMap()
             // For Odata Explicit Expansion
             .ForAllMembers(o => o.ExplicitExpansion());
         /*
-        CreateMap<Appartment, WardDto>()
+        CreateMap<Apartment, WardDto>()
             .ReverseMap();
         */
-        
     }
 }

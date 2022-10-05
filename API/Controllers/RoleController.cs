@@ -27,18 +27,18 @@ public class RoleController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteRole(int id)
     {
-        return Ok("Delete");
+        return Ok("DeleteExpenseHistory");
     }
 
     [HttpPost]
     public async Task<IActionResult> AddRole([FromBody] RoleGetDto roleDto)
     {
-        return Ok("Add");
+        return Ok("AddExpenseHistory");
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateRole([FromBody] RoleGetDto roleDto)
     {
-        return Ok("Update");
+        return Ok("UpdateExpenseHistory");
     }
 }

@@ -1,13 +1,12 @@
 ﻿using Domain.EntitiesForManagement;
 
-namespace Application.IRepository
+namespace Application.IRepository;
+
+public interface IMajorRepository
 {
-    public interface IMajorRepository
-    {
-        public IQueryable<Major> GetList();
-        public IQueryable<Major> GetDetail(int Id);
-        public Task<Major> Add(Major entity);
-        public Task<Major> Update(Major entity);
-        public Task<bool> Delete(int id);
-    }
+    public IQueryable<Major> GetMajorList();
+    public IQueryable<Major> GetMajorDetail(int majorId);
+    public Task<Major> AddMajor(Major major);
+    public Task<Major?> UpdateMajor(Major major);
+    public Task<bool> DeleteMajor(int majorId);
 }

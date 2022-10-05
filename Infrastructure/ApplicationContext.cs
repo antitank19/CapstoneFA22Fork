@@ -11,10 +11,10 @@ public class ApplicationContext : DbContext
     }
 
     public virtual DbSet<Account> Accounts { get; set; }
-    public virtual DbSet<Appartment> Appartments { get; set; }
+    public virtual DbSet<Apartment> Appartments { get; set; }
     public virtual DbSet<Area> Areas { get; set; }
     public virtual DbSet<Bill> Bills { get; set; }
-    public virtual DbSet<Building> Buildings { get; set; }
+    public virtual DbSet<Building?> Buildings { get; set; }
     public virtual DbSet<Contract> Contracts { get; set; }
     public virtual DbSet<ContractHistory> ContractHistories { get; set; }
     public virtual DbSet<Expense> Expenses { get; set; }
@@ -35,7 +35,7 @@ public class ApplicationContext : DbContext
     public virtual DbSet<Request> Requests { get; set; }
     public virtual DbSet<RequestType> RequestTypes { get; set; }
     public virtual DbSet<Role> Roles { get; set; }
-    public virtual DbSet<Service> Services { get; set; }
+    public virtual DbSet<ServiceEntity> Services { get; set; }
     public virtual DbSet<ServiceType> ServiceTypes { get; set; }
     public virtual DbSet<University> University { get; set; }
 
@@ -50,11 +50,9 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //throw new NotImplementedException();
     }
 
     private void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
-        //throw new NotImplementedException();
     }
 }

@@ -27,18 +27,18 @@ public class ContractHistoryController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteContractHistory(int id)
     {
-        return Ok("Delete");
+        return Ok("DeleteExpenseHistory");
     }
 
     [HttpPost]
     public async Task<IActionResult> AddContractHistory([FromBody] ContractHistoryGetDto contractHistoryDto)
     {
-        return Ok("Add");
+        return Ok("AddExpenseHistory");
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateContractHistory([FromBody] ContractHistoryGetDto contractHistoryDto)
     {
-        return Ok("Update");
+        return Ok("UpdateExpenseHistory");
     }
 }
