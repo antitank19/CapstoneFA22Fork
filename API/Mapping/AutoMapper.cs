@@ -30,14 +30,22 @@ public class AutoMapper : Profile
             .ReverseMap();
         CreateMap<University, UniversityGetDto>()
             .ReverseMap();
-        CreateMap<Renter, RenterGetDto>()
-            .ReverseMap()
-            // For Odata Explicit Expansion
-            .ForAllMembers(o => o.ExplicitExpansion());
+        MapRenter();
         /*
         CreateMap<Apartment, WardDto>()
             .ReverseMap();
         */
+    }
+
+    private void MapRenter()
+    {
+        CreateMap<Renter, RenterGetDto>()
+                    .ReverseMap()
+                    .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<RenterCreateDto, Renter>()
+            .ReverseMap();
+        CreateMap<RenterUpdateDto, Renter>().ReverseMap()
+                .ReverseMap();
     }
 
     private void MapAccount()

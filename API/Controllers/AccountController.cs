@@ -55,7 +55,7 @@ public class AccountController : ControllerBase
         return Ok($"Updated at : {DateTime.Now.ToShortDateString()}");
     }
     [HttpPost]
-    public async Task<ActionResult<Apartment>> PostAccount(AccountCreateDto accountDto)
+    public async Task<ActionResult<Account>> PostAccount(AccountCreateDto accountDto)
     {
         var account = _mapper.Map<Account>(accountDto);
         services.Accounts.AddAccount(account);
@@ -74,7 +74,7 @@ public class AccountController : ControllerBase
 
         return Ok($"Status updated at : {DateTime.Now.ToShortDateString()}");
     }
-    // POST: api/Accounts
+    // POST: api/Accounts/Login
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost("Login")]
     public async Task<ActionResult> Login(LoginModel loginModel)
@@ -84,7 +84,7 @@ public class AccountController : ControllerBase
         {
             return Unauthorized("Failed to login");
         }
-        string jwtToken = services.Tokens.CreateTokenForEmployee(account);
+        string jwtToken = services.Tokens.CreateTokenForAccount(account);
         return Ok(jwtToken);
     }
 

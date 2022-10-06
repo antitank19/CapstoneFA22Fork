@@ -10,4 +10,5 @@ public interface IRenterService
     public Task<Renter?> UpdateRenter(Renter renter);
     public Task<bool> ToggleRenterStatus(int renterId);
     public Task<bool> DeleteRenter(int renterId);
+    public Task<Renter> Login(string username, string password);
 }

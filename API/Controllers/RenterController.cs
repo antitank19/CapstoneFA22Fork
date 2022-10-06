@@ -1,4 +1,6 @@
+using API.Models;
 using AutoMapper;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +15,12 @@ public class RenterController : ControllerBase
 {
     private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
-    private readonly IServiceWrapper _serviceWrapper;
+    private readonly IServiceWrapper services;
 
-    public RenterController(IMapper mapper, IServiceWrapper serviceWrapper)
+    public RenterController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
     {
         _mapper = mapper;
-        _serviceWrapper = serviceWrapper;
-    }
-
-    public RenterController(ApplicationContext context)
-    {
+        services = serviceWrapper;
         _context = context;
     }
 
@@ -70,12 +68,25 @@ public class RenterController : ControllerBase
     // POST: api/Renters
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Renter>> PostRenter(Renter renter)
+    public async Task<ActionResult<Renter>> PostRenter(RenterCreateDto renterDto)
     {
-        _context.Renters.Add(renter);
-        await _context.SaveChangesAsync();
+        var renter = _mapper.Map<Renter>(renterDto);
+        services.Renters.AddRenter(renter);
 
-        return CreatedAtAction("GetRenter", new { id = renter.RenterId }, renter);
+        return CreatedAtAction("GetAccount", new { id = renterDto.RenterId }, renterDto);
+    }
+    // POST: api/Accounts/Login
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPost("Login")]
+    public async Task<ActionResult> Login(LoginModel loginModel)
+    {
+        Renter renter = await services.Renters.Login(loginModel.Username, loginModel.Password);
+        if (renter == null)
+        {
+            return Unauthorized("Failed to login");
+        }
+        string jwtToken = services.Tokens.CreateTokenForRenter(renter);
+        return Ok(jwtToken);
     }
 
     // DELETE: api/Renters/5

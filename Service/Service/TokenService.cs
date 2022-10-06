@@ -44,7 +44,7 @@ public class TokenService : ITokenService
         return tokenHandler.WriteToken(token);
     }
 
-    public string CreateTokenForEmployee(Account employee)
+    public string CreateTokenForAccount(Account employee)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 

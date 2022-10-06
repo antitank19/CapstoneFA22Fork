@@ -30,7 +30,12 @@ public class RenterService : IRenterService
     {
         return await _repositoryWrapper.Renters.AddRenter(renter);
     }
-
+    public async Task<Renter> Login(string username, string password)
+    {
+        var list = _repositoryWrapper.Renters.GetRenterList();
+        Renter logined = await list.SingleOrDefaultAsync(e => e.Username == username && e.Password == password);
+        return logined;
+    }
     public async Task<Renter?> UpdateRenter(Renter renter)
     {
         return await _repositoryWrapper.Renters.UpdateRenter(renter);
