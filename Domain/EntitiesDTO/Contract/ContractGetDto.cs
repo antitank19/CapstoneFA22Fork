@@ -15,5 +15,4 @@ public class ContractGetDto
     public Flat Flat { get; set; }
     public virtual ICollection<InvoiceGetDto> Invoices { get; set; }
     public virtual ICollection<ContractHistoryGetDto> ContractHistories { get; set; }
-
 }

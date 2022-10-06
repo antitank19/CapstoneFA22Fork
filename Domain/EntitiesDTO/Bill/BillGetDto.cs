@@ -1,5 +1,3 @@
-using Domain.EntitiesForManagement;
-
 namespace Domain.EntitiesDTO;
 
 public class BillGetDto

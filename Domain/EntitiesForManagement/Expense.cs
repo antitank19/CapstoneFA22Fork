@@ -9,9 +9,11 @@ public class Expense
     {
         ExpenseHistory = new HashSet<ExpenseHistory>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ExpenseId { get; set; }
+
     public string Name { get; set; }
 
     [ForeignKey("Supervisor")] public int SupervisorId { get; set; }

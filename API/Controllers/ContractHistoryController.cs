@@ -1,5 +1,4 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ namespace API.Controllers;
 [ApiController]
 public class ContractHistoryController : ControllerBase
 {
+    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
@@ -20,12 +20,12 @@ public class ContractHistoryController : ControllerBase
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
     }
-    private readonly ApplicationContext _context;
 
     public ContractHistoryController(ApplicationContext context)
     {
         _context = context;
     }
+
     // GET: api/ContractHistories
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ContractHistory>>> GetContractHistories()
@@ -39,10 +39,7 @@ public class ContractHistoryController : ControllerBase
     {
         var contractHistory = await _context.ContractHistories.FindAsync(id);
 
-        if (contractHistory == null)
-        {
-            return NotFound();
-        }
+        if (contractHistory == null) return NotFound();
 
         return contractHistory;
     }
@@ -52,10 +49,7 @@ public class ContractHistoryController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutContractHistory(int id, ContractHistory contractHistory)
     {
-        if (id != contractHistory.ContractHistoryId)
-        {
-            return BadRequest();
-        }
+        if (id != contractHistory.ContractHistoryId) return BadRequest();
 
         _context.Entry(contractHistory).State = EntityState.Modified;
 
@@ -66,13 +60,8 @@ public class ContractHistoryController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!ContractHistoryExists(id))
-            {
                 return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
@@ -94,10 +83,7 @@ public class ContractHistoryController : ControllerBase
     public async Task<IActionResult> DeleteContractHistory(int id)
     {
         var contractHistory = await _context.ContractHistories.FindAsync(id);
-        if (contractHistory == null)
-        {
-            return NotFound();
-        }
+        if (contractHistory == null) return NotFound();
 
         _context.ContractHistories.Remove(contractHistory);
         await _context.SaveChangesAsync();

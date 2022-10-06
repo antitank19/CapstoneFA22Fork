@@ -1,5 +1,4 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ namespace API.Controllers;
 [ApiController]
 public class BuildingController : ControllerBase
 {
+    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
@@ -20,8 +20,6 @@ public class BuildingController : ControllerBase
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
     }
-
-    private readonly ApplicationContext _context;
 
     public BuildingController(ApplicationContext context)
     {
@@ -41,10 +39,7 @@ public class BuildingController : ControllerBase
     {
         var building = await _context.Buildings.FindAsync(id);
 
-        if (building == null)
-        {
-            return NotFound();
-        }
+        if (building == null) return NotFound();
 
         return building;
     }
@@ -54,10 +49,7 @@ public class BuildingController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutBuilding(int id, Building building)
     {
-        if (id != building.BuildingId)
-        {
-            return BadRequest();
-        }
+        if (id != building.BuildingId) return BadRequest();
 
         _context.Entry(building).State = EntityState.Modified;
 
@@ -68,13 +60,8 @@ public class BuildingController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!BuildingExists(id))
-            {
                 return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
@@ -96,10 +83,7 @@ public class BuildingController : ControllerBase
     public async Task<IActionResult> DeleteBuilding(int id)
     {
         var building = await _context.Buildings.FindAsync(id);
-        if (building == null)
-        {
-            return NotFound();
-        }
+        if (building == null) return NotFound();
 
         _context.Buildings.Remove(building);
         await _context.SaveChangesAsync();

@@ -1,5 +1,4 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ namespace API.Controllers;
 [ApiController]
 public class PaymentTypeController : ControllerBase
 {
+    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
@@ -20,8 +20,6 @@ public class PaymentTypeController : ControllerBase
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
     }
-
-    private readonly ApplicationContext _context;
 
     public PaymentTypeController(ApplicationContext context)
     {
@@ -41,10 +39,7 @@ public class PaymentTypeController : ControllerBase
     {
         var paymentType = await _context.PaymentType.FindAsync(id);
 
-        if (paymentType == null)
-        {
-            return NotFound();
-        }
+        if (paymentType == null) return NotFound();
 
         return paymentType;
     }
@@ -54,10 +49,7 @@ public class PaymentTypeController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutPaymentType(int id, PaymentType paymentType)
     {
-        if (id != paymentType.PaymentTypeId)
-        {
-            return BadRequest();
-        }
+        if (id != paymentType.PaymentTypeId) return BadRequest();
 
         _context.Entry(paymentType).State = EntityState.Modified;
 
@@ -68,13 +60,8 @@ public class PaymentTypeController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!PaymentTypeExists(id))
-            {
                 return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
@@ -96,10 +83,7 @@ public class PaymentTypeController : ControllerBase
     public async Task<IActionResult> DeletePaymentType(int id)
     {
         var paymentType = await _context.PaymentType.FindAsync(id);
-        if (paymentType == null)
-        {
-            return NotFound();
-        }
+        if (paymentType == null) return NotFound();
 
         _context.PaymentType.Remove(paymentType);
         await _context.SaveChangesAsync();

@@ -1,12 +1,4 @@
-using System.Net;
-using System.Text;
-using Domain.ErrorEntities;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.IO;
 using Microsoft.Net.Http.Headers;
@@ -16,69 +8,54 @@ namespace Utilities.Middleware;
 public class LoggingMiddleware
 {
     private const int ReadChunkBufferLength = 4096;
-    private static readonly ActionDescriptor EmptyActionDescriptor = new();
-    private readonly IActionResultExecutor<ObjectResult> _executor;
     private readonly ILogger _logger;
     private readonly RequestDelegate _next;
     private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
 
-    public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory,
-        IActionResultExecutor<ObjectResult> executor)
+    public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
     {
         _next = next;
         _logger = loggerFactory.CreateLogger<LoggingMiddleware>();
-        _executor = executor;
         _recyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var requestData = GetRequestData(context);
-        var requestDisplayUrl = context.Request.GetDisplayUrl();
+        // var requestData = GetRequestData(context);
+        // var requestDisplayUrl = context.Request.GetDisplayUrl();
         try
         {
             await LogRequest(context.Request);
             await LogResponseAsync(context);
+            await _next(context);
         }
         catch (Exception ex)
         {
-            var routeData = context.GetRouteData();
-
-            // TODO: implement logging to files here, adding 3rd party logger here ^^
-            _logger.LogError(ex,
-                "An unhandled exception has occurred while executing the request. " +
-                "\nUrl: {RequestDisplayUrl}. " +
-                "\nRequest Data: {RequestData}", requestDisplayUrl, requestData);
-
-            ClearCacheHeaders(context.Response);
-
-            var actionContext = new ActionContext(context, routeData, EmptyActionDescriptor);
-
-            var result = new ObjectResult(
-                new ErrorResponse(
-                    "Error processing request. Server error."))
-            {
-                StatusCode = (int)HttpStatusCode.InternalServerError
-            };
-
-            await _executor.ExecuteAsync(actionContext, result);
+            /*
+                        var routeData = context.GetRouteData();
+            
+                        // TODO: implement logging to files here, adding 3rd party logger here ^^
+                        _logger.LogError(ex,
+                            "An unhandled exception has occurred while executing the request. " +
+                            "\nUrl: {RequestDisplayUrl}. " +
+                            "\nRequest Data: {RequestData}", requestDisplayUrl, requestData);
+            
+                        var actionContext = new ActionContext(context, routeData, EmptyActionDescriptor);
+            
+                        var result = new ObjectResult(
+                            new ErrorResponse(
+                                "Error processing request. Server error."))
+                        {
+                            StatusCode = (int)HttpStatusCode.InternalServerError
+                        };
+                        
+                        //ClearCacheHeaders(context.Response);
+            
+                        await _executor.ExecuteAsync(actionContext, result);
+                        */
         }
     }
 
-    private static string GetRequestData(HttpContext context)
-    {
-        var sb = new StringBuilder();
-
-        if (context.Request.HasFormContentType && context.Request.Form.Any())
-        {
-            sb.Append("Form variables:");
-            foreach (var x in context.Request.Form) sb.Append($"Key={x.Key}, Value={x.Value}<br/>");
-        }
-
-        sb.AppendLine("Method: " + context.Request.Method);
-
-        return sb.ToString();
-    }
 
     private static void ClearCacheHeaders(HttpResponse response)
     {
@@ -104,7 +81,7 @@ public class LoggingMiddleware
                                "\nHost: {request.Host} " +
                                "\nPath: {request.Path} " +
                                "\nQueryString: {request.QueryString} " +
-                               "\nRequest Body: {ReadStreamInChunks} "
+                               "\nRequest Body: {ReadStreamInChunks} \n"
             , request.Scheme, request.Host,
             request.Path, queryStringNullOrNot, readStreamInChunks);
     }
@@ -112,29 +89,27 @@ public class LoggingMiddleware
     private async Task LogResponseAsync(HttpContext context)
     {
         var originalBody = context.Response.Body;
-        await using (var responseStream = _recyclableMemoryStreamManager.GetStream())
-        {
-            context.Response.Body = responseStream;
-            await _next.Invoke(context);
-            await responseStream.CopyToAsync(originalBody);
+        await using var responseStream = _recyclableMemoryStreamManager.GetStream();
+        context.Response.Body = responseStream;
+        await responseStream.CopyToAsync(originalBody);
 
-            var readStreamInChunks = await ReadStreamInChunks(responseStream);
+        var readStreamInChunks = await ReadStreamInChunks(responseStream);
 
-            var queryStringNullOrNot = context.Request.QueryString.HasValue
-                ? context.Request.QueryString.Value
-                : "No query string";
+        var queryStringNullOrNot = context.Request.QueryString.HasValue
+            ? context.Request.QueryString.Value
+            : "No query string";
 
-            _logger.LogInformation("\nHttp Response Information\n" +
-                                   "\nSchema:{context.Request.Scheme} " +
-                                   "\nHost: {context.Request.Host} " +
-                                   "\nPath: {context.Request.Path} " +
-                                   "\nQueryString: {context.Request.QueryString} " +
-                                   "\nResponse Body: {ReadStreamInChunks}",
-                context.Request.Scheme, context.Request.Host,
-                context.Request.Path, queryStringNullOrNot, readStreamInChunks);
-        }
+        _logger.LogInformation("\nHttp Response Information\n" +
+                               "\nSchema:{context.Request.Scheme} " +
+                               "\nHost: {context.Request.Host} " +
+                               "\nPath: {context.Request.Path} " +
+                               "\nQueryString: {context.Request.QueryString} " +
+                               "\nResponse Body: {ReadStreamInChunks} \n",
+            context.Request.Scheme, context.Request.Host,
+            context.Request.Path, queryStringNullOrNot, readStreamInChunks);
 
         context.Response.Body = originalBody;
+        await _next.Invoke(context);
     }
 
 

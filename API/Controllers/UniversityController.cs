@@ -1,5 +1,4 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ namespace API.Controllers;
 [ApiController]
 public class UniversityController : ControllerBase
 {
+    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
@@ -20,8 +20,6 @@ public class UniversityController : ControllerBase
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
     }
-
-    private readonly ApplicationContext _context;
 
     public UniversityController(ApplicationContext context)
     {
@@ -41,10 +39,7 @@ public class UniversityController : ControllerBase
     {
         var university = await _context.University.FindAsync(id);
 
-        if (university == null)
-        {
-            return NotFound();
-        }
+        if (university == null) return NotFound();
 
         return university;
     }
@@ -54,10 +49,7 @@ public class UniversityController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutUniversity(int id, University university)
     {
-        if (id != university.UniversityId)
-        {
-            return BadRequest();
-        }
+        if (id != university.UniversityId) return BadRequest();
 
         _context.Entry(university).State = EntityState.Modified;
 
@@ -68,13 +60,8 @@ public class UniversityController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!UniversityExists(id))
-            {
                 return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
@@ -96,10 +83,7 @@ public class UniversityController : ControllerBase
     public async Task<IActionResult> DeleteUniversity(int id)
     {
         var university = await _context.University.FindAsync(id);
-        if (university == null)
-        {
-            return NotFound();
-        }
+        if (university == null) return NotFound();
 
         _context.University.Remove(university);
         await _context.SaveChangesAsync();

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.EntitiesForManagement;
 
@@ -8,6 +8,7 @@ public class RequestType
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int RequestTypeId { get; set; }
+
     public string Name { get; set; }
     public string Description { get; set; }
     public bool Status { get; set; }

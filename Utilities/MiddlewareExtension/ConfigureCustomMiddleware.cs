@@ -9,11 +9,9 @@ public static class ConfigureCustomMiddleware
     public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, IConfiguration configuration)
     {
         var isEnabled = configuration.GetSection("LogSettings:IsLoggerEnabled").Value;
-        if (isEnabled == "True")
-        {
-            Console.WriteLine("Logger is enabled");
-            app.UseMiddleware<LoggingMiddleware>();
-        }
+        if (isEnabled != "True") return app;
+        Console.WriteLine("Logger is enabled");
+        app.UseMiddleware<LoggingMiddleware>();
 
         return app;
     }

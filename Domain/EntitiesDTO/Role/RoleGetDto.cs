@@ -1,5 +1,3 @@
-using Domain.EntitiesForManagement;
-
 namespace Domain.EntitiesDTO;
 
 public class RoleGetDto
@@ -8,5 +6,4 @@ public class RoleGetDto
     public string RoleName { get; set; }
     public bool Status { get; set; }
     public virtual ICollection<AccountGetDto> Accounts { get; set; }
-
 }

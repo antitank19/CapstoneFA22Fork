@@ -1,105 +1,75 @@
-﻿using Domain.EntitiesForManagement;
-using Infrastructure;
+﻿using AutoMapper;
+using Domain.EntitiesDTO.Account;
+using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Service.IService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class AccountController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AccountController : ControllerBase
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
+
+    public AccountController(IServiceWrapper serviceWrapper, IMapper mapper)
     {
-        private readonly ApplicationContext _context;
+        _serviceWrapper = serviceWrapper;
+        _mapper = mapper;
+    }
 
-        public AccountController(ApplicationContext context)
-        {
-            _context = context;
-        }
+    // GET: api/Accounts
+    [HttpGet]
+    public async Task<ActionResult<AccountDto>> GetAccounts()
+    {
+        var result = await _serviceWrapper.Accounts.GetAccountList();
+        if (!result.Any())
+            return NotFound("No account available");
 
-        // GET: api/Accounts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
-        {
-            return await _context.Accounts.ToListAsync();
-        }
+        var response = _mapper.Map<IEnumerable<AccountDto>>(result);
+        return Ok(response);
+    }
 
-        // GET: api/Accounts/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(int id)
-        {
-            var account = await _context.Accounts.FindAsync(id);
+    // PUT: api/Accounts/5
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateAccount(int id, [FromBody] Account account)
+    {
+        if (id != account.AccountId)
+            return BadRequest();
 
-            if (account == null)
-            {
-                return NotFound();
-            }
+        var result = await _serviceWrapper.Accounts.UpdateAccount(account);
+        if (result == null)
+            return NotFound("Updating account failed");
 
-            return account;
-        }
+        return Ok($"Updated at : {DateTime.Now.ToShortDateString()}");
+    }
 
-        // PUT: api/Accounts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(int id, Account account)
-        {
-            if (id != account.AccountId)
-            {
-                return BadRequest();
-            }
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> ToggleAccountStatus(int id, [FromBody] Account account)
+    {
+        if (id != account.AccountId)
+            return BadRequest();
 
-            _context.Entry(account).State = EntityState.Modified;
+        var result = await _serviceWrapper.Accounts.ToggleAccountStatus(id);
+        if (!result)
+            return BadRequest("Updating account status failed");
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AccountExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        return Ok($"Status updated at : {DateTime.Now.ToShortDateString()}");
+    }
 
-            return NoContent();
-        }
+    // DELETE: api/Accounts/5
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteAccount(int id)
+    {
+        var result = await _serviceWrapper.Accounts.DeleteAccount(id);
 
-        // POST: api/Accounts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Account>> PostAccount(Account account)
-        {
-            _context.Accounts.Add(account);
-            await _context.SaveChangesAsync();
+        if (!result)
+            return BadRequest("Account failed to delete");
 
-            return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
-        }
-
-        // DELETE: api/Accounts/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(int id)
-        {
-            var account = await _context.Accounts.FindAsync(id);
-            if (account == null)
-            {
-                return NotFound();
-            }
-
-            _context.Accounts.Remove(account);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool AccountExists(int id)
-        {
-            return _context.Accounts.Any(e => e.AccountId == id);
-        }
+        return Ok($"Account deleted at : {DateTime.Now.ToShortDateString()}");
     }
 }

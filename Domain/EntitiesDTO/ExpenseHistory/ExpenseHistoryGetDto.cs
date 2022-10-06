@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.EntitiesDTO;
 
-namespace Domain.EntitiesDTO
+public class ExpenseHistoryGetDto
 {
-    public class ExpenseHistoryGetDto
-    {
-        public int ExpenseHistoryId { get; set; }
-        public string Name { get; set; }
-    }
+    public int ExpenseHistoryId { get; set; }
+    public string Name { get; set; }
 }

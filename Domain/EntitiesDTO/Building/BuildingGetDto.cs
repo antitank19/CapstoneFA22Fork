@@ -1,5 +1,3 @@
-using Domain.EntitiesForManagement;
-
 namespace Domain.EntitiesDTO;
 
 public class BuildingGetDto
@@ -19,5 +17,4 @@ public class BuildingGetDto
     public int AppartmentId { get; set; }
     public virtual AppartmentGetDto Appartment { get; set; }
     public virtual ICollection<FlatGetDto> Flats { get; set; }
-
 }

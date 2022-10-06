@@ -1,5 +1,4 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ namespace API.Controllers;
 [ApiController]
 public class RenterController : ControllerBase
 {
+    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
@@ -20,8 +20,6 @@ public class RenterController : ControllerBase
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
     }
-
-    private readonly ApplicationContext _context;
 
     public RenterController(ApplicationContext context)
     {
@@ -41,10 +39,7 @@ public class RenterController : ControllerBase
     {
         var renter = await _context.Renters.FindAsync(id);
 
-        if (renter == null)
-        {
-            return NotFound();
-        }
+        if (renter == null) return NotFound();
 
         return renter;
     }
@@ -54,10 +49,7 @@ public class RenterController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutRenter(int id, Renter renter)
     {
-        if (id != renter.RenterId)
-        {
-            return BadRequest();
-        }
+        if (id != renter.RenterId) return BadRequest();
 
         _context.Entry(renter).State = EntityState.Modified;
 
@@ -68,13 +60,8 @@ public class RenterController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!RenterExists(id))
-            {
                 return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
@@ -96,10 +83,7 @@ public class RenterController : ControllerBase
     public async Task<IActionResult> DeleteRenter(int id)
     {
         var renter = await _context.Renters.FindAsync(id);
-        if (renter == null)
-        {
-            return NotFound();
-        }
+        if (renter == null) return NotFound();
 
         _context.Renters.Remove(renter);
         await _context.SaveChangesAsync();

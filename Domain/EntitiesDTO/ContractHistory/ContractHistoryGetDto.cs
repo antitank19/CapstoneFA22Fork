@@ -9,5 +9,4 @@ public class ContractHistoryGetDto
     public DateTime ContractExpiredDate { get; set; }
     public int ContractId { get; set; } // Contract
     public virtual ContractGetDto Contract { get; set; }
-
 }

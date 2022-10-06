@@ -1,5 +1,4 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +11,7 @@ namespace API.Controllers;
 [ApiController]
 public class ContractController : ControllerBase
 {
+    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
@@ -20,8 +20,6 @@ public class ContractController : ControllerBase
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
     }
-
-    private readonly ApplicationContext _context;
 
     public ContractController(ApplicationContext context)
     {
@@ -41,10 +39,7 @@ public class ContractController : ControllerBase
     {
         var contract = await _context.Contracts.FindAsync(id);
 
-        if (contract == null)
-        {
-            return NotFound();
-        }
+        if (contract == null) return NotFound();
 
         return contract;
     }
@@ -54,10 +49,7 @@ public class ContractController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutContract(int id, Contract contract)
     {
-        if (id != contract.ContractId)
-        {
-            return BadRequest();
-        }
+        if (id != contract.ContractId) return BadRequest();
 
         _context.Entry(contract).State = EntityState.Modified;
 
@@ -68,13 +60,8 @@ public class ContractController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!ContractExists(id))
-            {
                 return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return NoContent();
@@ -96,10 +83,7 @@ public class ContractController : ControllerBase
     public async Task<IActionResult> DeleteContract(int id)
     {
         var contract = await _context.Contracts.FindAsync(id);
-        if (contract == null)
-        {
-            return NotFound();
-        }
+        if (contract == null) return NotFound();
 
         _context.Contracts.Remove(contract);
         await _context.SaveChangesAsync();
