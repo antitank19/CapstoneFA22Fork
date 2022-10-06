@@ -27,6 +27,6 @@ public class HttpStatusException : Exception
         ContentType = @"application/json";
     }
 
-    internal HttpStatusCode StatusCode { get; set; }
+    private HttpStatusCode StatusCode { get; set; }
     private string ContentType { get; } = @"text/plain";
 }

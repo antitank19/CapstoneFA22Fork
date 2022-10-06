@@ -1,8 +1,6 @@
-//<<<<<<< Updated upstream
 using AutoMapper;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
-//=======
 using API.Models;
 using Domain.EntitiesForManagement;
 using Infrastructure;
@@ -14,6 +12,7 @@ using Domain.EntitiesDTO;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 
+namespace API.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
@@ -73,7 +72,6 @@ public class AccountController : ControllerBase
         if (!result)
             return BadRequest("Updating account status failed");
 
-        //<<<<<<< Updated upstream
         return Ok($"Status updated at : {DateTime.Now.ToShortDateString()}");
     }
     // POST: api/Accounts
