@@ -1,30 +1,42 @@
-﻿using Domain.EntitiesForManagement;
+﻿using AutoMapper;
+using Domain.EntitiesDTO.Major;
+using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Service.IService;
 
-namespace net6API.Controllers;
+namespace API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class MajorsController : ControllerBase
 {
-    private readonly ApplicationContext _context;
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public MajorsController(ApplicationContext context)
+    public MajorsController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _context = context;
+        _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     // GET: api/Majors
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Major>>> GetMajors()
+    public async Task<ActionResult<MajorDto>> GetMajors()
     {
-        return await _context.Majors.ToListAsync();
+        var result = await _serviceWrapper.Majors.GetMajorList();
+        if (!result.Any())
+            return NotFound("No major available");
+
+        var response = _mapper.Map<IEnumerable<Major>>(result);
+        return Ok(response);
     }
 
-    // GET: api/Majors/5
-    [HttpGet("{id}")]
+} /*
+
+// GET: api/Majors/5
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Major>> GetMajor(int id)
     {
         var major = await _context.Majors.FindAsync(id);
@@ -86,3 +98,4 @@ public class MajorsController : ControllerBase
         return _context.Majors.Any(e => e.MajorId == id);
     }
 }
+*/

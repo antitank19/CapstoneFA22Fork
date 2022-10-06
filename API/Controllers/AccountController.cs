@@ -4,8 +4,6 @@ using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace API.Controllers;
 
 [Route("api/[controller]/[action]")]
@@ -29,7 +27,7 @@ public class AccountController : ControllerBase
         if (!result.Any())
             return NotFound("No account available");
 
-        var response = _mapper.Map<IEnumerable<AccountDto>>(result);
+        var response = _mapper.Map<IEnumerable<Account>>(result);
         return Ok(response);
     }
 

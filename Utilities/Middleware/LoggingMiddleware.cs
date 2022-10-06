@@ -1,4 +1,12 @@
+using System.Net;
+using System.Text;
+using Domain.ErrorEntities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.IO;
 using Microsoft.Net.Http.Headers;
@@ -8,54 +16,69 @@ namespace Utilities.Middleware;
 public class LoggingMiddleware
 {
     private const int ReadChunkBufferLength = 4096;
+    private static readonly ActionDescriptor EmptyActionDescriptor = new();
+    private readonly IActionResultExecutor<ObjectResult> _executor;
     private readonly ILogger _logger;
     private readonly RequestDelegate _next;
     private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
 
-    public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+    public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IActionResultExecutor<ObjectResult> executor)
     {
         _next = next;
+        _executor = executor;
         _logger = loggerFactory.CreateLogger<LoggingMiddleware>();
         _recyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        // var requestData = GetRequestData(context);
-        // var requestDisplayUrl = context.Request.GetDisplayUrl();
+        var requestData = GetRequestData(context);
+        var requestDisplayUrl = context.Request.GetDisplayUrl();
         try
         {
             await LogRequest(context.Request);
             await LogResponseAsync(context);
-            await _next(context);
         }
         catch (Exception ex)
         {
-            /*
-                        var routeData = context.GetRouteData();
+            var routeData = context.GetRouteData();
             
-                        // TODO: implement logging to files here, adding 3rd party logger here ^^
-                        _logger.LogError(ex,
-                            "An unhandled exception has occurred while executing the request. " +
-                            "\nUrl: {RequestDisplayUrl}. " +
-                            "\nRequest Data: {RequestData}", requestDisplayUrl, requestData);
+            // TODO: implement logging to files here, adding 3rd party logger here ^^
+            _logger.LogError(ex,
+                "An unhandled exception has occurred while executing the request. " +
+                "\nUrl: {RequestDisplayUrl}. " +
+                "\nRequest Data: {RequestData}", requestDisplayUrl, requestData);
             
-                        var actionContext = new ActionContext(context, routeData, EmptyActionDescriptor);
+            var actionContext = new ActionContext(context, routeData, EmptyActionDescriptor);
             
-                        var result = new ObjectResult(
-                            new ErrorResponse(
-                                "Error processing request. Server error."))
-                        {
-                            StatusCode = (int)HttpStatusCode.InternalServerError
-                        };
+            var result = new ObjectResult(
+                new ErrorResponse(
+                    "Error processing request. Server error."))
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError
+            };
                         
-                        //ClearCacheHeaders(context.Response);
+            ClearCacheHeaders(context.Response);
             
-                        await _executor.ExecuteAsync(actionContext, result);
-                        */
+            await _executor.ExecuteAsync(actionContext, result); 
+                       
         }
     }
 
+    private static string GetRequestData(HttpContext context)
+    {
+        var sb = new StringBuilder();
+
+        if (context.Request.HasFormContentType && context.Request.Form.Any())
+        {
+            sb.Append("Form variables:");
+            foreach (var x in context.Request.Form) sb.Append($"Key={x.Key}, Value={x.Value}<br/>");
+        }
+
+        sb.AppendLine("Method: " + context.Request.Method);
+
+        return sb.ToString();
+    }
 
     private static void ClearCacheHeaders(HttpResponse response)
     {
