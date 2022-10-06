@@ -14,11 +14,14 @@ public class RenterGetDto
     public bool Status { get; set; }
     public string Image { get; set; }
     public string Address { get; set; }
+
     public string Gender { get; set; }
-    public int UniversityId { get; set; }
+
+    //public int UniversityId { get; set; }
     public virtual UniversityGetDto University { get; set; }
-    public int MajorId { get; set; }
-    public MajorUpdateDto Major { get; set; }
-    public virtual ICollection<ContractGetDto> Contracts { get; set; }
-    public virtual ICollection<OrderGetDto> Orders { get; set; }
+
+    //public int MajorId { get; set; }
+    public virtual MajorDto Major { get; set; }
+    //public virtual ICollection<ContractGetDto> Contracts { get; set; }
+    //public virtual ICollection<OrderGetDto> Orders { get; set; }
 }

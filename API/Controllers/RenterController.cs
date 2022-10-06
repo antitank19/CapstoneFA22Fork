@@ -1,10 +1,9 @@
 using API.Models;
 using AutoMapper;
 using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Renter;
 using Domain.EntitiesForManagement;
-using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Service.IService;
 
 namespace API.Controllers;
@@ -13,33 +12,36 @@ namespace API.Controllers;
 [ApiController]
 public class RenterController : ControllerBase
 {
-    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper services;
 
-    public RenterController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
+    public RenterController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
         _mapper = mapper;
         services = serviceWrapper;
-        _context = context;
     }
 
     // GET: api/Renters
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Renter>>> GetRenters()
+    public async Task<ActionResult<RenterGetDto>> GetRenters()
     {
-        return await _context.Renters.ToListAsync();
+        var result = await services.Renters.GetRenterList();
+        if (!result.Any())
+            return NotFound("No renter available");
+
+        var response = _mapper.Map<IEnumerable<Renter>>(result);
+        return Ok(response);
     }
 
     // GET: api/Renters/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Renter>> GetRenter(int id)
     {
-        var renter = await _context.Renters.FindAsync(id);
+        var result = await services.Renters.GetRenterById(id);
+        if (result == null)
+            return NotFound("No renter found");
 
-        if (renter == null) return NotFound();
-
-        return renter;
+        return Ok(result);
     }
 
     // PUT: api/Renters/5
@@ -47,22 +49,35 @@ public class RenterController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutRenter(int id, Renter renter)
     {
-        if (id != renter.RenterId) return BadRequest();
+        if (id != renter.RenterId)
+            return BadRequest();
 
-        _context.Entry(renter).State = EntityState.Modified;
-
-        try
+        var updateRenter = new Renter
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!RenterExists(id))
-                return NotFound();
-            throw;
-        }
+            Username = renter.Username,
+            Email = renter.Email,
+            Password = renter.Password,
+            Phone = renter.Phone,
+            FullName = renter.FullName,
+            BirthDate = renter.BirthDate,
+            Gender = renter.Gender,
+            Image = renter.Image,
+            Address = renter.Address,
+            University = new University
+            {
+                UniversityName = renter.University.UniversityName
+            },
+            Major = new Major
+            {
+                Name = renter.Major.Name
+            }
+        };
 
-        return NoContent();
+        var result = await services.Renters.UpdateRenter(updateRenter);
+        if (result == null)
+            return NotFound("Update failed");
+
+        return Ok("Update successfully");
     }
 
     // POST: api/Renters
@@ -71,21 +86,18 @@ public class RenterController : ControllerBase
     public async Task<ActionResult<Renter>> PostRenter(RenterCreateDto renterDto)
     {
         var renter = _mapper.Map<Renter>(renterDto);
-        services.Renters.AddRenter(renter);
+        await services.Renters.AddRenter(renter);
 
         return CreatedAtAction("GetRenter", new { id = renterDto.RenterId }, renterDto);
     }
+
     // POST: api/Accounts/Login
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost("Login")]
     public async Task<ActionResult> Login(LoginModel loginModel)
     {
-        Renter renter = await services.Renters.Login(loginModel.Username, loginModel.Password);
-        if (renter == null)
-        {
-            return Unauthorized("Failed to login");
-        }
-        string jwtToken = services.Tokens.CreateTokenForRenter(renter);
+        var renter = await services.Renters.Login(loginModel.Username, loginModel.Password);
+        var jwtToken = services.Tokens.CreateTokenForRenter(renter);
         return Ok(jwtToken);
     }
 
@@ -93,17 +105,10 @@ public class RenterController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRenter(int id)
     {
-        var renter = await _context.Renters.FindAsync(id);
-        if (renter == null) return NotFound();
+        var result = await services.Renters.DeleteRenter(id);
+        if (result)
+            return NotFound("Renter not found");
 
-        _context.Renters.Remove(renter);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool RenterExists(int id)
-    {
-        return _context.Renters.Any(e => e.RenterId == id);
+        return Ok("Renter deleted");
     }
 }

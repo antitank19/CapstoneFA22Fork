@@ -50,7 +50,7 @@ public class MajorsController : ControllerBase
         if (id != major.MajorId)
             return BadRequest();
 
-        var updateMajor = new Major()
+        var updateMajor = new Major
         {
             Name = major.Name
         };
@@ -61,7 +61,7 @@ public class MajorsController : ControllerBase
 
         return Ok($"Major updated at : {DateTime.Now.ToShortDateString()}");
     }
-    
+
     // DELETE: api/Majors/5
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteMajor(int id)
@@ -72,5 +72,4 @@ public class MajorsController : ControllerBase
 
         return Ok($"Major deleted at : {DateTime.Now.ToShortDateString()}");
     }
-
 }

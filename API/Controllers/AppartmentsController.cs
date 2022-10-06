@@ -12,7 +12,7 @@ public class ApartmentsController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
-    
+
     public ApartmentsController(IServiceWrapper serviceWrapper, IMapper mapper)
     {
         _serviceWrapper = serviceWrapper;
@@ -47,17 +47,17 @@ public class ApartmentsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutApartment(int id, ApartmentUpdateDto apartment)
     {
-        if (id != apartment.ApartmentId) 
+        if (id != apartment.ApartmentId)
             return BadRequest();
         var updateApartment = new Apartment
         {
             Name = apartment.Name,
-            AreaId = apartment.AreaId,
+            AreaId = apartment.AreaId
         };
         var result = await _serviceWrapper.Apartments.UpdateApartment(updateApartment);
         if (result == null)
             return NotFound("Update apartment failed");
-        
+
         return Ok("Update apartment successfully");
     }
 
@@ -69,9 +69,9 @@ public class ApartmentsController : ControllerBase
         var newApartment = new Apartment
         {
             Name = apartment.Name,
-            AreaId = apartment.AreaId,
+            AreaId = apartment.AreaId
         };
-        
+
         var result = await _serviceWrapper.Apartments.AddApartment(newApartment);
         if (result == null)
             return NotFound("Add apartment failed");

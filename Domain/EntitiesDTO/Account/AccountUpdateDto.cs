@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesForManagement;
-
-namespace Domain.EntitiesDTO;
+﻿namespace Domain.EntitiesDTO;
 
 public class AccountUpdateDto
 {

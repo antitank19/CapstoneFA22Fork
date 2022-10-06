@@ -43,12 +43,12 @@ public class AutoMapper : Profile
     private void MapRenter()
     {
         CreateMap<Renter, RenterGetDto>()
-                    .ReverseMap()
-                    .ForAllMembers(o => o.ExplicitExpansion());
+            .ReverseMap()
+            .ForAllMembers(o => o.ExplicitExpansion());
         CreateMap<RenterCreateDto, Renter>()
             .ReverseMap();
         CreateMap<RenterUpdateDto, Renter>().ReverseMap()
-                .ReverseMap();
+            .ReverseMap();
     }
 
     private void MapAccount()
@@ -65,6 +65,6 @@ public class AutoMapper : Profile
     private void MapBuilding()
     {
         CreateMap<Building, BuildingGetDto>()
-                    .ReverseMap();
+            .ReverseMap();
     }
 }

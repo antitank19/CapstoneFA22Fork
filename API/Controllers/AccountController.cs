@@ -31,7 +31,7 @@ public class AccountController : ControllerBase
         var response = _mapper.Map<IEnumerable<Account>>(result);
         return Ok(response);
     }
-    
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id)
     {
@@ -45,18 +45,18 @@ public class AccountController : ControllerBase
     // PUT: api/Accounts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateAccount(int id, [FromBody]  AccountUpdateDto account)
+    public async Task<IActionResult> UpdateAccount(int id, [FromBody] AccountUpdateDto account)
     {
         if (id != account.AccountId)
             return BadRequest();
 
-        var updateAccount = new Account()
+        var updateAccount = new Account
         {
             Username = account.Username,
             Password = account.Password,
             Email = account.Email,
             Phone = account.Phone,
-            RoleId = account.RoleId,
+            RoleId = account.RoleId
         };
 
         var result = await _serviceWrapper.Accounts.UpdateAccount(updateAccount);

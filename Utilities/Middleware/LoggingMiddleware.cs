@@ -22,7 +22,8 @@ public class LoggingMiddleware
     private readonly RequestDelegate _next;
     private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
 
-    public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IActionResultExecutor<ObjectResult> executor)
+    public LoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory,
+        IActionResultExecutor<ObjectResult> executor)
     {
         _next = next;
         _executor = executor;
@@ -42,26 +43,25 @@ public class LoggingMiddleware
         catch (Exception ex)
         {
             var routeData = context.GetRouteData();
-            
+
             // TODO: implement logging to files here, adding 3rd party logger here ^^
             _logger.LogError(ex,
                 "An unhandled exception has occurred while executing the request. " +
                 "\nUrl: {RequestDisplayUrl}. " +
                 "\nRequest Data: {RequestData}", requestDisplayUrl, requestData);
-            
+
             var actionContext = new ActionContext(context, routeData, EmptyActionDescriptor);
-            
+
             var result = new ObjectResult(
                 new ErrorResponse(
                     "Error processing request. Server error."))
             {
                 StatusCode = (int)HttpStatusCode.InternalServerError
             };
-                        
+
             ClearCacheHeaders(context.Response);
-            
-            await _executor.ExecuteAsync(actionContext, result); 
-                       
+
+            await _executor.ExecuteAsync(actionContext, result);
         }
     }
 

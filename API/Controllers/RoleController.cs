@@ -1,5 +1,4 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
 using Domain.EntitiesDTO.Role;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +25,7 @@ public class RoleController : ControllerBase
         var result = await _serviceWrapper.Roles.GetRoleList();
         if (!result.Any())
             return NotFound("No role available");
-        
+
         var response = _mapper.Map<IEnumerable<Role>>(result);
 
         return Ok(response);
@@ -53,15 +52,15 @@ public class RoleController : ControllerBase
         if (id != role.RoleId)
             return BadRequest("Id mismatch");
 
-        var updateRole = new Role()
+        var updateRole = new Role
         {
-            RoleName = role.RoleName,
+            RoleName = role.RoleName
         };
-        
+
         var result = await _serviceWrapper.Roles.UpdateRole(updateRole);
         if (result == null)
             return NotFound("Updating role failed");
-        
+
         return Ok("Role updated successfully");
     }
 }
