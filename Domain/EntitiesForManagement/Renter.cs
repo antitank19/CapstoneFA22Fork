@@ -15,7 +15,6 @@ public class Renter
     public string FullName { get; set; }
     public DateTime BirthDate { get; set; }
     public bool Status { get; set; }
-    public int RoleId { get; set; }
     public string Image { get; set; }
     public string Address { get; set; }
     public string Gender { get; set; }
