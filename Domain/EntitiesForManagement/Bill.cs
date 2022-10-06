@@ -14,6 +14,4 @@ public class Bill
     public string Status { get; set; }
     public int InvoiceId { get; set; }
     public virtual Invoice Invoice { get; set; }
-    public int PaymentId { get; set; }
-    public virtual Payment Payment { get; set; }
 }

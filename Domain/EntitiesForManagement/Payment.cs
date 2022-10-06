@@ -7,7 +7,6 @@ public class Payment
 {
     public Payment()
     {
-        Bills = new HashSet<Bill>();
     }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -22,5 +21,4 @@ public class Payment
     public virtual Order Order { get; set; }
     public int PaymentTypeId { get; set; }
     public virtual PaymentType PaymentType { get; set; }
-    public virtual ICollection<Bill> Bills { get; set; }
 }
