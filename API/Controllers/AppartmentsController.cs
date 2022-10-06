@@ -1,88 +1,91 @@
-﻿using Domain.EntitiesForManagement;
-using Infrastructure;
+﻿using AutoMapper;
+using Domain.EntitiesDTO.Apartment;
+using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Service.IService;
 
-namespace net6API.Controllers;
+namespace API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class ApartmentsController : ControllerBase
 {
-    private readonly ApplicationContext _context;
-
-    public ApartmentsController(ApplicationContext context)
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
+    
+    public ApartmentsController(IServiceWrapper serviceWrapper, IMapper mapper)
     {
-        _context = context;
+        _serviceWrapper = serviceWrapper;
+        _mapper = mapper;
     }
 
     // GET: api/Apartments
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Apartment>>> GetApartments()
+    public async Task<ActionResult> GetApartments()
     {
-        return await _context.Apartments.ToListAsync();
+        var result = await _serviceWrapper.Apartments.GetApartmentList();
+        if (!result.Any())
+            return NotFound("No apartment available");
+
+        var response = _mapper.Map<IEnumerable<Apartment>>(result);
+        return Ok(response);
     }
 
     // GET: api/Apartments/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Apartment>> GetApartment(int id)
     {
-        var apartment = await _context.Apartments.FindAsync(id);
+        var result = await _serviceWrapper.Apartments.GetApartmentById(id);
+        if (result == null)
+            return NotFound("Apartment not found");
 
-        if (apartment == null) return NotFound();
-
-        return apartment;
+        return Ok(result);
     }
 
     // PUT: api/Apartments/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutApartment(int id, Apartment apartment)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutApartment(int id, ApartmentUpdateDto apartment)
     {
-        if (id != apartment.ApartmentId) return BadRequest();
-
-        _context.Entry(apartment).State = EntityState.Modified;
-
-        try
+        if (id != apartment.ApartmentId) 
+            return BadRequest();
+        var updateApartment = new Apartment
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!ApartmentExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
+            Name = apartment.Name,
+            AreaId = apartment.AreaId,
+        };
+        var result = await _serviceWrapper.Apartments.UpdateApartment(updateApartment);
+        if (result == null)
+            return NotFound("Update apartment failed");
+        
+        return Ok("Update apartment successfully");
     }
 
     // POST: api/Apartments
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Apartment>> PostApartment(Apartment apartment)
+    public async Task<ActionResult<Apartment>> AddApartment(ApartmentUpdateDto apartment)
     {
-        _context.Apartments.Add(apartment);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetApartment", new { id = apartment.ApartmentId }, apartment);
+        var newApartment = new Apartment
+        {
+            Name = apartment.Name,
+            AreaId = apartment.AreaId,
+        };
+        
+        var result = await _serviceWrapper.Apartments.AddApartment(newApartment);
+        if (result == null)
+            return NotFound("Add apartment failed");
+        return Ok("Add apartment successfully");
     }
 
     // DELETE: api/Apartments/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteApartment(int id)
     {
-        var apartment = await _context.Apartments.FindAsync(id);
-        if (apartment == null) return NotFound();
+        var result = await _serviceWrapper.Apartments.DeleteApartment(id);
+        if (!result)
+            return NotFound("Delete apartment failed");
 
-        _context.Apartments.Remove(apartment);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool ApartmentExists(int id)
-    {
-        return _context.Apartments.Any(e => e.ApartmentId == id);
+        return Ok("Delete apartment successfully");
     }
 }

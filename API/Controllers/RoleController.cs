@@ -1,5 +1,6 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Role;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -20,27 +21,47 @@ public class RoleController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult/*<IEnumerable<Role>>*/> GetRoleList()
+    public async Task<ActionResult> GetRoleList()
     {
-        IEnumerable<Role> list =(await _serviceWrapper.Roles.GetRoleList()).AsQueryable();
-        return Ok("Ok");
+        var result = await _serviceWrapper.Roles.GetRoleList();
+        if (!result.Any())
+            return NotFound("No role available");
+        
+        var response = _mapper.Map<IEnumerable<Role>>(result);
+
+        return Ok(response);
     }
 
+    /*
     [HttpDelete]
     public async Task<IActionResult> DeleteRole(int id)
     {
-        return Ok("DeleteExpenseHistory");
+        
     }
 
+    
     [HttpPost]
-    public async Task<IActionResult> AddRole([FromBody] RoleGetDto roleDto)
+    public async Task<IActionResult> AddRole([FromBody] RoleGetDto role)
     {
-        return Ok("AddExpenseHistory");
+        
     }
+    */
 
     [HttpPut]
-    public async Task<IActionResult> UpdateRole([FromBody] RoleGetDto roleDto)
+    public async Task<IActionResult> UpdateRole(int id, [FromBody] RoleUpdateDto role)
     {
-        return Ok("UpdateExpenseHistory");
+        if (id != role.RoleId)
+            return BadRequest("Id mismatch");
+
+        var updateRole = new Role()
+        {
+            RoleName = role.RoleName,
+        };
+        
+        var result = await _serviceWrapper.Roles.UpdateRole(updateRole);
+        if (result == null)
+            return NotFound("Updating role failed");
+        
+        return Ok("Role updated successfully");
     }
 }

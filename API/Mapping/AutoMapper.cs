@@ -1,5 +1,8 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Account;
+using Domain.EntitiesDTO.Renter;
+using Domain.EntitiesDTO.Role;
 using Domain.EntitiesForManagement;
 
 namespace API.Mapping;

@@ -1,4 +1,6 @@
-﻿namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesDTO.Apartment;
+
+namespace Domain.EntitiesDTO;
 
 public class AreaGetDto
 {
@@ -6,5 +8,5 @@ public class AreaGetDto
     public string Name { get; set; }
     public string Address { get; set; }
     public string Status { get; set; }
-    public virtual ICollection<AppartmentGetDto> Appartments { get; set; }
+    public virtual ICollection<ApartmentGetDto> Appartments { get; set; }
 }

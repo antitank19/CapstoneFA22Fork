@@ -71,6 +71,8 @@ public class AccountRepository : IAccountRepository
         accountData.Email = account?.Email ?? accountData.Email;
         accountData.Password = account?.Password ?? accountData.Password;
         accountData.Phone = account?.Phone ?? accountData.Phone;
+        accountData.Username = account?.Username ?? accountData.Username;
+        accountData.RoleId = account?.RoleId ?? accountData.RoleId;
         await _context.SaveChangesAsync();
 
         return accountData;

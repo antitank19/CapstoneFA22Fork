@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Domain.EntitiesDTO.Major;
 using Domain.EntitiesForManagement;
-using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Service.IService;
 
 namespace API.Controllers;
@@ -33,69 +31,46 @@ public class MajorsController : ControllerBase
         return Ok(response);
     }
 
-} /*
-
 // GET: api/Majors/5
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Major>> GetMajor(int id)
     {
-        var major = await _context.Majors.FindAsync(id);
+        var result = await _serviceWrapper.Majors.GetMajorById(id);
+        if (result == null)
+            return NotFound("No major found");
 
-        if (major == null) return NotFound();
-
-        return major;
+        return Ok(result);
     }
 
     // PUT: api/Majors/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutMajor(int id, Major major)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateMajor(int id, MajorUpdateDto major)
     {
-        if (id != major.MajorId) return BadRequest();
+        if (id != major.MajorId)
+            return BadRequest();
 
-        _context.Entry(major).State = EntityState.Modified;
-
-        try
+        var updateMajor = new Major()
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!MajorExists(id))
-                return NotFound();
-            throw;
-        }
+            Name = major.Name
+        };
 
-        return NoContent();
+        var result = await _serviceWrapper.Majors.UpdateMajor(updateMajor);
+        if (result == null)
+            return NotFound("Updating major failed");
+
+        return Ok($"Major updated at : {DateTime.Now.ToShortDateString()}");
     }
-
-    // POST: api/Majors
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPost]
-    public async Task<ActionResult<Major>> PostMajor(Major major)
-    {
-        _context.Majors.Add(major);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetMajor", new { id = major.MajorId }, major);
-    }
-
+    
     // DELETE: api/Majors/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteMajor(int id)
     {
-        var major = await _context.Majors.FindAsync(id);
-        if (major == null) return NotFound();
+        var result = await _serviceWrapper.Majors.DeleteMajor(id);
+        if (!result)
+            return NotFound("Deleting major failed");
 
-        _context.Majors.Remove(major);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        return Ok($"Major deleted at : {DateTime.Now.ToShortDateString()}");
     }
 
-    private bool MajorExists(int id)
-    {
-        return _context.Majors.Any(e => e.MajorId == id);
-    }
 }
-*/

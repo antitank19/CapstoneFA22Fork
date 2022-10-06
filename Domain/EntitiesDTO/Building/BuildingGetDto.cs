@@ -1,3 +1,5 @@
+using Domain.EntitiesDTO.Apartment;
+
 namespace Domain.EntitiesDTO;
 
 public class BuildingGetDto
@@ -15,6 +17,6 @@ public class BuildingGetDto
     public int? CoordinateY { get; set; }
     public int Status { get; set; }
     public int AppartmentId { get; set; }
-    public virtual AppartmentGetDto Appartment { get; set; }
+    public virtual ApartmentGetDto Apartment { get; set; }
     public virtual ICollection<FlatGetDto> Flats { get; set; }
 }
