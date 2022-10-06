@@ -30,10 +30,10 @@ public class RoleRepository : IRoleRepository
     /// <param name="roleId"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public IQueryable<Role> GetRoleDetail(int roleId)
+    public async Task<Role> GetRoleDetail(int roleId)
     {
-        return _context.Roles
-            .Where(x => x.RoleId == roleId);
+        return await _context.Roles
+            .SingleOrDefaultAsync(x => x.RoleId == roleId);
     }
 
     /// <summary>

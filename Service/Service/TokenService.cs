@@ -29,14 +29,14 @@ public class TokenService : ITokenService
         };
 
         var securityKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_configuration["Jwt:NotTokenKeyForSureSourceTrustMeDude"]));
+            Encoding.UTF8.GetBytes(_configuration["JwtToken:NotTokenKeyForSureSourceTrustMeDude"]));
 
         var credential = new SigningCredentials(
             securityKey, SecurityAlgorithms.HmacSha512Signature);
 
         var token = new JwtSecurityToken(
-            _configuration["Jwt:Issuer"],
-            _configuration["Jwt:Audience"],
+            _configuration["JwtToken:Issuer"],
+            _configuration["JwtToken:Audience"],
             claims,
             expires: DateTime.Now.AddMinutes(30),
             signingCredentials: credential);
@@ -54,16 +54,15 @@ public class TokenService : ITokenService
             new(ClaimTypes.Email, employee.Email),
             new(ClaimTypes.NameIdentifier, employee.AccountId.ToString())
         };
-
         var securityKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_configuration["Jwt:NotTokenKeyForSureSourceTrustMeDude"]));
+            Encoding.UTF8.GetBytes(_configuration["JwtToken:NotTokenKeyForSureSourceTrustMeDude"]));
 
         var credential = new SigningCredentials(
             securityKey, SecurityAlgorithms.HmacSha512Signature);
 
         var token = new JwtSecurityToken(
-            _configuration["Jwt:Issuer"],
-            _configuration["Jwt:Audience"],
+            _configuration["JwtToken:Issuer"],
+            _configuration["JwtToken:Audience"],
             claims,
             expires: DateTime.Now.AddMinutes(30),
             signingCredentials: credential);

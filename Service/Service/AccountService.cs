@@ -45,4 +45,15 @@ public class AccountService : IAccountService
     {
         return await _repositoryWrapper.Accounts.DeleteAccount(accountId);
     }
+
+    public async Task<Account> Login(string username, string password)
+    {
+        var list = _repositoryWrapper.Accounts.GetAccountList();
+        Account logined = await list.SingleOrDefaultAsync(e => e.Username == username && e.Password == password);
+        if (logined != null)
+        {
+            logined.Role = await _repositoryWrapper.Roles.GetRoleDetail(logined.RoleId);
+        }
+        return logined;
+    }
 }

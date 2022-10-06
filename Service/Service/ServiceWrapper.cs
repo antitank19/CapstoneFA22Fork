@@ -1,6 +1,7 @@
 ﻿using Application.IRepository;
 using Application.Repository;
 using Infrastructure;
+using Microsoft.Extensions.Configuration;
 using Service.IService;
 
 namespace Service.Service;
@@ -8,10 +9,12 @@ namespace Service.Service;
 public class ServiceWrapper : IServiceWrapper
 {
     //private readonly ApplicationContext context;
+    private readonly IConfiguration configuration;
     private readonly IRepositoryWrapper repositories;
 
-    public ServiceWrapper(IRepositoryWrapper? repositories, ApplicationContext? context)
+    public ServiceWrapper(IRepositoryWrapper? repositories, ApplicationContext? context, IConfiguration configuration)
     {
+        this.configuration = configuration;
         if (repositories == null)
         {
             if (context == null)
@@ -25,7 +28,15 @@ public class ServiceWrapper : IServiceWrapper
         }
     }
 
-    public ITokenService Tokens { get; set; }
+    public ITokenService Tokens
+    {
+        get
+        {
+            if (tokens == null)
+                tokens = new TokenService(configuration);
+            return tokens;
+        }
+    }
 
 
     public IAccountService Accounts

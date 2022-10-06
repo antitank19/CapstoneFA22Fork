@@ -22,8 +22,7 @@ public class RoleService : IRoleService
 
     public async Task<Role?> GetRoleById(int roleId)
     {
-        return await _repositoryWrapper.Roles.GetRoleDetail(roleId)
-            .FirstOrDefaultAsync();
+        return await _repositoryWrapper.Roles.GetRoleDetail(roleId);
     }
 
     public async Task<Role?> AddRole(Role role)

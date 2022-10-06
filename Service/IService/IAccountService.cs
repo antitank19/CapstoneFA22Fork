@@ -10,4 +10,5 @@ public interface IAccountService
     public Task<Account?> UpdateAccount(Account account);
     public Task<bool> ToggleAccountStatus(int accountId);
     public Task<bool> DeleteAccount(int accountId);
+    public Task<Account> Login(string username, string password);
 }

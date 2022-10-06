@@ -10,8 +10,8 @@ public class AutoMapper : Profile
     {
         // TODO : Remapping all DTOs and Entities
         // Basic DTOs
-        CreateMap<Building, BuildingGetDto>()
-            .ReverseMap();
+        MapAccount();
+        MapBuilding();
         CreateMap<ContractHistory, ContractHistoryGetDto>()
             .ReverseMap();
         CreateMap<Contract, ContractGetDto>()
@@ -38,5 +38,22 @@ public class AutoMapper : Profile
         CreateMap<Apartment, WardDto>()
             .ReverseMap();
         */
+    }
+
+    private void MapAccount()
+    {
+        CreateMap<Account, AccountGetDto>()
+            .ReverseMap()
+            .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<AccountCreateDto, Account>()
+            .ReverseMap();
+        CreateMap<AccountUpdateDto, Account>()
+            .ReverseMap();
+    }
+
+    private void MapBuilding()
+    {
+        CreateMap<Building, BuildingGetDto>()
+                    .ReverseMap();
     }
 }

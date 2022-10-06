@@ -1,11 +1,12 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
+using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 
 namespace API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class RoleController : ControllerBase
 {
@@ -19,9 +20,10 @@ public class RoleController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetRoleList()
+    public async Task<ActionResult/*<IEnumerable<Role>>*/> GetRoleList()
     {
-        return Ok("Role");
+        IEnumerable<Role> list =(await _serviceWrapper.Roles.GetRoleList()).AsQueryable();
+        return Ok("Ok");
     }
 
     [HttpDelete]
