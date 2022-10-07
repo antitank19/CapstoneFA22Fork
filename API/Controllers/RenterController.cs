@@ -87,7 +87,7 @@ public class RenterController : ControllerBase
         var renter = _mapper.Map<Renter>(renterDto);
         await services.Renters.AddRenter(renter);
 
-        return CreatedAtAction("GetRenter", new { id = renterDto.RenterId }, renterDto);
+        return CreatedAtAction("GetRenter", renterDto);
     }
 
     // POST: api/Accounts/Login

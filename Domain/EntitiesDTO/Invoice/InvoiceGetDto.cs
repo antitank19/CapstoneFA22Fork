@@ -11,9 +11,10 @@ public class InvoiceGetDto
     public string Detail { get; set; }
     public string Status { get; set; }
     public int ContractId { get; set; }
-    public virtual Contract Contract { get; set; }
+    public virtual ContractGetDto Contract { get; set; }
 
-    [ForeignKey("Sender")] public int SenderId { get; set; }
+    [ForeignKey("Sender")] 
+    public int SenderId { get; set; }
 
     public virtual AccountGetDto Sender { get; set; }
     public virtual ICollection<InvoiceHistoryGetDto> InvoiceHistories { get; set; }

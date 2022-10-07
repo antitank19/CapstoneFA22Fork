@@ -14,8 +14,8 @@ public class Feedback
     public DateTime CreateDate { get; set; }
     public int FlatId { get; set; }
     public virtual Flat Flat { get; set; }
-    public int FeedbackTypeId { get; set; }
     public int RenterId { get; set; }
-    public Renter Renter { get; set; }
+    public virtual Renter Renter { get; set; }
+    public int FeedbackTypeId { get; set; }
     public virtual FeedbackType FeedbackType { get; set; }
 }

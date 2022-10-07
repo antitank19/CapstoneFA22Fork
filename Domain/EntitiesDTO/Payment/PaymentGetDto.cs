@@ -13,5 +13,4 @@ public class PaymentGetDto
     public virtual OrderGetDto Order { get; set; }
     public int PaymentTypeId { get; set; }
     public virtual PaymentTypeGetDto PaymentType { get; set; }
-    public virtual ICollection<BillGetDto> Bills { get; set; }
 }

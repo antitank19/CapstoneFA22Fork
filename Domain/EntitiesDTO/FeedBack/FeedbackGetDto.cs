@@ -8,8 +8,8 @@ public class FeedbackGetDto
     public DateTime CreateDate { get; set; }
     public int FlatId { get; set; }
     public virtual FlatGetDto Flat { get; set; }
-    public int FeedbackTypeId { get; set; }
     public int RenterId { get; set; }
     public RenterGetDto Renter { get; set; }
+    public int FeedbackTypeId { get; set; }
     public virtual FeedbackTypeGetDto FeedbackType { get; set; }
 }

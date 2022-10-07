@@ -216,9 +216,6 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("ContractId");
 
                     b.HasIndex("FlatId");
@@ -298,7 +295,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ExpenseId")
+                    b.Property<int>("ExpenseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -649,11 +646,11 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentTypeId"), 1L, 1);
 
-                    b.Property<string>("PaymentName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PaymentStatus")
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -889,7 +886,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.EntitiesForManagement.Apartment", b =>
                 {
                     b.HasOne("Domain.EntitiesForManagement.Area", "Area")
-                        .WithMany("Appartments")
+                        .WithMany("Apartments")
                         .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -970,9 +967,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.EntitiesForManagement.ExpenseHistory", b =>
                 {
-                    b.HasOne("Domain.EntitiesForManagement.Expense", null)
+                    b.HasOne("Domain.EntitiesForManagement.Expense", "Expense")
                         .WithMany("ExpenseHistory")
-                        .HasForeignKey("ExpenseId");
+                        .HasForeignKey("ExpenseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Expense");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Feedback", b =>
@@ -990,7 +991,7 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.EntitiesForManagement.Renter", "Renter")
-                        .WithMany()
+                        .WithMany("Feedbacks")
                         .HasForeignKey("RenterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1111,13 +1112,13 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.EntitiesForManagement.Renter", b =>
                 {
                     b.HasOne("Domain.EntitiesForManagement.Major", "Major")
-                        .WithMany()
+                        .WithMany("Renters")
                         .HasForeignKey("MajorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.EntitiesForManagement.University", "University")
-                        .WithMany("Users")
+                        .WithMany("Renters")
                         .HasForeignKey("UniversityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1163,7 +1164,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Area", b =>
                 {
-                    b.Navigation("Appartments");
+                    b.Navigation("Apartments");
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Building", b =>
@@ -1212,6 +1213,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("InvoiceHistories");
                 });
 
+            modelBuilder.Entity("Domain.EntitiesForManagement.Major", b =>
+                {
+                    b.Navigation("Renters");
+                });
+
             modelBuilder.Entity("Domain.EntitiesForManagement.Order", b =>
                 {
                     b.Navigation("Details");
@@ -1225,6 +1231,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.EntitiesForManagement.Renter", b =>
                 {
                     b.Navigation("Contracts");
+
+                    b.Navigation("Feedbacks");
 
                     b.Navigation("Orders");
                 });
@@ -1246,7 +1254,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.EntitiesForManagement.University", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("Renters");
                 });
 #pragma warning restore 612, 618
         }

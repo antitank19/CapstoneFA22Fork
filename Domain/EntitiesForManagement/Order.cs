@@ -5,6 +5,10 @@ namespace Domain.EntitiesForManagement;
 
 public class Order
 {
+    public Order()
+    {
+        Details = new HashSet<OrderDetail>();
+    }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int OrderId { get; set; }

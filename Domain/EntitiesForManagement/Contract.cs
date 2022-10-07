@@ -15,7 +15,6 @@ public class Contract
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ContractId { get; set; }
 
-    public int UserId { get; set; } // User Id
     public DateTime DateSigned { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
@@ -24,6 +23,7 @@ public class Contract
     public float Price { get; set; }
     public int FlatId { get; set; }
     public Flat Flat { get; set; }
+    public int RenterId { get; set; } // User Id
     public virtual Renter Renter { get; set; }
     public virtual ICollection<Invoice> Invoices { get; set; }
     public virtual ICollection<ContractHistory> ContractHistories { get; set; }

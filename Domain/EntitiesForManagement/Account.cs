@@ -5,6 +5,11 @@ namespace Domain.EntitiesForManagement;
 
 public class Account
 {
+    public Account()
+    {
+        Expenses = new HashSet<Expense>();
+        Invoices = new HashSet<Invoice>();
+    }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int AccountId { get; set; }

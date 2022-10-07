@@ -5,6 +5,10 @@ namespace Domain.EntitiesForManagement;
 
 public class FeedbackType
 {
+    public FeedbackType()
+    {
+        Feedbacks = new HashSet<Feedback>();
+    }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int FeedbackTypeId { get; set; }

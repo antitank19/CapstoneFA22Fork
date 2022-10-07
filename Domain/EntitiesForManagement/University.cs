@@ -7,7 +7,7 @@ public class University
 {
     public University()
     {
-        Users = new HashSet<Renter>();
+        Renters = new HashSet<Renter>();
     }
 
     [Key]
@@ -19,5 +19,5 @@ public class University
     public string Image { get; set; }
     public string Status { get; set; }
     public string Address { get; set; }
-    public virtual ICollection<Renter> Users { get; set; }
+    public virtual ICollection<Renter> Renters { get; set; }
 }

@@ -17,8 +17,6 @@ public class Building
     public string BuildingName { get; set; }
 
     public string ImageUrl { get; set; }
-
-    //public virtual Address Address { get; set; }
     public string Description { get; set; }
     public int? TotalFloor { get; set; }
     public int? TotalRooms { get; set; }
@@ -26,7 +24,8 @@ public class Building
     public int? CoordinateY { get; set; }
     public bool Status { get; set; }
 
-    [ForeignKey("Apartment")] public int ApartmentId { get; set; }
+    [ForeignKey("Apartment")] 
+    public int ApartmentId { get; set; }
 
     public virtual Apartment Apartment { get; set; }
     public virtual ICollection<Flat> Flats { get; set; }

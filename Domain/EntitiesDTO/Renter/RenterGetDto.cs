@@ -1,4 +1,6 @@
-﻿namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesForManagement;
+
+namespace Domain.EntitiesDTO;
 
 public class RenterGetDto
 {
@@ -15,11 +17,13 @@ public class RenterGetDto
 
     public string Gender { get; set; }
 
-    //public int UniversityId { get; set; }
+    public int UniversityId { get; set; }
     public virtual UniversityGetDto University { get; set; }
 
-    //public int MajorId { get; set; }
+    public int MajorId { get; set; }
     public virtual MajorGetDto Major { get; set; }
-    //public virtual ICollection<ContractGetDto> Contracts { get; set; }
-    //public virtual ICollection<OrderGetDto> Orders { get; set; }
+    public virtual ICollection<ContractGetDto> Contracts { get; set; }
+    public virtual ICollection<OrderGetDto> Orders { get; set; }
+    public virtual ICollection<FeedbackGetDto> Feedbacks { get; set; }
+
 }

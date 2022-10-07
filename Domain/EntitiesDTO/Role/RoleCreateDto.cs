@@ -1,8 +1,7 @@
 namespace Domain.EntitiesDTO;
 
-public class RoleAddDto
+public class RoleCreateDto
 {
-    public int RoleId { get; set; }
     public string RoleName { get; set; }
     public bool Status { get; set; }
 }

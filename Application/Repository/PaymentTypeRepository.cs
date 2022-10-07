@@ -58,8 +58,8 @@ public class PaymentTypeRepository : IPaymentTypeRepository
         if (paymentTypeData == null)
             return null;
 
-        paymentTypeData.PaymentName = paymentType?.PaymentName ?? paymentTypeData.PaymentName;
-        paymentTypeData.PaymentStatus = paymentType?.PaymentStatus ?? paymentTypeData.PaymentStatus;
+        paymentTypeData.Name = paymentType?.Name ?? paymentTypeData.Name;
+        paymentTypeData.Status = paymentType?.Status ?? paymentTypeData.Status;
 
         await _context.SaveChangesAsync();
         return paymentTypeData;

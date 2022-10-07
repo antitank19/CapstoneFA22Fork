@@ -5,6 +5,10 @@ namespace Domain.EntitiesForManagement;
 
 public class FlatType
 {
+    public FlatType()
+    {
+        Flats = new HashSet<Flat>();
+    }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int FlatTypeId { get; set; }

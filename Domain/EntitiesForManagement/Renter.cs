@@ -25,4 +25,5 @@ public class Renter
     public Major Major { get; set; }
     public virtual ICollection<Contract> Contracts { get; set; }
     public virtual ICollection<Order> Orders { get; set; }
+    public virtual ICollection<Feedback> Feedbacks { get; set; }
 }

@@ -5,6 +5,10 @@ namespace Domain.EntitiesForManagement;
 
 public class ExpenseType
 {
+    public ExpenseType()
+    {
+        Expenses = new HashSet<Expense>();
+    }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ExpenseTypeId { get; set; }

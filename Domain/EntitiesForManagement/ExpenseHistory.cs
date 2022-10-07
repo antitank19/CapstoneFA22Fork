@@ -11,4 +11,6 @@ public class ExpenseHistory
 
     public string Name { get; set; }
     public DateTime Date { get; set; }
+    public int ExpenseId { get; set; }
+    public virtual Expense Expense { get; set; }
 }

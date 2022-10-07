@@ -5,6 +5,11 @@ namespace Domain.EntitiesForManagement;
 
 public class Invoice
 {
+    public Invoice()
+    {
+        InvoiceHistories=new HashSet<InvoiceHistory>();
+        Bills=new HashSet<Bill>();
+    }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int InvoiceId { get; set; }

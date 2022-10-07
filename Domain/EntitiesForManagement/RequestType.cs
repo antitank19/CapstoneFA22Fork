@@ -5,6 +5,10 @@ namespace Domain.EntitiesForManagement;
 
 public class RequestType
 {
+    public RequestType()
+    {
+        Requests=new HashSet<Request>();   
+    }
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int RequestTypeId { get; set; }
