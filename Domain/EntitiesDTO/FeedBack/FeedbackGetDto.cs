@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.Renter;
-
-namespace Domain.EntitiesDTO;
+﻿namespace Domain.EntitiesDTO;
 
 public class FeedbackGetDto
 {

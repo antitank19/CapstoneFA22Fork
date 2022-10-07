@@ -1,6 +1,6 @@
-namespace Domain.EntitiesDTO.Major;
+namespace Domain.EntitiesDTO;
 
-public class MajorDto
+public class MajorGetDto
 {
     public int MajorId { get; set; }
 

@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Apartment;
+﻿namespace Domain.EntitiesDTO;
 
 public class ApartmentUpdateDto
 {

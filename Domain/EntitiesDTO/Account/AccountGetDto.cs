@@ -1,4 +1,6 @@
-﻿namespace Domain.EntitiesDTO.Account;
+﻿using Domain.EntitiesForManagement;
+
+namespace Domain.EntitiesDTO;
 
 public class AccountGetDto
 {
@@ -10,7 +12,7 @@ public class AccountGetDto
     public bool Status { get; set; }
 
     public int RoleId { get; set; }
-    //public virtual RoleGetDto Role { get; set; }
+    public virtual RoleGetDto Role { get; set; }
     //public virtual ICollection<ExpenseGetDto> Expenses { get; set; }
     //public virtual ICollection<InvoiceGetDto> Invoices { get; set; }
 }

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Domain.EntitiesDTO.Account;
+using Domain.EntitiesDTO;
 
 namespace Domain.EntitiesDTO;
 

@@ -1,7 +1,6 @@
 using API.Models;
 using AutoMapper;
 using Domain.EntitiesDTO;
-using Domain.EntitiesDTO.Renter;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;

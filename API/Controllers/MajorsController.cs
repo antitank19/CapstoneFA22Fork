@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.EntitiesDTO.Major;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -21,7 +21,7 @@ public class MajorsController : ControllerBase
 
     // GET: api/Majors
     [HttpGet]
-    public async Task<ActionResult<MajorDto>> GetMajors()
+    public async Task<ActionResult<MajorGetDto>> GetMajors()
     {
         var result = await _serviceWrapper.Majors.GetMajorList();
         if (!result.Any())

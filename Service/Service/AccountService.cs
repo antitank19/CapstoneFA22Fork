@@ -14,10 +14,10 @@ public class AccountService : IAccountService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Account?>> GetAccountList()
+    public async Task<IQueryable<Account>> GetAccountList()
     {
-        return await _repositoryWrapper.Accounts.GetAccountList()
-            .ToListAsync();
+        return _repositoryWrapper.Accounts.GetAccountList()
+            .AsQueryable();
     }
 
     public async Task<Account?> GetAccountById(int accountId)

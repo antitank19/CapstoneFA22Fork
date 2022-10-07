@@ -1,5 +1,3 @@
-using Domain.EntitiesDTO.Apartment;
-
 namespace Domain.EntitiesDTO;
 
 public class BuildingGetDto
