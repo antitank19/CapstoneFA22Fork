@@ -7,7 +7,7 @@ using Service.IService;
 
 namespace API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class UniversityController : ControllerBase
 {
@@ -15,16 +15,13 @@ public class UniversityController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public UniversityController(IMapper mapper, IServiceWrapper serviceWrapper)
+    public UniversityController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
-    }
-
-    public UniversityController(ApplicationContext context)
-    {
         _context = context;
     }
+
 
     // GET: api/Universities
     [HttpGet]

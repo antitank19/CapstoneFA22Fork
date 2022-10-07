@@ -7,7 +7,7 @@ using Service.IService;
 
 namespace API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class PaymentController : ControllerBase
 {
@@ -15,14 +15,10 @@ public class PaymentController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public PaymentController(IMapper mapper, IServiceWrapper serviceWrapper)
+    public PaymentController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
-    }
-
-    public PaymentController(ApplicationContext context)
-    {
         _context = context;
     }
 

@@ -7,7 +7,7 @@ using Service.IService;
 
 namespace API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class BuildingController : ControllerBase
 {
@@ -15,14 +15,10 @@ public class BuildingController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public BuildingController(IMapper mapper, IServiceWrapper serviceWrapper)
+    public BuildingController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
-    }
-
-    public BuildingController(ApplicationContext context)
-    {
         _context = context;
     }
 

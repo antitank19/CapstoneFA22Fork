@@ -9,7 +9,7 @@ using AutoMapper.AspNet.OData;
 
 namespace API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class AccountController : ControllerBase
 {
@@ -31,14 +31,11 @@ public class AccountController : ControllerBase
         if (!result.Any())
             return NotFound("No account available");
 
-        //var response = "abc";
-        //IQueryable<AccountGetDto> response;
+        
         //if (options == null)
         //    response = _mapper.Map<IEnumerable<AccountGetDto>>(result.AsQueryable()).AsQueryable();
         //else
-           var response = await (await _serviceWrapper.Accounts.GetAccountList()).AsQueryable().GetQueryAsync(_mapper, options
-               //, new QuerySettings { ODataSettings = new ODataSettings { HandleNullPropagation = HandleNullPropagationOption.Default } }
-               );
+           var response = await (/*await _serviceWrapper.Accounts.GetAccountList()*/result).AsQueryable().GetQueryAsync(_mapper, options);
         return Ok(response);
     }
 

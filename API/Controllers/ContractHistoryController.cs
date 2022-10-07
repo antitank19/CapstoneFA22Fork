@@ -7,7 +7,7 @@ using Service.IService;
 
 namespace API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ContractHistoryController : ControllerBase
 {
@@ -15,16 +15,13 @@ public class ContractHistoryController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public ContractHistoryController(IMapper mapper, IServiceWrapper serviceWrapper)
+    public ContractHistoryController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
-    }
-
-    public ContractHistoryController(ApplicationContext context)
-    {
         _context = context;
     }
+
 
     // GET: api/ContractHistories
     [HttpGet]
