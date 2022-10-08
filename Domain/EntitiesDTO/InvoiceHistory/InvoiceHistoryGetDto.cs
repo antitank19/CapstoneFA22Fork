@@ -1,4 +1,6 @@
-﻿namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesDTO.Invoice;
+
+namespace Domain.EntitiesDTO.InvoiceHistory;
 
 public class InvoiceHistoryGetDto
 {

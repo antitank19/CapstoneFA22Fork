@@ -9,6 +9,7 @@ public class Order
     {
         Details = new HashSet<OrderDetail>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int OrderId { get; set; }

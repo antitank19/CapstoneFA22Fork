@@ -9,6 +9,7 @@ public class Area
     {
         Apartments = new HashSet<Apartment>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int AreaId { get; set; }

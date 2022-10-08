@@ -1,11 +1,10 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO.Account;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Service.IService;
-using AutoMapper.AspNet.OData;
 
 namespace API.Controllers;
 
@@ -27,15 +26,15 @@ public class AccountController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IQueryable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? options)
     {
-        IQueryable<Account> result = (await _serviceWrapper.Accounts.GetAccountList()).AsQueryable();
+        var result = (await _serviceWrapper.Accounts.GetAccountList()).AsQueryable();
         if (!result.Any())
             return NotFound("No account available");
 
-        
         //if (options == null)
         //    response = _mapper.Map<IEnumerable<AccountGetDto>>(result.AsQueryable()).AsQueryable();
         //else
-           var response = await (/*await _serviceWrapper.Accounts.GetAccountList()*/result).AsQueryable().GetQueryAsync(_mapper, options);
+        var response = await /*await _serviceWrapper.Accounts.GetAccountList()*/
+            result.AsQueryable().GetQueryAsync(_mapper, options);
         return Ok(response);
     }
 

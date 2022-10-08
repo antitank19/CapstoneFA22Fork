@@ -1,6 +1,6 @@
-using Domain.EntitiesForManagement;
+using Domain.EntitiesDTO.Renter;
 
-namespace Domain.EntitiesDTO;
+namespace Domain.EntitiesDTO.University;
 
 public class UniversityGetDto
 {
@@ -10,5 +10,5 @@ public class UniversityGetDto
     public string Image { get; set; }
     public string Status { get; set; }
     public string Address { get; set; }
-    public virtual ICollection<Renter> Renters { get; set; }
+    public virtual ICollection<RenterGetDto> Renters { get; set; }
 }

@@ -1,6 +1,8 @@
-using Domain.EntitiesForManagement;
+using Domain.EntitiesDTO.ContractHistory;
+using Domain.EntitiesDTO.Flat;
+using Domain.EntitiesDTO.Invoice;
 
-namespace Domain.EntitiesDTO;
+namespace Domain.EntitiesDTO.Contract;
 
 public class ContractGetDto
 {
@@ -11,7 +13,7 @@ public class ContractGetDto
     public DateTime LastUpdated { get; set; }
     public string ContractStatus { get; set; }
     public int FlatId { get; set; }
-    public Flat Flat { get; set; }
+    public FlatGetDto Flat { get; set; }
     public virtual ICollection<InvoiceGetDto> Invoices { get; set; }
     public virtual ICollection<ContractHistoryGetDto> ContractHistories { get; set; }
 }

@@ -9,6 +9,7 @@ public class ExpenseType
     {
         Expenses = new HashSet<Expense>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ExpenseTypeId { get; set; }

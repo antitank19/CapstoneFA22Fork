@@ -1,4 +1,8 @@
-﻿namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesDTO.Contract;
+using Domain.EntitiesDTO.FeedBack;
+using Domain.EntitiesDTO.FlatType;
+
+namespace Domain.EntitiesDTO.Flat;
 
 public class FlatGetDto
 {

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.EntitiesDTO.Service;
 
-namespace Domain.EntitiesDTO
+public class ServiceUpdateDto
 {
-    public class ServiceUpdateDto
-    {
-        public int ServiceId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
-        public int ServiceTypeId { get; set; }
-    }
+    public int ServiceId { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string Status { get; set; }
+    public int ServiceTypeId { get; set; }
 }

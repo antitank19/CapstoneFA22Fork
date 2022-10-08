@@ -1,7 +1,9 @@
-﻿using Domain.EntitiesForManagement;
-using Infrastructure;
+﻿using AutoMapper;
+using Domain.EntitiesDTO.FeedBack;
+using Domain.EntitiesForManagement;
+using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Service.IService;
 
 namespace net6API.Controllers;
 
@@ -9,80 +11,90 @@ namespace net6API.Controllers;
 [ApiController]
 public class FeedbacksController : ControllerBase
 {
-    private readonly ApplicationContext _context;
-
-    public FeedbacksController(ApplicationContext context)
-    {
-        _context = context;
-    }
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
 
     // GET: api/Feedbacks
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Feedback>>> GetFeedbacks()
+    public FeedbacksController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        return await _context.Feedbacks.ToListAsync();
+        _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<Feedback>> GetFeedbacks()
+    {
+        var result = await _serviceWrapper.Feedbacks.GetFeedbackList();
+        if (!result.Any())
+            return NotFound();
+
+        var response = _mapper.Map<IEnumerable<Feedback>>(result);
+        return Ok(response);
     }
 
     // GET: api/Feedbacks/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Feedback>> GetFeedback(int id)
     {
-        var feedback = await _context.Feedbacks.FindAsync(id);
+        var result = await _serviceWrapper.Feedbacks.GetFeedbackById(id);
+        if (result == null)
+            return NotFound();
 
-        if (feedback == null) return NotFound();
-
-        return feedback;
+        return Ok(result);
     }
 
     // PUT: api/Feedbacks/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutFeedback(int id, Feedback feedback)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutFeedback(int id, FeedbackUpdateDto feedback)
     {
-        if (id != feedback.FeedbackId) return BadRequest();
+        if (id != feedback.FeedbackId)
+            return BadRequest();
 
-        _context.Entry(feedback).State = EntityState.Modified;
-
-        try
+        var updateFeedback = new Feedback
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!FeedbackExists(id))
-                return NotFound();
-            throw;
-        }
+            FeedbackTypeId = feedback.FeedbackTypeId,
+            Description = feedback.Description,
+            FlatId = feedback.RenterId
+        };
 
-        return NoContent();
+        var result = await _serviceWrapper.Feedbacks.UpdateFeedback(updateFeedback);
+        if (result == null)
+            return NotFound();
+
+        return Ok();
     }
+
 
     // POST: api/Feedbacks
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Feedback>> PostFeedback(Feedback feedback)
+    public async Task<ActionResult<Feedback>> PostFeedback(FeedbackCreateDto feedback)
     {
-        _context.Feedbacks.Add(feedback);
-        await _context.SaveChangesAsync();
+        var addNewFeedback = new Feedback
+        {
+            FeedbackTypeId = feedback.FeedbackTypeId,
+            Description = feedback.Description,
+            Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Pending),
+            CreateDate = DateTime.Now,
+            FlatId = feedback.RenterId
+        };
 
-        return CreatedAtAction("GetFeedback", new { id = feedback.FeedbackId }, feedback);
+        var result = await _serviceWrapper.Feedbacks.AddFeedback(addNewFeedback);
+        if (result == null)
+            return BadRequest();
+
+        return CreatedAtAction("GetFeedback", new { id = result.FeedbackId }, result);
     }
 
     // DELETE: api/Feedbacks/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteFeedback(int id)
     {
-        var feedback = await _context.Feedbacks.FindAsync(id);
-        if (feedback == null) return NotFound();
+        var result = await _serviceWrapper.Feedbacks.DeleteFeedback(id);
+        if (!result)
+            return NotFound("Feedback not found");
 
-        _context.Feedbacks.Remove(feedback);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool FeedbackExists(int id)
-    {
-        return _context.Feedbacks.Any(e => e.FeedbackId == id);
+        return Ok("Feedback deleted");
     }
 }

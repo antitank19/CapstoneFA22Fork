@@ -1,4 +1,7 @@
-﻿namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesDTO.Order;
+using Domain.EntitiesDTO.PaymentType;
+
+namespace Domain.EntitiesDTO.Payment;
 
 public class PaymentGetDto
 {

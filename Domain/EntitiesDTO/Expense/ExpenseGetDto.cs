@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Domain.EntitiesDTO;
+﻿using Domain.EntitiesDTO.Account;
+using Domain.EntitiesDTO.ExpenseHistory;
+using Domain.EntitiesDTO.ExpenseType;
 
-namespace Domain.EntitiesDTO;
+namespace Domain.EntitiesDTO.Expense;
 
 public class ExpenseGetDto
 {

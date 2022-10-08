@@ -1,6 +1,6 @@
-﻿using Domain.EntitiesForManagement;
+﻿using Domain.EntitiesDTO.Area;
 
-namespace Domain.EntitiesDTO;
+namespace Domain.EntitiesDTO.Apartment;
 
 public class ApartmentGetDto
 {
@@ -8,5 +8,5 @@ public class ApartmentGetDto
     public string Name { get; set; }
     public int AreaId { get; set; }
     public AreaGetDto Area { get; set; }
-    public virtual ICollection<Building> Buildings { get; set; }
+    public virtual ICollection<BuildingGetDto> Buildings { get; set; }
 }

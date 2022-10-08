@@ -1,5 +1,5 @@
 using AutoMapper;
-using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Role;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -29,6 +29,16 @@ public class RoleController : ControllerBase
         var response = _mapper.Map<IEnumerable<Role>>(result);
 
         return Ok(response);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> GetRole(int id)
+    {
+        var result = await _serviceWrapper.Roles.GetRoleById(id);
+        if (result == null)
+            return NotFound("No role available");
+
+        return Ok(result);
     }
 
     /*

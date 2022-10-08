@@ -1,4 +1,7 @@
-﻿namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesDTO.Order;
+using Domain.EntitiesDTO.Service;
+
+namespace Domain.EntitiesDTO.OrderDetail;
 
 public class OrderDetailGetDto
 {

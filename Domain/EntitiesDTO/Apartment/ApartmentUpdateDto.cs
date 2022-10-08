@@ -1,11 +1,9 @@
-﻿using Domain.EntitiesForManagement;
-
-namespace Domain.EntitiesDTO;
+﻿namespace Domain.EntitiesDTO.Apartment;
 
 public class ApartmentUpdateDto
 {
     public int ApartmentId { get; set; }
     public string Name { get; set; }
     public int AreaId { get; set; }
-    public virtual ICollection<Building>? Buildings { get; set; }
+    public virtual ICollection<BuildingGetDto>? Buildings { get; set; }
 }
