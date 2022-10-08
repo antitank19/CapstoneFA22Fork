@@ -1,4 +1,4 @@
-namespace Domain.EntitiesDTO.Major;
+namespace Domain.EntitiesDTO;
 
 public class MajorUpdateDto
 {

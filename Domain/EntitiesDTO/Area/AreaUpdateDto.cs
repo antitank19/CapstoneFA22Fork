@@ -1,6 +1,6 @@
-﻿using Domain.EntitiesDTO.Apartment;
+﻿using Domain.EntitiesDTO;
 
-namespace Domain.EntitiesDTO.Area;
+namespace Domain.EntitiesDTO;
 
 public class AreaUpdateDto
 {

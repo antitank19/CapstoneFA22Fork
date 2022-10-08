@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Area;
+﻿namespace Domain.EntitiesDTO;
 
 public class AreaCreateDto
 {

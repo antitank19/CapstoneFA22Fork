@@ -1,5 +1,5 @@
 using AutoMapper;
-using Domain.EntitiesDTO.Building;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;

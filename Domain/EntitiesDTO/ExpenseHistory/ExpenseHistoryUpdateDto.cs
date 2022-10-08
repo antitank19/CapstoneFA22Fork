@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.ExpenseHistory;
+﻿namespace Domain.EntitiesDTO;
 
 public class ExpenseHistoryUpdateDto
 {

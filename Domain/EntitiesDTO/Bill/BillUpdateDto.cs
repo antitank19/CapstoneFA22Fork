@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Bill;
+﻿namespace Domain.EntitiesDTO;
 
 public class BillUpdateDto
 {

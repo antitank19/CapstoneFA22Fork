@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.EntitiesDTO.FeedBack;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.Service;
-
-namespace Domain.EntitiesDTO.ServiceType;
+﻿namespace Domain.EntitiesDTO;
 
 public class ServiceTypeGetDto
 {

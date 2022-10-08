@@ -1,10 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Domain.EntitiesDTO.Account;
-using Domain.EntitiesDTO.Bill;
-using Domain.EntitiesDTO.Contract;
-using Domain.EntitiesDTO.InvoiceHistory;
-
-namespace Domain.EntitiesDTO.Invoice;
+namespace Domain.EntitiesDTO;
 
 public class InvoiceGetDto
 {

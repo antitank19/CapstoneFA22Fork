@@ -1,5 +1,5 @@
 using AutoMapper;
-using Domain.EntitiesDTO.Role;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -31,7 +31,7 @@ public class RoleController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult> GetRole(int id)
     {
         var result = await _serviceWrapper.Roles.GetRoleById(id);

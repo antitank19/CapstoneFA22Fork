@@ -1,6 +1,4 @@
-using Domain.EntitiesDTO.Renter;
-
-namespace Domain.EntitiesDTO.Major;
+namespace Domain.EntitiesDTO;
 
 public class MajorGetDto
 {

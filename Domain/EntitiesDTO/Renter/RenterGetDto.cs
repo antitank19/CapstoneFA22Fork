@@ -1,10 +1,4 @@
-﻿using Domain.EntitiesDTO.Contract;
-using Domain.EntitiesDTO.FeedBack;
-using Domain.EntitiesDTO.Major;
-using Domain.EntitiesDTO.Order;
-using Domain.EntitiesDTO.University;
-
-namespace Domain.EntitiesDTO.Renter;
+﻿namespace Domain.EntitiesDTO;
 
 public class RenterGetDto
 {

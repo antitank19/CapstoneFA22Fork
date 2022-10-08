@@ -1,8 +1,4 @@
-using Domain.EntitiesDTO.ContractHistory;
-using Domain.EntitiesDTO.Flat;
-using Domain.EntitiesDTO.Invoice;
-
-namespace Domain.EntitiesDTO.Contract;
+namespace Domain.EntitiesDTO;
 
 public class ContractGetDto
 {

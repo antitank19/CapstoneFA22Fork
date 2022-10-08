@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.Expense;
-
-namespace Domain.EntitiesDTO.ExpenseType;
+﻿namespace Domain.EntitiesDTO;
 
 public class ExpenseTypeGetDto
 {

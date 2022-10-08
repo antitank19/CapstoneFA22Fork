@@ -1,6 +1,4 @@
-using Domain.EntitiesDTO.Account;
-
-namespace Domain.EntitiesDTO.Role;
+namespace Domain.EntitiesDTO;
 
 public class RoleGetDto
 {

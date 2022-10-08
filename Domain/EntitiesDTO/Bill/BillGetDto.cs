@@ -1,6 +1,6 @@
-using Domain.EntitiesDTO.Invoice;
+using Domain.EntitiesDTO;
 
-namespace Domain.EntitiesDTO.Bill;
+namespace Domain.EntitiesDTO;
 
 public class BillGetDto
 {

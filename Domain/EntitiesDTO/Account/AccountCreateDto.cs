@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Account;
+﻿namespace Domain.EntitiesDTO;
 
 public class AccountCreateDto
 {

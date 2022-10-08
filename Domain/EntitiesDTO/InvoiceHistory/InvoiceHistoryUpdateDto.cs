@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.InvoiceHistory;
+﻿namespace Domain.EntitiesDTO;
 
 public class InvoiceHistoryUpdateDto
 {

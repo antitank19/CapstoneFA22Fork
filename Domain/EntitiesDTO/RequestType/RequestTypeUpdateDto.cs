@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.RequestType;
+﻿namespace Domain.EntitiesDTO;
 
 public class RequestTypeUpdateDto
 {

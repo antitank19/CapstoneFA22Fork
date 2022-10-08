@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.Apartment;
-
-namespace Domain.EntitiesDTO.Area;
+﻿namespace Domain.EntitiesDTO;
 
 public class AreaGetDto
 {

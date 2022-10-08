@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.ContractHistory;
-
-namespace Domain.EntitiesDTO.Contract;
+﻿namespace Domain.EntitiesDTO;
 
 public class ContractCreateDto
 {

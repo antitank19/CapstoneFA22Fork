@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Payment;
+﻿namespace Domain.EntitiesDTO;
 
 public class PaymentCreateDto
 {

@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Flat;
+﻿namespace Domain.EntitiesDTO;
 
 public class FlatCreateDto
 {

@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Service;
+﻿namespace Domain.EntitiesDTO;
 
 public class ServiceUpdateDto
 {

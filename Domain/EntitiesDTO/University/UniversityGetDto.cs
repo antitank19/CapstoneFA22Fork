@@ -1,6 +1,4 @@
-using Domain.EntitiesDTO.Renter;
-
-namespace Domain.EntitiesDTO.University;
+namespace Domain.EntitiesDTO;
 
 public class UniversityGetDto
 {

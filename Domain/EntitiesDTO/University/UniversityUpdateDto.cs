@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.University;
+﻿namespace Domain.EntitiesDTO;
 
 public class UniversityUpdateDto
 {

@@ -1,8 +1,4 @@
-﻿using Domain.EntitiesDTO.Expense;
-using Domain.EntitiesDTO.Invoice;
-using Domain.EntitiesDTO.Role;
-
-namespace Domain.EntitiesDTO.Account;
+﻿namespace Domain.EntitiesDTO;
 
 public class AccountGetDto
 {

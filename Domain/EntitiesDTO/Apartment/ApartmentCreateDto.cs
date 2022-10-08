@@ -1,6 +1,6 @@
-﻿using Domain.EntitiesDTO.Building;
+﻿using Domain.EntitiesDTO;
 
-namespace Domain.EntitiesDTO.Apartment;
+namespace Domain.EntitiesDTO;
 
 public class ApartmentCreateDto
 {

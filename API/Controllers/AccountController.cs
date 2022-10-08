@@ -1,10 +1,14 @@
 using AutoMapper;
 using AutoMapper.AspNet.OData;
-using Domain.EntitiesDTO.Account;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
+using SingleResult = System.Web.Http.SingleResult;
 
 namespace API.Controllers;
 
@@ -24,28 +28,29 @@ public class AccountController : ControllerBase
     // GET: api/Accounts
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? options)
+    public async Task<ActionResult<IQueryable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? deleteMePlz)
     {
-        var result = (await _serviceWrapper.Accounts.GetAccountList()).AsQueryable();
-        if (!result.Any())
+        var list = (await _serviceWrapper.Accounts.GetAccountList()).AsQueryable();
+        if (!list.Any())
             return NotFound("No account available");
 
         //if (options == null)
         //    response = _mapper.Map<IEnumerable<AccountGetDto>>(result.AsQueryable()).AsQueryable();
         //else
-        var response = await /*await _serviceWrapper.Accounts.GetAccountList()*/
-            result.AsQueryable().GetQueryAsync(_mapper, options);
-        return Ok(response);
+        var dtos = await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz);
+        return Ok(dtos);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<AccountGetDto>> GetAccount(int id)
+    public async Task<IActionResult> GetAccount(int id, ODataQueryOptions<AccountGetDto>? deleteMePlz)
     {
-        var result = await _serviceWrapper.Accounts.GetAccountById(id);
-        if (result == null)
+        var list = (await _serviceWrapper.Accounts.GetAccountList()).Where(e => e.AccountId == id);
+        if (list.IsNullOrEmpty())
+        {
             return NotFound("Account not found");
-
-        return Ok(result);
+        }
+        var dto = (await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz)).ToArray()[0];
+        return Ok(dto);
     }
 
     // PUT: api/Accounts/5
@@ -58,6 +63,7 @@ public class AccountController : ControllerBase
 
         var updateAccount = new Account
         {
+            AccountId = account.AccountId,
             Username = account.Username,
             Password = account.Password,
             Email = account.Email,

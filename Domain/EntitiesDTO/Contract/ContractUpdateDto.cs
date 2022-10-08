@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Contract;
+﻿namespace Domain.EntitiesDTO;
 
 public class ContractUpdateDto
 {

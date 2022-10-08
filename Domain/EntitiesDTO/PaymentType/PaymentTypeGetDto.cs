@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.Payment;
-
-namespace Domain.EntitiesDTO.PaymentType;
+﻿namespace Domain.EntitiesDTO;
 
 public class PaymentTypeGetDto
 {

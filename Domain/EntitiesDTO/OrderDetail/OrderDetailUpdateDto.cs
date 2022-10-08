@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.OrderDetail;
+﻿namespace Domain.EntitiesDTO;
 
 public class OrderDetailUpdateDto
 {

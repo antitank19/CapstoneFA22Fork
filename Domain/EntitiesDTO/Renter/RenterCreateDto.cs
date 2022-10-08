@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.Renter;
+﻿namespace Domain.EntitiesDTO;
 
 public class RenterCreateDto
 {

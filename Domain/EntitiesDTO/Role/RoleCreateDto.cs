@@ -1,4 +1,4 @@
-namespace Domain.EntitiesDTO.Role;
+namespace Domain.EntitiesDTO;
 
 public class RoleCreateDto
 {

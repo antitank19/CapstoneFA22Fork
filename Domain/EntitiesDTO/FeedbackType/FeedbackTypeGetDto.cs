@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.FeedBack;
-
-namespace Domain.EntitiesDTO.FeedbackType;
+﻿namespace Domain.EntitiesDTO;
 
 public class FeedbackTypeGetDto
 {

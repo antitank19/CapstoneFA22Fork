@@ -1,4 +1,4 @@
-﻿namespace Domain.EntitiesDTO.FeedbackType;
+﻿namespace Domain.EntitiesDTO;
 
 public class FeedbackTypeUpdateDto
 {

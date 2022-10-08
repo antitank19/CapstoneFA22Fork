@@ -1,7 +1,4 @@
-﻿using Domain.EntitiesDTO.Flat;
-using Domain.EntitiesDTO.Invoice;
-
-namespace Domain.EntitiesDTO.ContractHistory;
+﻿namespace Domain.EntitiesDTO;
 
 public class ContractHistoryCreateDto
 {

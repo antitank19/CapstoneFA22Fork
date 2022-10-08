@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.ExpenseHistory;
-
-namespace Domain.EntitiesDTO.Expense;
+﻿namespace Domain.EntitiesDTO;
 
 public class ExpenseUpdateDto
 {

@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.OrderDetail;
-
-namespace Domain.EntitiesDTO.Order;
+﻿namespace Domain.EntitiesDTO;
 
 public class OrderUpdateDto
 {

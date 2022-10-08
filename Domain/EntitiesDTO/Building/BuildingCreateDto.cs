@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.Flat;
-
-namespace Domain.EntitiesDTO;
+﻿namespace Domain.EntitiesDTO;
 
 public class BuildingCreateDto
 {

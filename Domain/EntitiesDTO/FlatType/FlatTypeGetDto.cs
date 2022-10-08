@@ -1,6 +1,4 @@
-﻿using Domain.EntitiesDTO.Flat;
-
-namespace Domain.EntitiesDTO.FlatType;
+﻿namespace Domain.EntitiesDTO;
 
 public class FlatTypeGetDto
 {
