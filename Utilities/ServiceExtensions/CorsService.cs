@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Utilities.ServiceExtensions;
 
 public static class CorsService
 {
-    public static IServiceCollection AddCorsService(this IServiceCollection services)
+    private const string MyCorsPolicy = "MyPolicy";
+
+    public static IServiceCollection AddCustomCorsService(this IServiceCollection services)
     {
-        services.AddCors(o => o.AddPolicy("MyPolicy",
+        services.AddCors(o => o.AddPolicy(MyCorsPolicy,
             corsPolicyBuilder =>
             {
                 corsPolicyBuilder
@@ -16,5 +19,9 @@ public static class CorsService
             }));
 
         return services;
+    }
+    public static void UseCustomCorsService(this WebApplication application)
+    {
+        application.UseCors(MyCorsPolicy);
     }
 }

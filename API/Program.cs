@@ -53,7 +53,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddSwaggerService();
 
-builder.Services.AddCorsService();
+builder.Services.AddCustomCorsService();
 
 builder.Services.AddAuthorizationService();
 
@@ -73,6 +73,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCustomCorsService();
 
 app.ConfigMiddleware(config);
 
