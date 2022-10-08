@@ -1,4 +1,6 @@
-namespace Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Contract;
+
+namespace Domain.EntitiesDTO.ContractHistory;
 
 public class ContractHistoryGetDto
 {

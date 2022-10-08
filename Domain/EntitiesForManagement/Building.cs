@@ -24,8 +24,7 @@ public class Building
     public int? CoordinateY { get; set; }
     public bool Status { get; set; }
 
-    [ForeignKey("Apartment")] 
-    public int ApartmentId { get; set; }
+    [ForeignKey("Apartment")] public int ApartmentId { get; set; }
 
     public virtual Apartment Apartment { get; set; }
     public virtual ICollection<Flat> Flats { get; set; }

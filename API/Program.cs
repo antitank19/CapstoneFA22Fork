@@ -11,7 +11,7 @@ builder.ServicesEntity.AddControllers();
 //AddExpenseHistory odata to api
 builder.Services.AddControllers()
     .AddOData(o => o.EnableQueryFeatures());
-    //o.Select().Filter().Count().OrderBy().Expand());
+//o.Select().Filter().Count().OrderBy().Expand());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 

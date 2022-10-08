@@ -1,4 +1,8 @@
-﻿namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesDTO.OrderDetail;
+using Domain.EntitiesDTO.Renter;
+using Domain.EntitiesDTO.Request;
+
+namespace Domain.EntitiesDTO.Order;
 
 public class OrderGetDto
 {

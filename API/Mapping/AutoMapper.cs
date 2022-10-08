@@ -1,5 +1,32 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Account;
+using Domain.EntitiesDTO.Apartment;
+using Domain.EntitiesDTO.Area;
+using Domain.EntitiesDTO.Bill;
+using Domain.EntitiesDTO.Contract;
+using Domain.EntitiesDTO.ContractHistory;
+using Domain.EntitiesDTO.Expense;
+using Domain.EntitiesDTO.ExpenseHistory;
+using Domain.EntitiesDTO.ExpenseType;
+using Domain.EntitiesDTO.FeedBack;
+using Domain.EntitiesDTO.FeedbackType;
+using Domain.EntitiesDTO.Flat;
+using Domain.EntitiesDTO.FlatType;
+using Domain.EntitiesDTO.Invoice;
+using Domain.EntitiesDTO.InvoiceHistory;
+using Domain.EntitiesDTO.Major;
+using Domain.EntitiesDTO.Order;
+using Domain.EntitiesDTO.OrderDetail;
+using Domain.EntitiesDTO.Payment;
+using Domain.EntitiesDTO.PaymentType;
+using Domain.EntitiesDTO.Renter;
+using Domain.EntitiesDTO.Request;
+using Domain.EntitiesDTO.RequestType;
+using Domain.EntitiesDTO.Role;
+using Domain.EntitiesDTO.Service;
+using Domain.EntitiesDTO.ServiceType;
+using Domain.EntitiesDTO.University;
 using Domain.EntitiesForManagement;
 
 namespace API.Mapping;
@@ -43,8 +70,8 @@ public class AutoMapper : Profile
     private void MapExpenseHistory()
     {
         CreateMap<ExpenseHistory, ExpenseHistoryGetDto>()
-                    .ReverseMap()
-                    .ForAllMembers(o => o.ExplicitExpansion());
+            .ReverseMap()
+            .ForAllMembers(o => o.ExplicitExpansion());
     }
 
     private void MapUniversity()

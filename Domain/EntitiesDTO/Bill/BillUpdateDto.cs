@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.EntitiesDTO.Bill;
 
-namespace Domain.EntitiesDTO
+public class BillUpdateDto
 {
-    public class BillUpdateDto
-    {
-        public int BillId { get; set; }
-        public string Name { get; set; }
-        public string Detail { get; set; }
-        public DateTime DueDate { get; set; }
-        public string Status { get; set; }
-        public int InvoiceId { get; set; }
-    }
+    public int BillId { get; set; }
+    public string Name { get; set; }
+    public string Detail { get; set; }
+    public DateTime DueDate { get; set; }
+    public string Status { get; set; }
+    public int InvoiceId { get; set; }
 }

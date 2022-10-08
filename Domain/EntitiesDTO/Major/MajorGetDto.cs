@@ -1,6 +1,6 @@
-using Domain.EntitiesForManagement;
+using Domain.EntitiesDTO.Renter;
 
-namespace Domain.EntitiesDTO;
+namespace Domain.EntitiesDTO.Major;
 
 public class MajorGetDto
 {
@@ -8,5 +8,4 @@ public class MajorGetDto
 
     public string Name { get; set; }
     public virtual ICollection<RenterGetDto> Renters { get; set; }
-
 }

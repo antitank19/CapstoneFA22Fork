@@ -10,6 +10,7 @@ public class Account
         Expenses = new HashSet<Expense>();
         Invoices = new HashSet<Invoice>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int AccountId { get; set; }

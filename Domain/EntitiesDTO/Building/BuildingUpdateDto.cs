@@ -1,9 +1,8 @@
-using Domain.EntitiesDTO.Apartment;
-using Domain.EntitiesDTO.Flat;
+﻿using Domain.EntitiesDTO.Flat;
 
-namespace Domain.EntitiesDTO;
+namespace Domain.EntitiesDTO.Building;
 
-public class BuildingGetDto
+public class BuildingUpdateDto
 {
     public int BuildingId { get; set; }
     public string BuildingName { get; set; }
@@ -16,6 +15,5 @@ public class BuildingGetDto
     public int? CoordinateY { get; set; }
     public int Status { get; set; }
     public int AppartmentId { get; set; }
-    public virtual ApartmentGetDto Apartment { get; set; }
-    public virtual ICollection<FlatGetDto> Flats { get; set; }
+    public virtual ICollection<FlatUpdateDto>? Flats { get; set; }
 }

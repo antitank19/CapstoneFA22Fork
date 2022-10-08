@@ -1,4 +1,5 @@
 using AutoMapper;
+using Domain.EntitiesDTO.Building;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -33,34 +34,38 @@ public class BuildingController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Building>> GetBuilding(int id)
     {
-        var building = await _context.Buildings.FindAsync(id);
+        var result = await _serviceWrapper.Buildings.GetBuildingById(id);
+        if (result == null)
+            return NotFound("Building not found");
 
-        if (building == null) return NotFound();
-
-        return building;
+        return Ok(result);
     }
 
     // PUT: api/Buildings/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutBuilding(int id, Building building)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutBuilding(int id, BuildingUpdateDto building)
     {
-        if (id != building.BuildingId) return BadRequest();
+        if (id != building.BuildingId)
+            return BadRequest();
 
-        _context.Entry(building).State = EntityState.Modified;
-
-        try
+        var updateBuilding = new Building
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!BuildingExists(id))
-                return NotFound();
-            throw;
-        }
+            BuildingName = building.BuildingName,
+            Description = building.Description,
+            CoordinateX = building.CoordinateX,
+            CoordinateY = building.CoordinateY,
+            ImageUrl = building.ImageUrl,
+            TotalFloor = building.TotalFloor,
+            TotalRooms = building.TotalRooms
+        };
 
-        return NoContent();
+        var result = await _serviceWrapper.Buildings.UpdateBuilding(updateBuilding);
+
+        if (result == null)
+            return NotFound();
+
+        return Ok();
     }
 
     // POST: api/Buildings
@@ -75,7 +80,7 @@ public class BuildingController : ControllerBase
     }
 
     // DELETE: api/Buildings/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteBuilding(int id)
     {
         var building = await _context.Buildings.FindAsync(id);

@@ -1,6 +1,6 @@
 using API.Models;
 using AutoMapper;
-using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Renter;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
@@ -33,7 +33,7 @@ public class RenterController : ControllerBase
     }
 
     // GET: api/Renters/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Renter>> GetRenter(int id)
     {
         var result = await services.Renters.GetRenterById(id);
@@ -45,7 +45,7 @@ public class RenterController : ControllerBase
 
     // PUT: api/Renters/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> PutRenter(int id, Renter renter)
     {
         if (id != renter.RenterId)

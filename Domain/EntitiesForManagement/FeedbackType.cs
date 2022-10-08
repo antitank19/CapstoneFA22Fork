@@ -9,6 +9,7 @@ public class FeedbackType
     {
         Feedbacks = new HashSet<Feedback>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int FeedbackTypeId { get; set; }

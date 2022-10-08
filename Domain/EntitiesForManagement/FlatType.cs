@@ -9,6 +9,7 @@ public class FlatType
     {
         Flats = new HashSet<Flat>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int FlatTypeId { get; set; }

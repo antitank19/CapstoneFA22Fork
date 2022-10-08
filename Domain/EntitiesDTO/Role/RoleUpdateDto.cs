@@ -1,4 +1,4 @@
-namespace Domain.EntitiesDTO;
+namespace Domain.EntitiesDTO.Role;
 
 public class RoleUpdateDto
 {

@@ -7,9 +7,10 @@ public class Flat
 {
     public Flat()
     {
-        FeedBacks=new HashSet<Feedback>();
-        Contracts=new HashSet<Contract>();
+        FeedBacks = new HashSet<Feedback>();
+        Contracts = new HashSet<Contract>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int FlatId { get; set; }

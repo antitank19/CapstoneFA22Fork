@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.EntitiesDTO.FeedbackType;
 
-namespace Domain.EntitiesDTO
+public class FeedbackTypeUpdateDto
 {
-    public class FeedbackTypeUpdateDto
-    {
-        public int FeedbackTypeId { get; set; }
-        public int Name { get; set; }
-    }
+    public int FeedbackTypeId { get; set; }
+    public int Name { get; set; }
 }

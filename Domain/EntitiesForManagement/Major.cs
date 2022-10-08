@@ -7,8 +7,9 @@ public class Major
 {
     public Major()
     {
-        Renters=new HashSet<Renter>();
+        Renters = new HashSet<Renter>();
     }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int MajorId { get; set; }

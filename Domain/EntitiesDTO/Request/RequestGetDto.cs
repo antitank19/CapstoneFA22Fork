@@ -1,4 +1,6 @@
-﻿namespace Domain.EntitiesDTO;
+﻿using Domain.EntitiesDTO.RequestType;
+
+namespace Domain.EntitiesDTO.Request;
 
 public class RequestGetDto
 {

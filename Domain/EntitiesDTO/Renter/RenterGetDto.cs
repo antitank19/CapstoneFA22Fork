@@ -1,6 +1,10 @@
-﻿using Domain.EntitiesForManagement;
+﻿using Domain.EntitiesDTO.Contract;
+using Domain.EntitiesDTO.FeedBack;
+using Domain.EntitiesDTO.Major;
+using Domain.EntitiesDTO.Order;
+using Domain.EntitiesDTO.University;
 
-namespace Domain.EntitiesDTO;
+namespace Domain.EntitiesDTO.Renter;
 
 public class RenterGetDto
 {
@@ -25,5 +29,4 @@ public class RenterGetDto
     public virtual ICollection<ContractGetDto> Contracts { get; set; }
     public virtual ICollection<OrderGetDto> Orders { get; set; }
     public virtual ICollection<FeedbackGetDto> Feedbacks { get; set; }
-
 }
