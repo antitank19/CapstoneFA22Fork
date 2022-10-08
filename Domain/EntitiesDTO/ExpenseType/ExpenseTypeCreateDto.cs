@@ -1,6 +1,6 @@
-﻿namespace Domain.EntitiesDTO.ExpenseType;
+﻿namespace Domain.EntitiesDTO;
 
-internal class ExpenseTypeCreateDto
+public class ExpenseTypeCreateDto
 {
     public string Name { get; set; }
     public float Price { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Domain.EntitiesDTO.Flat;
 
-namespace Domain.EntitiesDTO.Building;
+namespace Domain.EntitiesDTO;
 
 public class BuildingUpdateDto
 {
