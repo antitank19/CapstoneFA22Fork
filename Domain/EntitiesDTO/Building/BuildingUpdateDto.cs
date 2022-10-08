@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.EntitiesDTO
 {
-    internal class BuldingUpdateDto
+    public class BuildingUpdateDto
     {
         public int BuildingId { get; set; }
         public string BuildingName { get; set; }

@@ -1,17 +1,41 @@
 using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json.Serialization;
 using Utilities.MiddlewareExtension;
 using Utilities.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// AddExpenseHistory services to the container.
-/*
-builder.ServicesEntity.AddControllers();
-*/
 //AddExpenseHistory odata to api
-builder.Services.AddControllers()
+builder.Services.AddControllers(
+//    options =>
+//{
+//    IEnumerable<ODataOutputFormatter> outputFormatters =
+//        options.OutputFormatters.OfType<ODataOutputFormatter>()
+//            .Where(foramtter => foramtter.SupportedMediaTypes.Count == 0);
+
+//    foreach (var outputFormatter in outputFormatters)
+//    {
+//        outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/odata"));
+//    }
+
+//}
+)
     .AddOData(o => o.EnableQueryFeatures());
-    //o.Select().Filter().Count().OrderBy().Expand());
+    //.AddNewtonsoftJson(options =>
+    //{
+    //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    //    options.UseCamelCasing(true);
+    //    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+    //});
+//.AddJsonOptions(options =>
+//{
+//    options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+//    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+//})
+//o.Select().Filter().Count().OrderBy().Expand());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 

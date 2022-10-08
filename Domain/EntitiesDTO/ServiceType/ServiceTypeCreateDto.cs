@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.EntitiesDTO
 {
-    class ServiceTypeCreate
+    public class ServiceTypeCreateDto
     {
         public string Name { get; set; }
         public virtual ICollection<ServiceCreateDto> Services { get; set; }

@@ -43,176 +43,276 @@ public class AutoMapper : Profile
     private void MapExpenseHistory()
     {
         CreateMap<ExpenseHistory, ExpenseHistoryGetDto>()
-                    .ReverseMap()
                     .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ExpenseHistoryGetDto, ExpenseHistory>();
+        CreateMap<ExpenseHistoryCreateDto, ExpenseHistory>()
+            .ReverseMap();
+        CreateMap<ExpenseHistoryUpdateDto, ExpenseHistory>()
+            .ReverseMap();
     }
 
     private void MapUniversity()
     {
         CreateMap<University, UniversityGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<UniversityGetDto, University>();
+        CreateMap<UniversityCreateDto, University>()
+            .ReverseMap();
+        CreateMap<UniversityUpdateDto, University>()
+            .ReverseMap();
     }
 
     private void MapServiceType()
     {
         CreateMap<ServiceType, ServiceTypeGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ServiceTypeGetDto, ServiceType>();
+        CreateMap<ServiceTypeCreateDto, ServiceType>()
+            .ReverseMap();
+        CreateMap<ServiceTypeUpdateDto, ServiceType>()
+            .ReverseMap();
     }
 
     private void MapService()
     {
         CreateMap<ServiceEntity, ServiceGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ServiceGetDto, ServiceEntity>();
+        CreateMap<ServiceCreateDto, ServiceEntity>()
+            .ReverseMap();
+        CreateMap<ServiceUpdateDto, ServiceEntity>()
+            .ReverseMap();
     }
 
     private void MapRole()
     {
         CreateMap<Role, RoleGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<RoleGetDto, Role>();
+        CreateMap<RoleCreateDto, Role>()
+            .ReverseMap();
+        CreateMap<RoleUpdateDto, Role>()
+            .ReverseMap();
     }
 
     private void MapRequestType()
     {
         CreateMap<RequestType, RequestTypeGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<RequestTypeGetDto, ExpenseType>();
+        CreateMap<ExpenseTypeCreateDto, ExpenseType>()
+            .ReverseMap();
+        CreateMap<ExpenseTypeUpdateDto, ExpenseType>()
+            .ReverseMap();
     }
 
     private void MapRequest()
     {
         CreateMap<Request, RequestGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ExpenseTypeGetDto, ExpenseType>();
+        CreateMap<ExpenseTypeCreateDto, ExpenseType>()
+            .ReverseMap();
+        CreateMap<ExpenseTypeUpdateDto, ExpenseType>()
+            .ReverseMap();
     }
 
     private void MapPaymentType()
     {
         CreateMap<PaymentType, PaymentTypeGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<PaymentTypeGetDto, PaymentType>();
+        CreateMap<PaymentTypeCreateDto, PaymentType>()
+            .ReverseMap();
+        CreateMap<PaymentTypeUpdateDto, PaymentType>()
+            .ReverseMap();
     }
 
     private void MapPayment()
     {
         CreateMap<Payment, PaymentGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ExpenseTypeGetDto, ExpenseType>();
+        CreateMap<ExpenseTypeCreateDto, ExpenseType>()
+            .ReverseMap();
+        CreateMap<ExpenseTypeUpdateDto, ExpenseType>()
+            .ReverseMap();
     }
 
     private void MapOrderDetail()
     {
         CreateMap<OrderDetail, OrderDetailGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<OrderDetailGetDto, OrderDetail>();
+        CreateMap<OrderDetailCreateDto, OrderDetail>()
+            .ReverseMap();
+        CreateMap<OrderDetailUpdateDto, OrderDetail>()
+            .ReverseMap();
     }
 
     private void MapOrder()
     {
         CreateMap<Order, OrderGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<OrderGetDto, Order>();
+        CreateMap<OrderCreateDto, Order>()
+            .ReverseMap();
+        CreateMap<OrderUpdateDto, Order>()
+            .ReverseMap();
     }
 
     private void MapMajor()
     {
         CreateMap<Major, MajorGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<MajorGetDto, Major>();
+        CreateMap<MajorCreateDto, Major>()
+            .ReverseMap();
+        CreateMap<MajorUpdateDto, Major>()
+            .ReverseMap();
     }
 
     private void MapInvoiceHistory()
     {
         CreateMap<InvoiceHistory, InvoiceHistoryGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<InvoiceHistoryGetDto, InvoiceHistory>();
+        CreateMap<InvoiceHistoryCreateDto, InvoiceHistory>()
+            .ReverseMap();
+        CreateMap<InvoiceHistoryUpdateDto, InvoiceHistory>()
+            .ReverseMap();
     }
 
     private void MapInvoice()
     {
         CreateMap<Invoice, InvoiceGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<InvoiceGetDto, Invoice>();
+        CreateMap<InvoiceCreateDto, Invoice>()
+            .ReverseMap();
+        CreateMap<InvoiceUpdateDto, Invoice>()
+            .ReverseMap();
     }
 
     private void MapFlatType()
     {
         CreateMap<FlatType, FlatTypeGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<FlatTypeGetDto, FlatType>();
+        CreateMap<FlatTypeCreateDto, FlatType>()
+            .ReverseMap();
+        CreateMap<FlatTypeUpdateDto, FlatType>()
+            .ReverseMap();
     }
 
     private void MapFlat()
     {
         CreateMap<Flat, FlatGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<FlatGetDto, Flat>();
+        CreateMap<FlatCreateDto, Flat>()
+            .ReverseMap();
+        CreateMap<FlatUpdateDto, Flat>()
+            .ReverseMap();
     }
 
     private void MapFeedbackType()
     {
         CreateMap<FeedbackType, FeedbackTypeGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<FeedbackTypeGetDto, FeedbackType>();
+        CreateMap<FeedbackTypeCreateDto, FeedbackType>()
+            .ReverseMap();
+        CreateMap<FeedbackTypeUpdateDto, FeedbackType>()
+            .ReverseMap();
     }
 
     private void MapFeedback()
     {
         CreateMap<Feedback, FeedbackGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<FeedbackGetDto, Feedback>();
+        CreateMap<FeedbackCreateDto, Feedback>()
+            .ReverseMap();
+        CreateMap<FeedbackUpdateDto, Feedback>()
+            .ReverseMap();
     }
 
     private void MapExpenseType()
     {
         CreateMap<ExpenseType, ExpenseTypeGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ExpenseTypeGetDto, ExpenseType>();
+        CreateMap<ExpenseTypeCreateDto, ExpenseType>()
+            .ReverseMap();
+        CreateMap<ExpenseTypeUpdateDto, ExpenseType>()
+            .ReverseMap();
     }
 
     private void MapExpense()
     {
         CreateMap<Expense, ExpenseGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ExpenseGetDto, Expense>();
+        CreateMap<ExpenseCreateDto, Expense>()
+            .ReverseMap();
+        CreateMap<ExpenseUpdateDto, Expense>()
+            .ReverseMap();
     }
 
     private void MapContractHistory()
     {
         CreateMap<ContractHistory, ContractHistoryGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ContractHistoryGetDto, ContractHistory>();
+        CreateMap<ContractHistoryCreateDto, ContractHistory>()
+            .ReverseMap();
+        CreateMap<ContractHistoryUpdateDto, ContractHistory>()
+            .ReverseMap();
     }
 
     private void MapContract()
     {
         CreateMap<Contract, ContractGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ContractGetDto, Contract>();
+        CreateMap<ContractCreateDto, Contract>()
+            .ReverseMap();
+        CreateMap<ContractUpdateDto, Contract>()
+            .ReverseMap();
     }
 
     private void MapBill()
     {
         CreateMap<Bill, BillGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<BillGetDto, Bill>();
+        CreateMap<BillCreateDto, Bill>()
+            .ReverseMap();
+        CreateMap<BillUpdateDto, Bill>()
+            .ReverseMap();
     }
 
     private void MapArea()
     {
         CreateMap<Area, AreaGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<AreaGetDto, Area>();
+        CreateMap<AreaCreateDto, Area>()
+            .ReverseMap();
+        CreateMap<AreaUpdateDto, Area>()
+            .ReverseMap();
     }
 
     private void MapApartment()
     {
         CreateMap<Apartment, ApartmentGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<ApartmentGetDto, Apartment>();
+        CreateMap<ApartmentCreateDto, Apartment>()
+            .ReverseMap();
+        CreateMap<ApartmentUpdateDto, Apartment>()
+            .ReverseMap();
     }
 
     private void MapRenter()
@@ -229,9 +329,8 @@ public class AutoMapper : Profile
     private void MapAccount()
     {
         CreateMap<Account, AccountGetDto>()
-            //.ReverseMap()
-            //.ForMember(e=>e.Role, o=>o.ExplicitExpansion())
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<AccountGetDto, Account>();
         CreateMap<AccountCreateDto, Account>()
             .ReverseMap();
         CreateMap<AccountUpdateDto, Account>()
@@ -241,7 +340,11 @@ public class AutoMapper : Profile
     private void MapBuilding()
     {
         CreateMap<Building, BuildingGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<BuildingGetDto, Building>();
+        CreateMap<BuildingCreateDto, Building>()
+            .ReverseMap();
+        CreateMap<BuildingUpdateDto, Building>()
+            .ReverseMap();
     }
 }

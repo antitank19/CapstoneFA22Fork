@@ -73,7 +73,7 @@ public class AccountController : ControllerBase
         return Ok($"Updated at : {DateTime.Now.ToShortDateString()}");
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("Toggle/{id:int}")]
     public async Task<IActionResult> ToggleAccountStatus(int id, [FromBody] AccountUpdateDto account)
     {
         if (id != account.AccountId)
