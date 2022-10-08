@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
-using SingleResult = System.Web.Http.SingleResult;
 
 namespace API.Controllers;
 
@@ -42,7 +41,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetAccount(int id, ODataQueryOptions<AccountGetDto>? deleteMePlz)
+    public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? deleteMePlz)
     {
         var list = (await _serviceWrapper.Accounts.GetAccountList()).Where(e => e.AccountId == id);
         if (list.IsNullOrEmpty())

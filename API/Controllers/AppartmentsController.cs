@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -21,25 +24,27 @@ public class ApartmentsController : ControllerBase
 
     // GET: api/Apartments
     [HttpGet]
-    public async Task<ActionResult> GetApartments()
+    public async Task<ActionResult> GetApartments(ODataQueryOptions<ApartmentGetDto>? deleteMePlz)
     {
-        var result = await _serviceWrapper.Apartments.GetApartmentList();
-        if (!result.Any())
+        var list = await _serviceWrapper.Apartments.GetApartmentList();
+        if (!list.Any())
             return NotFound("No apartment available");
 
-        var response = _mapper.Map<IEnumerable<Apartment>>(result);
-        return Ok(response);
+        var dtos = await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz);
+        return Ok(dtos);
     }
 
     // GET: api/Apartments/5
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Apartment>> GetApartment(int id)
+    public async Task<ActionResult<Apartment>> GetApartment(int id, ODataQueryOptions<AccountGetDto>? deleteMePlz)
     {
-        var result = await _serviceWrapper.Apartments.GetApartmentById(id);
-        if (result == null)
-            return NotFound("Apartment not found");
-
-        return Ok(result);
+        var list = (await _serviceWrapper.Apartments.GetApartmentList()).Where(e => e.ApartmentId == id);
+        if (list.IsNullOrEmpty())
+        {
+            return NotFound("Appartment not found");
+        }
+        var dto = (await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz)).ToArray()[0];
+        return Ok(dto);
     }
 
     // PUT: api/Apartments/5
@@ -64,7 +69,7 @@ public class ApartmentsController : ControllerBase
     // POST: api/Apartments
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Apartment>> AddApartment(ApartmentUpdateDto apartment)
+    public async Task<ActionResult<Apartment>> AddApartment(ApartmentCreateDto apartment)
     {
         var newApartment = new Apartment
         {

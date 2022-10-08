@@ -14,10 +14,10 @@ public class ApartmentService : IApartmentService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Apartment?>> GetApartmentList()
+    public async Task<IQueryable<Apartment?>> GetApartmentList()
     {
-        return await _repositoryWrapper.Apartments.GetApartmentList()
-            .ToListAsync();
+        return _repositoryWrapper.Apartments.GetApartmentList()
+            .AsQueryable();
     }
 
     public async Task<Apartment?> GetApartmentById(int apartmentId)
