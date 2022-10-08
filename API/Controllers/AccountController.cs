@@ -1,3 +1,4 @@
+using API.Models;
 using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
@@ -75,6 +76,15 @@ public class AccountController : ControllerBase
             return NotFound("Updating account failed");
 
         return Ok($"Updated at : {DateTime.Now.ToShortDateString()}");
+    }
+    // POST: api/Accounts/Login
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPost("Login")]
+    public async Task<ActionResult> Login(LoginModel loginModel)
+    {
+        var renter = await _serviceWrapper.Accounts.Login(loginModel.Username, loginModel.Password);
+        var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(renter);
+        return Ok(jwtToken);
     }
 
     [HttpPut("Toggle/{id:int}")]
