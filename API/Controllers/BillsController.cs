@@ -1,7 +1,12 @@
-﻿using Domain.EntitiesForManagement;
+﻿using AutoMapper;
+using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Bill;
+using Domain.EntitiesForManagement;
+using Domain.EnumEntities;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Service.IService;
 
 namespace net6API.Controllers;
 
@@ -9,11 +14,12 @@ namespace net6API.Controllers;
 [ApiController]
 public class BillsController : ControllerBase
 {
-    private readonly ApplicationContext _context;
-
-    public BillsController(ApplicationContext context)
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
+    public BillsController(IServiceWrapper serviceWrapper, IMapper mapper)
     {
-        _context = context;
+        _serviceWrapper = serviceWrapper;
+        _mapper = mapper;
     }
 
     // GET: api/Bills
@@ -36,53 +42,56 @@ public class BillsController : ControllerBase
 
     // PUT: api/Bills/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> PutBill(int id, Bill bill)
     {
-        if (id != bill.BillId) return BadRequest();
+        if (id != bill.BillId) 
+            return BadRequest();
 
-        _context.Entry(bill).State = EntityState.Modified;
-
-        try
+        var updateBill = new Bill()
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!BillExists(id))
-                return NotFound();
-            throw;
-        }
+            BillId = id,
+            Detail = bill.Detail,
+            DueDate = bill.DueDate,
+            InvoiceId = bill.InvoiceId,
+        };
 
-        return NoContent();
+        var result = await _serviceWrapper.Bills.UpdateBill(updateBill);
+        if (result == null) 
+            return NotFound();
+        
+        return Ok("Bill updated successfully");
     }
 
     // POST: api/Bills
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Bill>> PostBill(Bill bill)
+    public async Task<ActionResult<Bill>> PostBill(BillCreateDto bill)
     {
-        _context.Bills.Add(bill);
-        await _context.SaveChangesAsync();
+        var newBill = new Bill()
+        {
+            Name = bill.Name,
+            Detail = bill.Detail,
+            DueDate = bill.DueDate,
+            Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Pending),
+            InvoiceId = bill.InvoiceId,
+        };
 
-        return CreatedAtAction("GetBill", new { id = bill.BillId }, bill);
+        var result = await _serviceWrapper.Bills.AddBill(newBill);
+        if (result == null)
+            return NotFound();
+
+        return CreatedAtAction("GetBill", new { id = newBill.BillId }, bill);
     }
 
     // DELETE: api/Bills/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteBill(int id)
     {
-        var bill = await _context.Bills.FindAsync(id);
-        if (bill == null) return NotFound();
+        var result = await _serviceWrapper.Bills.DeleteBill(id);
+        if (!result) 
+            return NotFound();
 
-        _context.Bills.Remove(bill);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool BillExists(int id)
-    {
-        return _context.Bills.Any(e => e.BillId == id);
+        return Ok("Bill deleted successfully");
     }
 }

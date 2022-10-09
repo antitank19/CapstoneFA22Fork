@@ -1,19 +1,25 @@
-﻿using Domain.EntitiesForManagement;
+﻿using AutoMapper;
+using Domain.EntitiesDTO;
+using Domain.EntitiesDTO.Area;
+using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Service.IService;
 
-namespace net6API.Controllers;
+namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class AreasController : ControllerBase
 {
-    private readonly ApplicationContext _context;
-
-    public AreasController(ApplicationContext context)
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
+    
+    public AreasController(ApplicationContext context, IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        _context = context;
+        _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     // GET: api/Areas
@@ -24,7 +30,7 @@ public class AreasController : ControllerBase
     }
 
     // GET: api/Areas/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Area>> GetArea(int id)
     {
         var area = await _context.Areas.FindAsync(id);
@@ -36,53 +42,52 @@ public class AreasController : ControllerBase
 
     // PUT: api/Areas/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutArea(int id, Area area)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutArea(int id, AreaGetDto area)
     {
-        if (id != area.AreaId) return BadRequest();
+        if (id != area.AreaId) 
+            return BadRequest();
 
-        _context.Entry(area).State = EntityState.Modified;
-
-        try
+        var updateArea = new Area()
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!AreaExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
+            AreaId = id,
+            Name = area.Name,
+            Address = area.Address,
+        };
+      
+        var result = await _serviceWrapper.Areas.UpdateArea(updateArea);
+        if (result == null) 
+            return NotFound();
+        
+        return Ok("Area updated successfully");
     }
 
     // POST: api/Areas
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Area>> PostArea(Area area)
+    public async Task<ActionResult<Area>> PostArea(AreaCreateDto area)
     {
-        _context.Areas.Add(area);
-        await _context.SaveChangesAsync();
+        var newArea = new Area()
+        {
+            Name = area.Name,
+            Address = area.Address,
+        };
+        
+        var result = await _serviceWrapper.Areas.AddArea(newArea);
+        if (result == null) 
+            return NotFound();
 
-        return CreatedAtAction("GetArea", new { id = area.AreaId }, area);
+        return CreatedAtAction("GetArea", new { id = newArea.AreaId }, area);
     }
 
     // DELETE: api/Areas/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteArea(int id)
     {
-        var area = await _context.Areas.FindAsync(id);
-        if (area == null) return NotFound();
+        var result = await _serviceWrapper.Areas.DeleteArea(id);
+        if (!result) 
+            return NotFound();
 
-        _context.Areas.Remove(area);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool AreaExists(int id)
-    {
-        return _context.Areas.Any(e => e.AreaId == id);
+        return Ok("Area deleted successfully");
     }
 }

@@ -7,6 +7,8 @@ public class ContractCreateDto
     public DateTime EndDate { get; set; }
     public DateTime LastUpdated { get; set; }
     public string ContractStatus { get; set; }
+    public float Price { get; set; }
+    public int RenterId { get; set; } // User Id
     public int FlatId { get; set; }
     public virtual ICollection<ContractHistoryCreateDto>? ContractHistories { get; set; }
 }

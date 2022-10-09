@@ -1,4 +1,5 @@
 using AutoMapper;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ public class ContractController : ControllerBase
     }
 
     // GET: api/Contracts/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Contract>> GetContract(int id)
     {
         var contract = await _context.Contracts.FindAsync(id);
@@ -42,49 +43,75 @@ public class ContractController : ControllerBase
 
     // PUT: api/Contracts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutContract(int id, Contract contract)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutContract(int id, ContractUpdateDto contract)
     {
-        if (id != contract.ContractId) return BadRequest();
-
-        _context.Entry(contract).State = EntityState.Modified;
-
-        try
+        if (id != contract.ContractId) 
+            return BadRequest();
+        
+        var contractDetail = await _serviceWrapper.Contracts.GetContractById(id);
+        
+        if (contractDetail == null) 
+            return NotFound();
+        
+        var updateContract = new Contract()
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
+            ContractId = contract.ContractId,
+            DateSigned = contract.DateSigned,
+            StartDate = contract.StartDate,
+            EndDate = contract.EndDate,
+            Description = contract.Description,
+            LastUpdated = DateTime.Now,
+            Price = contract.Price,
+            ContractStatus = contract.ContractStatus,
+            FlatId = contract.FlatId,
+        };
+        
+        // Create another copy of contract history
+        
+        var addNewContractHistory = new ContractHistory()
         {
-            if (!ContractExists(id))
-                return NotFound();
-            throw;
-        }
+            ContractId = contractDetail.ContractId,
+            Description = contractDetail.Description,
+            Price = contractDetail.Price,
+        };
 
-        return NoContent();
+        return Ok("Contract updated");
     }
 
     // POST: api/Contracts
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Contract>> PostContract(Contract contract)
+    public async Task<ActionResult<Contract>> PostContract(ContractCreateDto contract)
     {
-        _context.Contracts.Add(contract);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetContract", new { id = contract.ContractId }, contract);
+        var newContract = new Contract()
+        {
+            DateSigned = contract.DateSigned,
+            StartDate = contract.StartDate,
+            EndDate = contract.EndDate,
+            LastUpdated = DateTime.Now,
+            ContractStatus = contract.ContractStatus,
+            Price = contract.Price,
+            RenterId = contract.RenterId,
+            // TODO : get the current user id based on the token
+        };
+        
+        var result = await _serviceWrapper.Contracts.AddContract(newContract);
+        if (result == null) 
+            return NotFound();
+        
+        return CreatedAtAction("GetContract", new { id = newContract.ContractId }, contract);
     }
 
     // DELETE: api/Contracts/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteContract(int id)
     {
-        var contract = await _context.Contracts.FindAsync(id);
-        if (contract == null) return NotFound();
-
-        _context.Contracts.Remove(contract);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        var result = await _serviceWrapper.Contracts.DeleteContract(id);
+        if (!result)
+            return NotFound("Contract not found");
+        
+        return Ok( "Contract deleted");
     }
 
     private bool ContractExists(int id)
