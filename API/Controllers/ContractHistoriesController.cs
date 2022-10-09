@@ -43,7 +43,7 @@ public class ContractHistoriesController : ControllerBase
 
     // PUT: api/ContractHistories/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> PutContractHistory(int id, ContractHistory contractHistory)
     {
         if (id != contractHistory.ContractHistoryId) return BadRequest();
@@ -76,7 +76,7 @@ public class ContractHistoriesController : ControllerBase
     }
 
     // DELETE: api/ContractHistories/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteContractHistory(int id)
     {
         var contractHistory = await _context.ContractHistories.FindAsync(id);

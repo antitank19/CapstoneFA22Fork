@@ -31,7 +31,7 @@ public class BuildingsController : ControllerBase
     }
 
     // GET: api/Buildings/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Building>> GetBuilding(int id)
     {
         var result = await _serviceWrapper.Buildings.GetBuildingById(id);
@@ -51,6 +51,7 @@ public class BuildingsController : ControllerBase
 
         var updateBuilding = new Building
         {
+            BuildingId = id,
             BuildingName = building.BuildingName,
             Description = building.Description,
             CoordinateX = building.CoordinateX,
@@ -65,35 +66,43 @@ public class BuildingsController : ControllerBase
         if (result == null)
             return NotFound();
 
-        return Ok();
+        return Ok( new { message = "Update building successfully" });
     }
 
     // POST: api/Buildings
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Building>> PostBuilding(Building building)
+    public async Task<ActionResult<Building>> PostBuilding(BuildingCreateDto building)
     {
-        _context.Buildings.Add(building);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetBuilding", new { id = building.BuildingId }, building);
+        var newBuilding = new Building()
+        {
+            BuildingName = building.BuildingName,
+            ImageUrl = building.ImageUrl,
+            Description = building.Description,
+            CoordinateX = building.CoordinateX,
+            CoordinateY = building.CoordinateY,
+            TotalFloor = building.TotalFloor,
+            TotalRooms = building.TotalRooms,
+            ApartmentId = building.AppartmentId,
+        };
+        
+        var result = await _serviceWrapper.Buildings.AddBuilding(newBuilding);
+        if (result == null)
+            return NotFound( new { message = "Create new building failed" });
+        
+        return CreatedAtAction("GetBuilding", new { id = building.BuildingName }, building);
     }
 
     // DELETE: api/Buildings/5
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteBuilding(int id)
     {
-        var building = await _context.Buildings.FindAsync(id);
-        if (building == null) return NotFound();
+        var result = await _serviceWrapper.Buildings.DeleteBuilding(id);
+        
+        if (!result) 
+            return NotFound("Building not found");
 
-        _context.Buildings.Remove(building);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        return Ok("Delete building successfully");
     }
-
-    private bool BuildingExists(int id)
-    {
-        return _context.Buildings.Any(e => e.BuildingId == id);
-    }
+    
 }

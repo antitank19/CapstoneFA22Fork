@@ -57,6 +57,7 @@ public class ApartmentsController : ControllerBase
             return BadRequest();
         var updateApartment = new Apartment
         {
+            ApartmentId = id,
             Name = apartment.Name,
             AreaId = apartment.AreaId
         };
@@ -81,7 +82,8 @@ public class ApartmentsController : ControllerBase
         var result = await _serviceWrapper.Apartments.AddApartment(newApartment);
         if (result == null)
             return NotFound("Add apartment failed");
-        return Ok("Add apartment successfully");
+        
+        return CreatedAtAction("GetApartment", new { id = newApartment.ApartmentId }, apartment);
     }
 
     // DELETE: api/Apartments/5

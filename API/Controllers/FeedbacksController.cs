@@ -5,7 +5,7 @@ using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 
-namespace net6API.Controllers;
+namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -33,7 +33,7 @@ public class FeedbacksController : ControllerBase
     }
 
     // GET: api/Feedbacks/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Feedback>> GetFeedback(int id)
     {
         var result = await _serviceWrapper.Feedbacks.GetFeedbackById(id);
@@ -88,7 +88,7 @@ public class FeedbacksController : ControllerBase
     }
 
     // DELETE: api/Feedbacks/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteFeedback(int id)
     {
         var result = await _serviceWrapper.Feedbacks.DeleteFeedback(id);
