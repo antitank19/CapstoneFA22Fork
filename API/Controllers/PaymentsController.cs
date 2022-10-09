@@ -1,8 +1,10 @@
 using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
-using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -11,84 +13,96 @@ namespace API.Controllers;
 [ApiController]
 public class PaymentsController : ControllerBase
 {
-    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public PaymentsController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
+    public PaymentsController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
-        _context = context;
     }
 
     // GET: api/Payments
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
+    public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(ODataQueryOptions<PaymentGetDto>? options)
     {
-        return await _context.Payments.ToListAsync();
+        var list = await _serviceWrapper.Payments.GetPaymentList();
+        if (!list.Any())
+            return NotFound("No payment available");
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Payments/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Payment>> GetPayment(int id)
+    [HttpGet("{id:int}")]
+    [EnableQuery]
+    public async Task<ActionResult<Payment>> GetPayment(int id, ODataQueryOptions<PaymentGetDto>? options)
     {
-        var payment = await _context.Payments.FindAsync(id);
-
-        if (payment == null) return NotFound();
-
-        return payment;
+        var list = (await _serviceWrapper.Payments.GetPaymentList())
+            .Where(e => e.PaymentId == id).AsQueryable();
+        if (list.IsNullOrEmpty()) return NotFound("Payment not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Payments/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutPayment(int id, Payment payment)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutPayment(int id, PaymentUpdateDto payment)
     {
         if (id != payment.PaymentId) return BadRequest();
 
-        _context.Entry(payment).State = EntityState.Modified;
-
-        try
+        var updatePayment = new Payment
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!PaymentExists(id))
-                return NotFound();
-            throw;
-        }
+            Detail = payment.Detail,
+            Amount = payment.Amount,
+            Status = payment.Status,
+            PaymentTime = payment.PaymentTime,
+            PaymentPeriod = payment.PaymentPeriod,
+            CreatedTime = payment.CreatedTime,
+            PaymentTypeId = payment.PaymentTypeId
+        };
 
-        return NoContent();
+        var result = await _serviceWrapper.Payments.UpdatePayment(updatePayment);
+        if (result == null)
+            return NotFound("Payment failed to update");
+
+        return Ok(result);
+        //return Ok("Payment updated");
     }
 
     // POST: api/Payments
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Payment>> PostPayment(Payment payment)
+    public async Task<ActionResult<Payment>> PostPayment(PaymentCreateDto payment)
     {
-        _context.Payments.Add(payment);
-        await _context.SaveChangesAsync();
+        var newPayment = new Payment
+        {
+            PaymentPeriod = DateTime.Now.AddMonths(1).TimeOfDay,
+            PaymentTypeId = payment.PaymentTypeId,
+            CreatedTime = payment.CreatedTime,
+            PaymentTime = payment.PaymentTime,
+            Detail = payment.Detail,
+            Amount = payment.Amount,
+            Status = payment.Status
+        };
 
-        return CreatedAtAction("GetPayment", new { id = payment.PaymentId }, payment);
+        var result = await _serviceWrapper.Payments.AddPayment(newPayment);
+        if (result == null)
+            return NotFound("Payment not added");
+
+        return CreatedAtAction("Getpayment", new { id = payment.PaymentId }, payment);
     }
 
     // DELETE: api/Payments/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeletePayment(int id)
     {
-        var payment = await _context.Payments.FindAsync(id);
-        if (payment == null) return NotFound();
+        var result = await _serviceWrapper.Payments.DeletePayment(id);
 
-        _context.Payments.Remove(payment);
-        await _context.SaveChangesAsync();
+        if (!result)
+            return NotFound("Payment not found");
 
-        return NoContent();
-    }
-
-    private bool PaymentExists(int id)
-    {
-        return _context.Payments.Any(e => e.PaymentId == id);
+        return Ok("Delete payment successfully");
     }
 }

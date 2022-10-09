@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IBuildingService
 {
-    public Task<IEnumerable<Building?>> GetBuildingList();
+    public IQueryable<Building> GetBuildingList();
     public Task<Building?> GetBuildingById(int buildingId);
     public Task<Building?> AddBuilding(Building building);
     public Task<Building?> UpdateBuilding(Building building);

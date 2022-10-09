@@ -2,6 +2,7 @@
 
 public class BuildingCreateDto
 {
+    public int BuildingId { get; set; }
     public string BuildingName { get; set; }
 
     public string ImageUrl { get; set; }

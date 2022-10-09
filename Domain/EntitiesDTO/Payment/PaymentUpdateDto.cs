@@ -9,6 +9,5 @@ public class PaymentUpdateDto
     public DateTime PaymentTime { get; set; }
     public TimeSpan PaymentPeriod { get; set; }
     public DateTime CreatedTime { get; set; }
-    public int OrderId { get; set; }
     public int PaymentTypeId { get; set; }
 }

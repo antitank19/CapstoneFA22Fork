@@ -7,5 +7,7 @@ public enum StatusEnum
     Aborted,
     Failed,
     Denied,
-    Accepted
+    Accepted,
+    Active,
+    Deactivated
 }

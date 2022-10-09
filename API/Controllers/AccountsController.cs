@@ -1,3 +1,4 @@
+using System.Data.Entity;
 using API.Models;
 using AutoMapper;
 using AutoMapper.AspNet.OData;
@@ -5,8 +6,6 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -28,29 +27,22 @@ public class AccountsController : ControllerBase
     // GET: api/Accounts
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? deleteMePlz)
+    public async Task<ActionResult<IEnumerable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? options)
     {
-        var list = await _serviceWrapper.Accounts.GetAccountList();
+        var list = await _serviceWrapper.Accounts.GetAccountList().ToListAsync();
         if (!list.Any())
             return NotFound("No account available");
 
-        //if (options == null)
-        //    response = _mapper.Map<IEnumerable<AccountGetDto>>(result.AsQueryable()).AsQueryable();
-        //else
-        var dtos = await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz);
-        return Ok(dtos);
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? deleteMePlz)
+    public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
     {
-        var list = (await _serviceWrapper.Accounts.GetAccountList()).Where(e => e.AccountId == id);
-        if (list.IsNullOrEmpty())
-        {
-            return NotFound("Account not found");
-        }
-        var dto = (await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz)).ToArray()[0];
-        return Ok(dto);
+        var list = (await _serviceWrapper.Accounts.GetAccountList().ToListAsync())
+            .Where(e => e.AccountId == id).AsQueryable();
+        if (list.IsNullOrEmpty() || !list.Any()) return NotFound("Account not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Accounts/5
@@ -77,6 +69,7 @@ public class AccountsController : ControllerBase
 
         return Ok($"Updated at : {DateTime.Now.ToShortDateString()}");
     }
+
     // POST: api/Accounts/Login
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost("Login")]

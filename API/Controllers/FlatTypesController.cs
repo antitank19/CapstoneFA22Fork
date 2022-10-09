@@ -40,21 +40,6 @@ public class FlatTypesController : ControllerBase
     public async Task<IActionResult> PutFlatType(int id, FlatType flatType)
     {
         if (id != flatType.FlatTypeId) return BadRequest();
-
-        _context.Entry(flatType).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!FlatTypeExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
     }
 
     // POST: api/FlatTypes
@@ -62,9 +47,6 @@ public class FlatTypesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<FlatType>> PostFlatType(FlatType flatType)
     {
-        _context.FlatTypes.Add(flatType);
-        await _context.SaveChangesAsync();
-
         return CreatedAtAction("GetFlatType", new { id = flatType.FlatTypeId }, flatType);
     }
 
@@ -72,17 +54,5 @@ public class FlatTypesController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteFlatType(int id)
     {
-        var flatType = await _context.FlatTypes.FindAsync(id);
-        if (flatType == null) return NotFound();
-
-        _context.FlatTypes.Remove(flatType);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool FlatTypeExists(int id)
-    {
-        return _context.FlatTypes.Any(e => e.FlatTypeId == id);
     }
 }

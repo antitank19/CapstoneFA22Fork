@@ -1,6 +1,5 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
-using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 
 namespace API.Mapping;
@@ -44,7 +43,7 @@ public class AutoMapper : Profile
     private void MapExpenseHistory()
     {
         CreateMap<ExpenseHistory, ExpenseHistoryGetDto>()
-                    .ForAllMembers(o => o.ExplicitExpansion());
+            .ForAllMembers(o => o.ExplicitExpansion());
         CreateMap<ExpenseHistoryGetDto, ExpenseHistory>();
         CreateMap<ExpenseHistoryCreateDto, ExpenseHistory>()
             .ReverseMap();

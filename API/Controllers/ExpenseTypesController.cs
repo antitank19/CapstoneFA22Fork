@@ -39,22 +39,6 @@ public class ExpenseTypesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutExpenseType(int id, ExpenseType expenseType)
     {
-        if (id != expenseType.ExpenseTypeId) return BadRequest();
-
-        _context.Entry(expenseType).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!ExpenseTypeExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
     }
 
     // POST: api/ExpenseTypes
@@ -62,9 +46,6 @@ public class ExpenseTypesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ExpenseType>> PostExpenseType(ExpenseType expenseType)
     {
-        _context.ExpenseTypes.Add(expenseType);
-        await _context.SaveChangesAsync();
-
         return CreatedAtAction("GetExpenseType", new { id = expenseType.ExpenseTypeId }, expenseType);
     }
 
@@ -72,17 +53,5 @@ public class ExpenseTypesController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteExpenseType(int id)
     {
-        var expenseType = await _context.ExpenseTypes.FindAsync(id);
-        if (expenseType == null) return NotFound();
-
-        _context.ExpenseTypes.Remove(expenseType);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool ExpenseTypeExists(int id)
-    {
-        return _context.ExpenseTypes.Any(e => e.ExpenseTypeId == id);
     }
 }

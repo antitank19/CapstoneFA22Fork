@@ -3,6 +3,7 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Service.IService;
 
 namespace API.Controllers;
@@ -21,26 +22,16 @@ public class FeedbacksController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<Feedback>> GetFeedbacks()
+    public async Task<ActionResult<Feedback>> GetFeedbacks(ODataQueryOptions<AccountGetDto>? options)
     {
-        var result = await _serviceWrapper.Feedbacks.GetFeedbackList();
-        if (!result.Any())
-            return NotFound();
-
-        var response = _mapper.Map<IEnumerable<Feedback>>(result);
-        return Ok(response);
     }
 
     // GET: api/Feedbacks/5
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Feedback>> GetFeedback(int id)
     {
-        var result = await _serviceWrapper.Feedbacks.GetFeedbackById(id);
-        if (result == null)
-            return NotFound();
-
-        return Ok(result);
     }
 
     // PUT: api/Feedbacks/5
@@ -53,6 +44,7 @@ public class FeedbacksController : ControllerBase
 
         var updateFeedback = new Feedback
         {
+            FeedbackId = id,
             FeedbackTypeId = feedback.FeedbackTypeId,
             Description = feedback.Description,
             FlatId = feedback.RenterId

@@ -2,14 +2,11 @@
 
 public class ContractHistoryCreateDto
 {
-    public int UserId { get; set; } // User Id
-    public DateTime DateSigned { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public DateTime LastUpdated { get; set; }
-    public string ContractStatus { get; set; }
-    public int FlatId { get; set; }
-    public FlatGetDto Flat { get; set; }
-    public virtual ICollection<InvoiceCreateDto> Invoices { get; set; }
-    public virtual ICollection<ContractHistoryCreateDto> ContractHistories { get; set; }
+    public int ContractHistoryId { get; set; }
+    public float Price { get; set; }
+    public string Description { get; set; }
+    public string ContractHistoryStatus { get; set; }
+    public DateTime ContractExpiredDate { get; set; }
+    public int ContractId { get; set; } // Contract
+    public virtual ContractGetDto Contract { get; set; }
 }

@@ -25,7 +25,8 @@ public class ApartmentsController : ControllerBase
     // GET: api/Apartments
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ApartmentGetDto>>> GetApartments(ODataQueryOptions<ApartmentGetDto>? deleteMePlz)
+    public async Task<ActionResult<IEnumerable<ApartmentGetDto>>> GetApartments(
+        ODataQueryOptions<ApartmentGetDto>? deleteMePlz)
     {
         var list = await _serviceWrapper.Apartments.GetApartmentList();
         if (!list.Any())
@@ -36,14 +37,12 @@ public class ApartmentsController : ControllerBase
     }
 
     // GET: api/Apartments/5
+    [EnableQuery]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Apartment>> GetApartment(int id, ODataQueryOptions<AccountGetDto>? deleteMePlz)
     {
         var list = (await _serviceWrapper.Apartments.GetApartmentList()).Where(e => e.ApartmentId == id);
-        if (list.IsNullOrEmpty())
-        {
-            return NotFound("Appartment not found");
-        }
+        if (list.IsNullOrEmpty()) return NotFound("Appartment not found");
         var dto = (await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz)).ToArray()[0];
         return Ok(dto);
     }
@@ -82,7 +81,7 @@ public class ApartmentsController : ControllerBase
         var result = await _serviceWrapper.Apartments.AddApartment(newApartment);
         if (result == null)
             return NotFound("Add apartment failed");
-        
+
         return CreatedAtAction("GetApartment", new { id = newApartment.ApartmentId }, apartment);
     }
 

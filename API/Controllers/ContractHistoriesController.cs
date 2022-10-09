@@ -1,8 +1,10 @@
 using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
-using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -11,66 +13,78 @@ namespace API.Controllers;
 [ApiController]
 public class ContractHistoriesController : ControllerBase
 {
-    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public ContractHistoriesController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
+    public ContractHistoriesController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
-        _context = context;
     }
 
 
     // GET: api/ContractHistories
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ContractHistory>>> GetContractHistories()
+    public async Task<ActionResult<IEnumerable<ContractHistory>>> GetContractHistories(
+        ODataQueryOptions<AccountGetDto>? options)
     {
-        return await _context.ContractHistories.ToListAsync();
+        var list = await _serviceWrapper.ContractHistories.GetContractHistoryList();
+        if (!list.Any())
+            return NotFound("No contract history available");
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/ContractHistories/5
+    [EnableQuery]
     [HttpGet("{id}")]
-    public async Task<ActionResult<ContractHistory>> GetContractHistory(int id)
+    public async Task<ActionResult<ContractHistory>> GetContractHistory(int id,
+        ODataQueryOptions<AccountGetDto>? options)
     {
-        var contractHistory = await _context.ContractHistories.FindAsync(id);
-
-        if (contractHistory == null) return NotFound();
-
-        return contractHistory;
+        var list = (await _serviceWrapper.ContractHistories.GetContractHistoryList())
+            .Where(e => e.ContractHistoryId == id).AsQueryable();
+        if (list.IsNullOrEmpty()) return NotFound("Contract history not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/ContractHistories/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> PutContractHistory(int id, ContractHistory contractHistory)
+    public async Task<IActionResult> PutContractHistory(int id, ContractHistoryCreateDto contractHistory)
     {
-        if (id != contractHistory.ContractHistoryId) return BadRequest();
+        if (id != contractHistory.ContractHistoryId)
+            return BadRequest();
 
-        _context.Entry(contractHistory).State = EntityState.Modified;
-
-        try
+        var updateContract = new ContractHistory
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!ContractHistoryExists(id))
-                return NotFound();
-            throw;
-        }
+            ContractHistoryId = id,
+            Description = contractHistory.Description,
+            ContractHistoryStatus = contractHistory.ContractHistoryStatus,
+            ContractExpiredDate = contractHistory.ContractExpiredDate,
+            Price = contractHistory.Price
+        };
 
-        return NoContent();
+        var result1 = await _serviceWrapper.ContractHistories.UpdateContractHistory(updateContract);
+        if (result1 == null)
+            return NotFound("Contract history not found");
+
+        return Ok("Contract history updated successfully");
     }
 
     // POST: api/ContractHistories
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<ContractHistory>> PostContractHistory(ContractHistory contractHistory)
+    public async Task<ActionResult<ContractHistory>> PostContractHistory(ContractHistoryCreateDto contractHistory)
     {
-        _context.ContractHistories.Add(contractHistory);
-        await _context.SaveChangesAsync();
+        var addNewContractHistory = new ContractHistory
+        {
+            ContractId = contractHistory.ContractId,
+            Description = contractHistory.Description,
+            Price = contractHistory.Price,
+            ContractHistoryStatus = contractHistory.ContractHistoryStatus,
+            ContractExpiredDate = contractHistory.ContractExpiredDate
+        };
 
         return CreatedAtAction("GetContractHistory", new { id = contractHistory.ContractHistoryId }, contractHistory);
     }
@@ -79,17 +93,11 @@ public class ContractHistoriesController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteContractHistory(int id)
     {
-        var contractHistory = await _context.ContractHistories.FindAsync(id);
-        if (contractHistory == null) return NotFound();
+        var result = await _serviceWrapper.ContractHistories.DeleteContractHistory(id);
 
-        _context.ContractHistories.Remove(contractHistory);
-        await _context.SaveChangesAsync();
+        if (!result)
+            return NotFound("Contract history not found");
 
-        return NoContent();
-    }
-
-    private bool ContractHistoryExists(int id)
-    {
-        return _context.ContractHistories.Any(e => e.ContractHistoryId == id);
+        return Ok("Contract history deleted successfully");
     }
 }

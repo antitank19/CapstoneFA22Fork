@@ -20,6 +20,7 @@ public static class CorsService
 
         return services;
     }
+
     public static void UseCustomCorsService(this WebApplication application)
     {
         application.UseCors(MyCorsPolicy);

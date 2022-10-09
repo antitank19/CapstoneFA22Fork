@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore.OData;
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Serialization;
 using Utilities.MiddlewareExtension;
 using Utilities.ServiceExtensions;
 
@@ -21,14 +18,14 @@ builder.Services.AddControllers(
 //    }
 
 //}
-)
+    )
     .AddOData(o => o.EnableQueryFeatures());
-    //.AddNewtonsoftJson(options =>
-    //{
-    //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-    //    options.UseCamelCasing(true);
-    //    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-    //});
+//.AddNewtonsoftJson(options =>
+//{
+//    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+//    options.UseCamelCasing(true);
+//    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+//});
 //.AddJsonOptions(options =>
 //{
 //    options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;

@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IAccountService
 {
-    public Task<IQueryable<Account?>> GetAccountList();
+    public IQueryable<Account> GetAccountList();
     public Task<Account?> GetAccountById(int accountId);
     public Task<Account?> AddAccount(Account account);
     public Task<Account?> UpdateAccount(Account account);

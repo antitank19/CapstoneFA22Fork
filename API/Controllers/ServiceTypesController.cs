@@ -1,9 +1,8 @@
 ﻿using Domain.EntitiesForManagement;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-namespace net6API.Controllers;
+namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -20,41 +19,20 @@ public class ServiceTypesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ServiceType>>> GetServiceTypes()
     {
-        return await _context.ServiceTypes.ToListAsync();
     }
 
     // GET: api/ServiceTypes/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<ServiceType>> GetServiceType(int id)
     {
-        var serviceType = await _context.ServiceTypes.FindAsync(id);
-
-        if (serviceType == null) return NotFound();
-
-        return serviceType;
     }
 
     // PUT: api/ServiceTypes/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> PutServiceType(int id, ServiceType serviceType)
     {
         if (id != serviceType.ServiceTypeId) return BadRequest();
-
-        _context.Entry(serviceType).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!ServiceTypeExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
     }
 
     // POST: api/ServiceTypes
@@ -62,27 +40,12 @@ public class ServiceTypesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ServiceType>> PostServiceType(ServiceType serviceType)
     {
-        _context.ServiceTypes.Add(serviceType);
-        await _context.SaveChangesAsync();
-
         return CreatedAtAction("GetServiceType", new { id = serviceType.ServiceTypeId }, serviceType);
     }
 
     // DELETE: api/ServiceTypes/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteServiceType(int id)
     {
-        var serviceType = await _context.ServiceTypes.FindAsync(id);
-        if (serviceType == null) return NotFound();
-
-        _context.ServiceTypes.Remove(serviceType);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool ServiceTypeExists(int id)
-    {
-        return _context.ServiceTypes.Any(e => e.ServiceTypeId == id);
     }
 }

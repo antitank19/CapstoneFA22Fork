@@ -40,21 +40,6 @@ public class FlatsController : ControllerBase
     public async Task<IActionResult> PutFlat(int id, Flat flat)
     {
         if (id != flat.FlatId) return BadRequest();
-
-        _context.Entry(flat).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!FlatExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
     }
 
     // POST: api/Flats
@@ -62,9 +47,6 @@ public class FlatsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Flat>> PostFlat(Flat flat)
     {
-        _context.Flats.Add(flat);
-        await _context.SaveChangesAsync();
-
         return CreatedAtAction("GetFlat", new { id = flat.FlatId }, flat);
     }
 
@@ -72,17 +54,5 @@ public class FlatsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteFlat(int id)
     {
-        var flat = await _context.Flats.FindAsync(id);
-        if (flat == null) return NotFound();
-
-        _context.Flats.Remove(flat);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool FlatExists(int id)
-    {
-        return _context.Flats.Any(e => e.FlatId == id);
     }
 }

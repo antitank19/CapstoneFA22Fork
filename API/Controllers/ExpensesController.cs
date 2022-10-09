@@ -40,21 +40,6 @@ public class ExpensesController : ControllerBase
     public async Task<IActionResult> PutExpense(int id, Expense expense)
     {
         if (id != expense.ExpenseId) return BadRequest();
-
-        _context.Entry(expense).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!ExpenseExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
     }
 
     // POST: api/Expenses
@@ -62,9 +47,6 @@ public class ExpensesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Expense>> PostExpense(Expense expense)
     {
-        _context.Expenses.Add(expense);
-        await _context.SaveChangesAsync();
-
         return CreatedAtAction("GetExpense", new { id = expense.ExpenseId }, expense);
     }
 
@@ -72,17 +54,5 @@ public class ExpensesController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteExpense(int id)
     {
-        var expense = await _context.Expenses.FindAsync(id);
-        if (expense == null) return NotFound();
-
-        _context.Expenses.Remove(expense);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool ExpenseExists(int id)
-    {
-        return _context.Expenses.Any(e => e.ExpenseId == id);
     }
 }

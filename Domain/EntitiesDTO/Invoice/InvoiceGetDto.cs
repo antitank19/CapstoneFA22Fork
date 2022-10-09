@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Domain.EntitiesDTO;
 
 public class InvoiceGetDto

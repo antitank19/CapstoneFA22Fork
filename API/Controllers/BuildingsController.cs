@@ -1,9 +1,11 @@
+using System.Data.Entity;
 using AutoMapper;
+using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
-using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -12,33 +14,36 @@ namespace API.Controllers;
 [ApiController]
 public class BuildingsController : ControllerBase
 {
-    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public BuildingsController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
+    public BuildingsController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
-        _context = context;
     }
 
     // GET: api/Buildings
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Building>>> GetBuildings()
+    public async Task<ActionResult<IEnumerable<Building>>> GetBuildings(ODataQueryOptions<AccountGetDto>? options)
     {
-        return await _context.Buildings.ToListAsync();
+        var list = await _serviceWrapper.Buildings.GetBuildingList().ToListAsync();
+        if (!list.Any())
+            return NotFound("No account available");
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Buildings/5
+    [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Building>> GetBuilding(int id)
+    public async Task<ActionResult<Building>> GetBuilding(int id, ODataQueryOptions<AccountGetDto>? options)
     {
-        var result = await _serviceWrapper.Buildings.GetBuildingById(id);
-        if (result == null)
-            return NotFound("Building not found");
-
-        return Ok(result);
+        var list = (await _serviceWrapper.Buildings.GetBuildingList().ToListAsync())
+            .Where(e => e.BuildingId == id).AsQueryable();
+        if (list.IsNullOrEmpty()) return NotFound("Building not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Buildings/5
@@ -66,7 +71,7 @@ public class BuildingsController : ControllerBase
         if (result == null)
             return NotFound();
 
-        return Ok( new { message = "Update building successfully" });
+        return Ok(new { message = "Update building successfully" });
     }
 
     // POST: api/Buildings
@@ -74,7 +79,7 @@ public class BuildingsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Building>> PostBuilding(BuildingCreateDto building)
     {
-        var newBuilding = new Building()
+        var newBuilding = new Building
         {
             BuildingName = building.BuildingName,
             ImageUrl = building.ImageUrl,
@@ -83,14 +88,14 @@ public class BuildingsController : ControllerBase
             CoordinateY = building.CoordinateY,
             TotalFloor = building.TotalFloor,
             TotalRooms = building.TotalRooms,
-            ApartmentId = building.AppartmentId,
+            ApartmentId = building.AppartmentId
         };
-        
+
         var result = await _serviceWrapper.Buildings.AddBuilding(newBuilding);
         if (result == null)
-            return NotFound( new { message = "Create new building failed" });
-        
-        return CreatedAtAction("GetBuilding", new { id = building.BuildingName }, building);
+            return NotFound(new { message = "Create new building failed" });
+
+        return CreatedAtAction("GetBuilding", new { id = building.BuildingId }, building);
     }
 
     // DELETE: api/Buildings/5
@@ -98,11 +103,10 @@ public class BuildingsController : ControllerBase
     public async Task<IActionResult> DeleteBuilding(int id)
     {
         var result = await _serviceWrapper.Buildings.DeleteBuilding(id);
-        
-        if (!result) 
+
+        if (!result)
             return NotFound("Building not found");
 
         return Ok("Delete building successfully");
     }
-    
 }

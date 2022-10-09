@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
-using Domain.EntitiesDTO.Bill;
 using Domain.EntitiesForManagement;
 using Domain.EnumEntities;
-using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
-namespace net6API.Controllers;
+namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -16,6 +16,7 @@ public class BillsController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
+
     public BillsController(IServiceWrapper serviceWrapper, IMapper mapper)
     {
         _serviceWrapper = serviceWrapper;
@@ -23,21 +24,26 @@ public class BillsController : ControllerBase
     }
 
     // GET: api/Bills
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Bill>>> GetBills()
+    public async Task<ActionResult<IEnumerable<Bill>>> GetBills(ODataQueryOptions<BillGetDto>? options)
     {
-        return await _context.Bills.ToListAsync();
+        var list = await _serviceWrapper.Bills.GetBillList();
+        if (!list.Any())
+            return NotFound("No bill available");
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Bills/5
+    [EnableQuery]
     [HttpGet("{id}")]
-    public async Task<ActionResult<Bill>> GetBill(int id)
+    public async Task<ActionResult<Bill>> GetBill(int id, ODataQueryOptions<BillGetDto>? options)
     {
-        var bill = await _context.Bills.FindAsync(id);
-
-        if (bill == null) return NotFound();
-
-        return bill;
+        var list = (await _serviceWrapper.Bills.GetBillList())
+            .Where(e => e.BillId == id).AsQueryable();
+        if (list.IsNullOrEmpty()) return NotFound("Bill not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Bills/5
@@ -45,21 +51,21 @@ public class BillsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutBill(int id, Bill bill)
     {
-        if (id != bill.BillId) 
+        if (id != bill.BillId)
             return BadRequest();
 
-        var updateBill = new Bill()
+        var updateBill = new Bill
         {
             BillId = id,
             Detail = bill.Detail,
             DueDate = bill.DueDate,
-            InvoiceId = bill.InvoiceId,
+            InvoiceId = bill.InvoiceId
         };
 
         var result = await _serviceWrapper.Bills.UpdateBill(updateBill);
-        if (result == null) 
+        if (result == null)
             return NotFound();
-        
+
         return Ok("Bill updated successfully");
     }
 
@@ -68,13 +74,13 @@ public class BillsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Bill>> PostBill(BillCreateDto bill)
     {
-        var newBill = new Bill()
+        var newBill = new Bill
         {
             Name = bill.Name,
             Detail = bill.Detail,
             DueDate = bill.DueDate,
             Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Pending),
-            InvoiceId = bill.InvoiceId,
+            InvoiceId = bill.InvoiceId
         };
 
         var result = await _serviceWrapper.Bills.AddBill(newBill);
@@ -89,7 +95,7 @@ public class BillsController : ControllerBase
     public async Task<IActionResult> DeleteBill(int id)
     {
         var result = await _serviceWrapper.Bills.DeleteBill(id);
-        if (!result) 
+        if (!result)
             return NotFound();
 
         return Ok("Bill deleted successfully");

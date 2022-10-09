@@ -40,21 +40,6 @@ public class FeedbackTypesController : ControllerBase
     public async Task<IActionResult> PutFeedbackType(int id, FeedbackType feedbackType)
     {
         if (id != feedbackType.FeedbackTypeId) return BadRequest();
-
-        _context.Entry(feedbackType).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!FeedbackTypeExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
     }
 
     // POST: api/FeedbackTypes
@@ -62,9 +47,6 @@ public class FeedbackTypesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<FeedbackType>> PostFeedbackType(FeedbackType feedbackType)
     {
-        _context.FeedbackTypes.Add(feedbackType);
-        await _context.SaveChangesAsync();
-
         return CreatedAtAction("GetFeedbackType", new { id = feedbackType.FeedbackTypeId }, feedbackType);
     }
 
@@ -72,17 +54,5 @@ public class FeedbackTypesController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteFeedbackType(int id)
     {
-        var feedbackType = await _context.FeedbackTypes.FindAsync(id);
-        if (feedbackType == null) return NotFound();
-
-        _context.FeedbackTypes.Remove(feedbackType);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool FeedbackTypeExists(int id)
-    {
-        return _context.FeedbackTypes.Any(e => e.FeedbackTypeId == id);
     }
 }

@@ -14,10 +14,9 @@ public class BuildingService : IBuildingService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Building?>> GetBuildingList()
+    public IQueryable<Building> GetBuildingList()
     {
-        return await _repositoryWrapper.Buildings.GetBuildingList()
-            .ToListAsync();
+        return _repositoryWrapper.Buildings.GetBuildingList();
     }
 
     public async Task<Building?> GetBuildingById(int buildingId)
