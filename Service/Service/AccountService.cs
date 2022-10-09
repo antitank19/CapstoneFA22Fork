@@ -14,7 +14,7 @@ public class AccountService : IAccountService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IQueryable<Account>> GetAccountList()
+    public async Task<IQueryable<Account?>> GetAccountList()
     {
         return _repositoryWrapper.Accounts.GetAccountList()
             .AsQueryable();

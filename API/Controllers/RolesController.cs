@@ -8,12 +8,12 @@ namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RoleController : ControllerBase
+public class RolesController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public RoleController(IMapper mapper, IServiceWrapper serviceWrapper)
+    public RolesController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;

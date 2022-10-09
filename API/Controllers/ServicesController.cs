@@ -7,11 +7,11 @@ namespace net6API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ServiceEntitysController : ControllerBase
+public class ServicesController : ControllerBase
 {
     private readonly ApplicationContext _context;
 
-    public ServiceEntitysController(ApplicationContext context)
+    public ServicesController(ApplicationContext context)
     {
         _context = context;
     }

@@ -9,13 +9,13 @@ namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PaymentTypeController : ControllerBase
+public class PaymentTypesController : ControllerBase
 {
     private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public PaymentTypeController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
+    public PaymentTypesController(IMapper mapper, IServiceWrapper serviceWrapper, ApplicationContext context)
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;

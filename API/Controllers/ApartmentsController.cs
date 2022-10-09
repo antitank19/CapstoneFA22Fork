@@ -23,8 +23,9 @@ public class ApartmentsController : ControllerBase
     }
 
     // GET: api/Apartments
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult> GetApartments(ODataQueryOptions<ApartmentGetDto>? deleteMePlz)
+    public async Task<ActionResult<IEnumerable<ApartmentGetDto>>> GetApartments(ODataQueryOptions<ApartmentGetDto>? deleteMePlz)
     {
         var list = await _serviceWrapper.Apartments.GetApartmentList();
         if (!list.Any())

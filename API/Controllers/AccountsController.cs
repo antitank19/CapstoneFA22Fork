@@ -14,12 +14,12 @@ namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AccountController : ControllerBase
+public class AccountsController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
-    public AccountController(IServiceWrapper serviceWrapper, IMapper mapper)
+    public AccountsController(IServiceWrapper serviceWrapper, IMapper mapper)
     {
         _serviceWrapper = serviceWrapper;
         _mapper = mapper;
@@ -28,9 +28,9 @@ public class AccountController : ControllerBase
     // GET: api/Accounts
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? deleteMePlz)
+    public async Task<ActionResult<IEnumerable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? deleteMePlz)
     {
-        var list = (await _serviceWrapper.Accounts.GetAccountList()).AsQueryable();
+        var list = await _serviceWrapper.Accounts.GetAccountList();
         if (!list.Any())
             return NotFound("No account available");
 

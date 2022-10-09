@@ -9,12 +9,12 @@ namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RenterController : ControllerBase
+public class RentersController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IServiceWrapper services;
 
-    public RenterController(IMapper mapper, IServiceWrapper serviceWrapper)
+    public RentersController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
         _mapper = mapper;
         services = serviceWrapper;
