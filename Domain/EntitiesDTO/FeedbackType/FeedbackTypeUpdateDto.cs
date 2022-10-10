@@ -3,5 +3,5 @@
 public class FeedbackTypeUpdateDto
 {
     public int FeedbackTypeId { get; set; }
-    public int Name { get; set; }
+    public string Name { get; set; }
 }

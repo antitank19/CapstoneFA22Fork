@@ -1,8 +1,12 @@
+using System.Data.Entity;
 using API.Models;
 using AutoMapper;
+using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -12,35 +16,39 @@ namespace API.Controllers;
 public class RentersController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IServiceWrapper services;
+    private readonly IServiceWrapper _serviceWrapper;
 
     public RentersController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
         _mapper = mapper;
-        services = serviceWrapper;
+        _serviceWrapper = serviceWrapper;
     }
 
     // GET: api/Renters
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<RenterGetDto>> GetRenters()
+    public async Task<ActionResult<Renter>> GetRenters(ODataQueryOptions<RenterGetDto>? options)
     {
-        var result = await services.Renters.GetRenterList();
-        if (!result.Any())
+        var list = await _serviceWrapper.Renters.GetRenterList().ToListAsync();
+        if (!list.Any())
             return NotFound("No renter available");
 
-        var response = _mapper.Map<IEnumerable<Renter>>(result);
-        return Ok(response);
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+
+        //var response = _mapper.Map<IEnumerable<Renter>>(result);
+        //return Ok(response);
     }
 
     // GET: api/Renters/5
+    [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Renter>> GetRenter(int id)
+    public async Task<ActionResult<Renter>> GetRenter(int id, ODataQueryOptions<RenterGetDto>? options)
     {
-        var result = await services.Renters.GetRenterById(id);
-        if (result == null)
-            return NotFound("No renter found");
-
-        return Ok(result);
+        var list = (await _serviceWrapper.Requests.GetRequestList().ToListAsync())
+            .Where(x => x.RequestTypeId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Request type not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/Renters/5
@@ -72,7 +80,7 @@ public class RentersController : ControllerBase
             }
         };
 
-        var result = await services.Renters.UpdateRenter(updateRenter);
+        var result = await _serviceWrapper.Renters.UpdateRenter(updateRenter);
         if (result == null)
             return NotFound("Update failed");
 
@@ -82,12 +90,27 @@ public class RentersController : ControllerBase
     // POST: api/Renters
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Renter>> PostRenter(RenterCreateDto renterDto)
+    public async Task<ActionResult<Renter>> PostRenter(RenterCreateDto renter)
     {
-        var renter = _mapper.Map<Renter>(renterDto);
-        await services.Renters.AddRenter(renter);
-
-        return CreatedAtAction("GetRenter", renterDto);
+        var newRenter = new Renter()
+        {
+            Username = renter.Username,
+            Email = renter.Email,
+            Password = renter.Password,
+            Phone = renter.Phone,
+            FullName = renter.FullName,
+            BirthDate = renter.BirthDate,
+            Status = true,
+            Image = renter.Image,
+            Address = renter.Address,
+            Gender = renter.Gender,
+            UniversityId = renter.UniversityId,
+            MajorId = renter.MajorId
+        };
+        var result = await _serviceWrapper.Renters.AddRenter(newRenter);
+        if (result == null)
+            return NotFound("Create failed");
+        return CreatedAtAction("GetRenter", renter);
     }
 
     // POST: api/Accounts/Login
@@ -95,16 +118,16 @@ public class RentersController : ControllerBase
     [HttpPost("Login")]
     public async Task<ActionResult> Login(LoginModel loginModel)
     {
-        var renter = await services.Renters.Login(loginModel.Username, loginModel.Password);
-        var jwtToken = services.Tokens.CreateTokenForRenter(renter);
+        var renter = await _serviceWrapper.Renters.Login(loginModel.Username, loginModel.Password);
+        var jwtToken = _serviceWrapper.Tokens.CreateTokenForRenter(renter);
         return Ok(jwtToken);
     }
 
     // DELETE: api/Renters/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteRenter(int id)
     {
-        var result = await services.Renters.DeleteRenter(id);
+        var result = await _serviceWrapper.Renters.DeleteRenter(id);
         if (result)
             return NotFound("Renter not found");
 

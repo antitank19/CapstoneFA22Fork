@@ -28,7 +28,7 @@ public class AreasController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Area>>> GetAreas(ODataQueryOptions<AreaGetDto>? options)
     {
-        var list = (await _serviceWrapper.Areas.GetAreaList().ToListAsync();
+        var list = await _serviceWrapper.Areas.GetAreaList().ToListAsync();
         if (!list.Any())
             return NotFound("No area available");
 
@@ -37,6 +37,7 @@ public class AreasController : ControllerBase
 
     // GET: api/Areas/5
     [HttpGet("{id:int}")]
+    [EnableQuery]
     public async Task<ActionResult<Area>> GetArea(int id, ODataQueryOptions<AreaGetDto>? options)
     {
         var list = (await _serviceWrapper.Areas.GetAreaList().ToListAsync())

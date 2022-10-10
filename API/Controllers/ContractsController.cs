@@ -4,6 +4,7 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -27,7 +28,7 @@ public class ContractsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Contract>>> GetContracts(ODataQueryOptions<ContractGetDto>? options)
     {
-        var list = await _serviceWrapper.Contracts.GetContractList();
+        var list = await _serviceWrapper.Contracts.GetContractList().ToListAsync();
         if (!list.Any())
             return NotFound("No contract available");
 
@@ -39,7 +40,7 @@ public class ContractsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Contract>> GetContract(int id, ODataQueryOptions<ContractGetDto>? options)
     {
-        var list = (await _serviceWrapper.Contracts.GetContractList())
+        var list = (await _serviceWrapper.Contracts.GetContractList().ToListAsync())
             .Where(e => e.ContractId == id).AsQueryable();
         if (list.IsNullOrEmpty() || !list.Any()) return NotFound("Contract not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
@@ -113,7 +114,7 @@ public class ContractsController : ControllerBase
         if (result == null)
             return NotFound();
 
-        return CreatedAtAction("GetContract", new { id = newContract.ContractId }, contract);
+        return CreatedAtAction("GetContract", new { id = contract.ContractId }, contract);
     }
 
     // DELETE: api/Contracts/5

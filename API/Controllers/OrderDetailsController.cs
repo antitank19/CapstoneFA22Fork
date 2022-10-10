@@ -1,6 +1,12 @@
-﻿using Domain.EntitiesForManagement;
-using Infrastructure;
+﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
+using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Service.IService;
 
 namespace API.Controllers;
 
@@ -8,41 +14,83 @@ namespace API.Controllers;
 [ApiController]
 public class OrderDetailsController : ControllerBase
 {
-    public OrderDetailsController(ApplicationContext context)
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
+
+    public OrderDetailsController(IServiceWrapper serviceWrapper, IMapper mapper)
     {
+        _serviceWrapper = serviceWrapper;
+        _mapper = mapper;
     }
 
     // GET: api/OrderDetails
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<OrderDetail>>> GetOrderDetails()
+    [EnableQuery]
+    public async Task<ActionResult<IEnumerable<OrderDetail>>> GetOrderDetails(ODataQueryOptions<OrderDetail>? options)
     {
+        var list = await _serviceWrapper.OrderDetails.GetOrderDetailList().ToListAsync();
+        if (!list.Any())
+            return NotFound("No Order Details Found");
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/OrderDetails/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<OrderDetail>> GetOrderDetail(int id)
+    [HttpGet("{id:int}")]
+    [EnableQuery]
+    public async Task<ActionResult<OrderDetail>> GetOrderDetail(int id, ODataQueryOptions<OrderDetail>? options)
     {
+        var list = (await _serviceWrapper.OrderDetails.GetOrderDetailList().ToListAsync())
+            .Where(x => x.OrderDetailId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Order detail not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/OrderDetails/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutOrderDetail(int id, OrderDetail orderDetail)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutOrderDetail(int id, OrderDetailUpdateDto orderDetail)
     {
         if (id != orderDetail.OrderDetailId) return BadRequest();
+        var updateOrderDetail = new OrderDetail()
+        {
+            OrderDetailId = id,
+            Amount = orderDetail.Amount,
+            OrderId = orderDetail.OrderId,
+            ServiceId = orderDetail.ServiceId,
+        };
+        var result = await _serviceWrapper.OrderDetails.UpdateOrderDetail(updateOrderDetail);
+        if (result == null)
+            return NotFound("Order detail not found");
+        return Ok("Order detail updated successfully");
     }
 
     // POST: api/OrderDetails
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<OrderDetail>> PostOrderDetail(OrderDetail orderDetail)
+    public async Task<ActionResult<OrderDetail>> PostOrderDetail(OrderDetailCreateDto orderDetail)
     {
-        return CreatedAtAction("GetOrderDetail", new { id = orderDetail.OrderDetailId }, orderDetail);
+        var newOrderDetail = new OrderDetail()
+        {
+            Amount = orderDetail.Amount,
+            OrderId = orderDetail.OrderId,
+            ServiceId = orderDetail.ServiceId,
+        };
+        var result = await _serviceWrapper.OrderDetails.AddOrderDetail(newOrderDetail);
+        if (result == null)
+            return NotFound("Order detail not found");
+        return CreatedAtAction("GetOrderDetail",orderDetail);
     }
 
     // DELETE: api/OrderDetails/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteOrderDetail(int id)
     {
+        var result = await _serviceWrapper.OrderDetails.DeleteOrderDetail(id);
+        if (!result)
+            return NotFound("Order detail not found");
+
+        return Ok("Order detail deleted");
     }
 }

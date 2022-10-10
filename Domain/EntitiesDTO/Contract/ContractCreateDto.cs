@@ -2,6 +2,7 @@
 
 public class ContractCreateDto
 {
+    public int ContractId { get; set; }
     public DateTime DateSigned { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }

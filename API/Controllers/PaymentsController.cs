@@ -1,7 +1,9 @@
+using System.Data.Entity;
 using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
+using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.IdentityModel.Tokens;
@@ -27,7 +29,7 @@ public class PaymentsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(ODataQueryOptions<PaymentGetDto>? options)
     {
-        var list = await _serviceWrapper.Payments.GetPaymentList();
+        var list = await _serviceWrapper.Payments.GetPaymentList().ToListAsync();
         if (!list.Any())
             return NotFound("No payment available");
 
@@ -39,7 +41,7 @@ public class PaymentsController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<Payment>> GetPayment(int id, ODataQueryOptions<PaymentGetDto>? options)
     {
-        var list = (await _serviceWrapper.Payments.GetPaymentList())
+        var list = (await _serviceWrapper.Payments.GetPaymentList().ToListAsync())
             .Where(e => e.PaymentId == id).AsQueryable();
         if (list.IsNullOrEmpty()) return NotFound("Payment not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
@@ -84,7 +86,7 @@ public class PaymentsController : ControllerBase
             PaymentTime = payment.PaymentTime,
             Detail = payment.Detail,
             Amount = payment.Amount,
-            Status = payment.Status
+            Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Pending)
         };
 
         var result = await _serviceWrapper.Payments.AddPayment(newPayment);

@@ -8,7 +8,6 @@ public class OrderDetail
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int OrderDetailId { get; set; }
-
     public float Amount { get; set; }
     public int OrderId { get; set; }
     public virtual Order Order { get; set; }

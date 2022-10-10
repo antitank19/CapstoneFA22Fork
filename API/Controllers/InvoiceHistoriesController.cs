@@ -1,58 +1,107 @@
-﻿using Domain.EntitiesForManagement;
-using Infrastructure;
+﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
+using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Service.IService;
 
-namespace net6API.Controllers;
+namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class InvoiceHistoriesController : ControllerBase
 {
-    private readonly ApplicationContext _context;
-
-    public InvoiceHistoriesController(ApplicationContext context)
-    {
-        _context = context;
-    }
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
 
     // GET: api/InvoiceHistories
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<InvoiceHistory>>> GetInvoiceHistories()
+    public InvoiceHistoriesController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        return await _context.InvoiceHistories.ToListAsync();
+        _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
+    }
+
+    [HttpGet]
+    [EnableQuery]
+    public async Task<ActionResult<IEnumerable<InvoiceHistory>>> GetInvoiceHistories(ODataQueryOptions<InvoiceHistoryGetDto>? options)
+    {
+        var list = await _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList().ToListAsync();
+        if (!list.Any())
+            return NotFound("Invoice history not found");
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/InvoiceHistories/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<InvoiceHistory>> GetInvoiceHistory(int id)
+    [HttpGet("{id:int}")]
+    [EnableQuery]
+    public async Task<ActionResult<InvoiceHistory>> GetInvoiceHistory(int id, ODataQueryOptions<InvoiceHistoryGetDto>? options)
     {
-        var invoiceHistory = await _context.InvoiceHistories.FindAsync(id);
-
-        if (invoiceHistory == null) return NotFound();
-
-        return invoiceHistory;
+        var list = (await _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList().ToListAsync())
+            .Where(x => x.InvoiceHistoryId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Invoice history not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/InvoiceHistories/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutInvoiceHistory(int id, InvoiceHistory invoiceHistory)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutInvoiceHistory(int id, InvoiceHistoryUpdateDto invoiceHistory)
     {
         if (id != invoiceHistory.InvoiceHistoryId) return BadRequest();
+
+        var updateInvoiceHistory = new InvoiceHistory()
+        {
+            InvoiceHistoryId = id,
+            Name = invoiceHistory.Name,
+            Image = invoiceHistory.Image,
+            Detail = invoiceHistory.Detail,
+            Status = invoiceHistory.Status,
+            SendDate = invoiceHistory.SendDate,
+            UpdatedDate = invoiceHistory.UpdatedDate,
+            InvoiceId = invoiceHistory.InvoiceId,
+        };
+        
+        var result = await _serviceWrapper.InvoiceHistories.UpdateInvoiceHistory(updateInvoiceHistory);
+        if (result == null)
+            return NotFound("Invoice history not found");
+
+        return Ok("Invoice history updated successfully");
     }
 
     // POST: api/InvoiceHistories
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<InvoiceHistory>> PostInvoiceHistory(InvoiceHistory invoiceHistory)
+    public async Task<ActionResult<InvoiceHistory>> PostInvoiceHistory(InvoiceHistoryCreateDto invoiceHistory)
     {
-        return CreatedAtAction("GetInvoiceHistory", new { id = invoiceHistory.InvoiceHistoryId }, invoiceHistory);
+        var updateInvoiceHistory = new InvoiceHistory()
+        {
+            Name = invoiceHistory.Name,
+            Image = invoiceHistory.Image,
+            Detail = invoiceHistory.Detail,
+            Status = invoiceHistory.Status,
+            SendDate = invoiceHistory.SendDate,
+            UpdatedDate = invoiceHistory.UpdatedDate,
+            InvoiceId = invoiceHistory.InvoiceId,
+        };
+        var result = await _serviceWrapper.InvoiceHistories.UpdateInvoiceHistory(updateInvoiceHistory);
+        if (result == null)
+            return NotFound("Invoice history not found");
+        return CreatedAtAction("GetInvoiceHistory", invoiceHistory);
     }
 
     // DELETE: api/InvoiceHistories/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteInvoiceHistory(int id)
     {
+        var result = await _serviceWrapper.InvoiceHistories.DeleteInvoiceHistory(id);
+        if (!result)
+            return NotFound("Invoice history not found");
+
+        return Ok("Invoice history deleted");
     }
 }

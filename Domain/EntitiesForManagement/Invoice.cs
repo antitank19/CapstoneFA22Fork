@@ -17,6 +17,7 @@ public class Invoice
 
     public string Name { get; set; }
     public string Detail { get; set; }
+    public string Image { get; set; }
     public string Status { get; set; }
     public int ContractId { get; set; }
     public virtual Contract Contract { get; set; }

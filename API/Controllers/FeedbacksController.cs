@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -24,14 +27,25 @@ public class FeedbacksController : ControllerBase
 
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<Feedback>> GetFeedbacks(ODataQueryOptions<AccountGetDto>? options)
+    public async Task<ActionResult<Feedback>> GetFeedbacks(ODataQueryOptions<FeedbackGetDto>? options)
     {
+        var list = await _serviceWrapper.Feedbacks.GetFeedbackList().ToListAsync();
+        if (!list.Any())
+            return NotFound();
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Feedbacks/5
+    [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Feedback>> GetFeedback(int id)
+    public async Task<ActionResult<Feedback>> GetFeedback(int id, ODataQueryOptions<FeedbackGetDto>? options)
     {
+        var list = (await _serviceWrapper.Feedbacks.GetFeedbackList().ToListAsync())
+            .Where(x => x.FeedbackId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Feedback not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/Feedbacks/5

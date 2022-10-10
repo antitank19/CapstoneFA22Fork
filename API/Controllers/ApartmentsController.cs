@@ -40,11 +40,11 @@ public class ApartmentsController : ControllerBase
     // GET: api/Apartments/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Apartment>> GetApartment(int id, ODataQueryOptions<AccountGetDto>? options)
+    public async Task<ActionResult<Apartment>> GetApartment(int id, ODataQueryOptions<ApartmentGetDto>? options)
     {
         var list = (await _serviceWrapper.Apartments.GetApartmentList().ToListAsync())
             .Where(e => e.ApartmentId == id).AsQueryable();
-        if (list.IsNullOrEmpty()) 
+        if (list.IsNullOrEmpty())
             return NotFound("Apartment not found");
         var dto = (await list.AsQueryable().GetQueryAsync(_mapper, options)).ToArray()[0];
         return Ok(dto);

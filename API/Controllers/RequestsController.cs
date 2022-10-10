@@ -1,58 +1,95 @@
-﻿using Domain.EntitiesForManagement;
-using Infrastructure;
+﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
+using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Service.IService;
 
-namespace net6API.Controllers;
+namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class RequestsController : ControllerBase
 {
-    private readonly ApplicationContext _context;
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
 
-    public RequestsController(ApplicationContext context)
-    {
-        _context = context;
-    }
 
     // GET: api/Requests
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Request>>> GetRequests()
+    public RequestsController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        return await _context.Requests.ToListAsync();
+        _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Request>>> GetRequests(ODataQueryOptions<RequestTypeGetDto>? options)
+    {
+        var list = await _serviceWrapper.Requests.GetRequestList().ToListAsync();
+        if (!list.Any())
+            return NotFound();
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Requests/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Request>> GetRequest(int id)
+    public async Task<ActionResult<Request>> GetRequest(int id, ODataQueryOptions<RequestTypeGetDto>? options)
     {
-        var request = await _context.Requests.FindAsync(id);
-
-        if (request == null) return NotFound();
-
-        return request;
+        var list = (await _serviceWrapper.Requests.GetRequestList().ToListAsync())
+            .Where(x => x.RequestTypeId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Request type not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/Requests/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutRequest(int id, Request request)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutRequest(int id, RequestCreateDto request)
     {
         if (id != request.RequestId) return BadRequest();
+        var updateRequest = new Request
+        {
+            RequestId = id,
+            RequestTypeId = request.RequestTypeId,
+            Description = request.Description,
+            CreateDate = request.CreateDate,
+            SolveDate = request.SolveDate
+        };
+        var result = await _serviceWrapper.Requests.UpdateRequest(updateRequest);
+        if (result == null)
+            return NotFound("Request not found");
+        return Ok("Request updated");
     }
 
     // POST: api/Requests
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Request>> PostRequest(Request request)
+    public async Task<ActionResult<Request>> PostRequest(RequestCreateDto request)
     {
+        var newRequest = new Request
+        {
+            Description = request.Description,
+            CreateDate = request.CreateDate,
+            SolveDate = request.SolveDate,
+            RequestTypeId = request.RequestTypeId
+        };
+        var result = await _serviceWrapper.Requests.AddRequest(newRequest);
+        if (result == null) return BadRequest();
         return CreatedAtAction("GetRequest", new { id = request.RequestId }, request);
     }
 
     // DELETE: api/Requests/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteRequest(int id)
     {
+        var result = await _serviceWrapper.Requests.DeleteRequest(id);
+        if (!result)
+            return NotFound("Request not found");
+        return Ok("Request deleted");
     }
 }

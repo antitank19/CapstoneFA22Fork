@@ -14,10 +14,9 @@ public class RequestService : IRequestService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Request?>> GetRequestList()
+    public IQueryable<Request> GetRequestList()
     {
-        return await _repositoryWrapper.Requests.GetRequestList()
-            .ToListAsync();
+        return _repositoryWrapper.Requests.GetRequestList();
     }
 
     public async Task<Request?> GetRequestById(int requestId)

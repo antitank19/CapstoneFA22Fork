@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -19,38 +24,76 @@ public class ExpenseHistoriesController : ControllerBase
     }
 
     // GET: api/ExpenseHistories
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ExpenseHistory>>> GetExpenseHistories()
+    public async Task<ActionResult<IEnumerable<ExpenseHistory>>> GetExpenseHistories(
+        ODataQueryOptions<ExpenseHistoryGetDto>? options)
     {
+        var list = await _serviceWrapper.ExpenseHistories.GetExpenseHistoryList().ToListAsync();
+        if (!list.Any())
+            return NotFound();
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/ExpenseHistories/5
+    [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ExpenseHistory>> GetExpenseHistory(int id)
+    public async Task<ActionResult<ExpenseHistory>> GetExpenseHistory(int id,
+        ODataQueryOptions<ExpenseHistoryGetDto>? options)
     {
-        return expenseHistory;
+        var list = (await _serviceWrapper.ExpenseHistories.GetExpenseHistoryList().ToListAsync())
+            .Where(x => x.ExpenseHistoryId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Expense history not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/ExpenseHistories/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> PutExpenseHistory(int id, ExpenseHistory expenseHistory)
+    public async Task<IActionResult> PutExpenseHistory(int id, ExpenseHistoryCreateDto expenseHistory)
     {
-        if (id != expenseHistory.ExpenseHistoryId) return BadRequest();
+        if (id != expenseHistory.ExpenseHistoryId)
+            return BadRequest();
+        var updateExpenseHistory = new ExpenseHistory
+        {
+            ExpenseHistoryId = id,
+            ExpenseId = expenseHistory.ExpenseId,
+            Name = expenseHistory.Name,
+            Date = expenseHistory.Date
+        };
+        var result = await _serviceWrapper.ExpenseHistories.UpdateExpenseHistory(updateExpenseHistory);
+        if (result == null)
+            return NotFound("Expense history not found");
+        return Ok("Expense history updated");
     }
 
     // POST: api/ExpenseHistories
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<ExpenseHistory>> PostExpenseHistory(ExpenseHistory expenseHistory)
+    public async Task<ActionResult<ExpenseHistory>> PostExpenseHistory(ExpenseHistoryUpdateDto expenseHistory)
     {
+        var newExpenseHistory = new ExpenseHistory
+        {
+            Name = expenseHistory.Name,
+            Date = expenseHistory.Date
+        };
+        var result = await _serviceWrapper.ExpenseHistories.AddExpenseHistory(newExpenseHistory);
+        if (result == null)
+            return BadRequest();
+
         return CreatedAtAction("GetExpenseHistory", new { id = expenseHistory.ExpenseHistoryId }, expenseHistory);
     }
 
     // DELETE: api/ExpenseHistories/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteExpenseHistory(int id)
     {
-        return NoContent();
+        var result = await _serviceWrapper.ExpenseHistories.DeleteExpenseHistory(id);
+        if (!result)
+            return NotFound("Expense History not found");
+
+        return Ok("Expense History deleted");
     }
 }

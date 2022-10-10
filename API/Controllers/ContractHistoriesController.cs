@@ -4,6 +4,7 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -27,9 +28,9 @@ public class ContractHistoriesController : ControllerBase
     [EnableQuery]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ContractHistory>>> GetContractHistories(
-        ODataQueryOptions<AccountGetDto>? options)
+        ODataQueryOptions<ContractHistoryGetDto>? options)
     {
-        var list = await _serviceWrapper.ContractHistories.GetContractHistoryList();
+        var list = await _serviceWrapper.ContractHistories.GetContractHistoryList().ToListAsync();
         if (!list.Any())
             return NotFound("No contract history available");
 
@@ -38,13 +39,14 @@ public class ContractHistoriesController : ControllerBase
 
     // GET: api/ContractHistories/5
     [EnableQuery]
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<ContractHistory>> GetContractHistory(int id,
-        ODataQueryOptions<AccountGetDto>? options)
+        ODataQueryOptions<ContractHistoryGetDto>? options)
     {
-        var list = (await _serviceWrapper.ContractHistories.GetContractHistoryList())
+        var list = (await _serviceWrapper.ContractHistories.GetContractHistoryList().ToListAsync())
             .Where(e => e.ContractHistoryId == id).AsQueryable();
-        if (list.IsNullOrEmpty()) return NotFound("Contract history not found");
+        if (list.IsNullOrEmpty())
+            return NotFound("Contract history not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
@@ -85,6 +87,10 @@ public class ContractHistoriesController : ControllerBase
             ContractHistoryStatus = contractHistory.ContractHistoryStatus,
             ContractExpiredDate = contractHistory.ContractExpiredDate
         };
+
+        var result = await _serviceWrapper.ContractHistories.UpdateContractHistory(addNewContractHistory);
+        if (result == null)
+            return NotFound("Contract history not found");
 
         return CreatedAtAction("GetContractHistory", new { id = contractHistory.ContractHistoryId }, contractHistory);
     }

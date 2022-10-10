@@ -14,6 +14,6 @@ public class FeedbackType
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int FeedbackTypeId { get; set; }
 
-    public int Name { get; set; }
+    public string Name { get; set; }
     public virtual ICollection<Feedback> Feedbacks { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Data.Entity;
+using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
@@ -28,7 +29,7 @@ public class BillsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Bill>>> GetBills(ODataQueryOptions<BillGetDto>? options)
     {
-        var list = await _serviceWrapper.Bills.GetBillList();
+        var list = await _serviceWrapper.Bills.GetBillList().ToListAsync();
         if (!list.Any())
             return NotFound("No bill available");
 
@@ -37,10 +38,10 @@ public class BillsController : ControllerBase
 
     // GET: api/Bills/5
     [EnableQuery]
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Bill>> GetBill(int id, ODataQueryOptions<BillGetDto>? options)
     {
-        var list = (await _serviceWrapper.Bills.GetBillList())
+        var list = (await _serviceWrapper.Bills.GetBillList().ToListAsync())
             .Where(e => e.BillId == id).AsQueryable();
         if (list.IsNullOrEmpty()) return NotFound("Bill not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);

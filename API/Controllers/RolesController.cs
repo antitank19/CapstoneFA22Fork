@@ -1,7 +1,11 @@
+using System.Data.Entity;
 using AutoMapper;
+using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -19,26 +23,33 @@ public class RolesController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult> GetRoleList()
+    public async Task<ActionResult> GetRoleList(ODataQueryOptions<RequestType>? options)
     {
-        var result = await _serviceWrapper.Roles.GetRoleList();
-        if (!result.Any())
+        var list = await _serviceWrapper.Roles.GetRoleList().ToListAsync();
+        if (!list.Any())
             return NotFound("No role available");
 
-        var response = _mapper.Map<IEnumerable<Role>>(result);
-
-        return Ok(response);
+        //var response = _mapper.Map<IEnumerable<Role>>(result);
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult> GetRole(int id)
+    [EnableQuery]
+    public async Task<ActionResult> GetRole(int id, ODataQueryOptions<RequestType>? options)
     {
+        /*
         var result = await _serviceWrapper.Roles.GetRoleById(id);
         if (result == null)
             return NotFound("No role available");
 
-        return Ok(result);
+        return Ok(result);*/
+        var list = (await _serviceWrapper.Roles.GetRoleList().ToListAsync())
+            .Where(x => x.RoleId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Request type not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     /*

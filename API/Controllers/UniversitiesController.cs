@@ -1,8 +1,13 @@
 using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
+using Domain.EnumEntities;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -11,7 +16,6 @@ namespace API.Controllers;
 [ApiController]
 public class UniversitiesController : ControllerBase
 {
-    private readonly ApplicationContext _context;
     private readonly IMapper _mapper;
     private readonly IServiceWrapper _serviceWrapper;
 
@@ -19,77 +23,81 @@ public class UniversitiesController : ControllerBase
     {
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
-        _context = context;
     }
 
 
     // GET: api/Universities
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<University>>> GetUniversity()
+    [EnableQuery]
+    public async Task<ActionResult<IEnumerable<University>>> GetUniversity(ODataQueryOptions<RequestType>? options)
     {
-        return await _context.University.ToListAsync();
+        var list = await _serviceWrapper.Universities.GetUniversityList().ToListAsync();
+        if (!list.Any())
+            return NotFound("No university available");
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Universities/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<University>> GetUniversity(int id)
+    [HttpGet("{id:int}")]
+    [EnableQuery]
+    public async Task<ActionResult<University>> GetUniversity(int id, ODataQueryOptions<RequestType>? options)
     {
-        var university = await _context.University.FindAsync(id);
-
-        if (university == null) return NotFound();
-
-        return university;
+        var list = (await _serviceWrapper.Universities.GetUniversityList().ToListAsync())
+            .Where(x => x.UniversityId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Request type not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/Universities/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutUniversity(int id, University university)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutUniversity(int id, UniversityUpdateDto university)
     {
         if (id != university.UniversityId) return BadRequest();
-
-        _context.Entry(university).State = EntityState.Modified;
-
-        try
+        var updateUniversity = new University()
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!UniversityExists(id))
-                return NotFound();
-            throw;
-        }
-
-        return NoContent();
+            UniversityId = id,
+            UniversityName = university.UniversityName,
+            Description = university.Description,
+            Image = university.Image,
+            Address = university.Address,
+            Status = university.Status,
+        };
+        var result = await _serviceWrapper.Universities.UpdateUniversity(updateUniversity);
+        if (result == null)
+            return NotFound("University not found");
+        return Ok("University updated successfully");
     }
 
     // POST: api/Universities
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<University>> PostUniversity(University university)
+    public async Task<ActionResult<University>> PostUniversity(UniversityCreateDto university)
     {
-        _context.University.Add(university);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetUniversity", new { id = university.UniversityId }, university);
+        var addNewUniversity = new University()
+        {
+            UniversityName = university.UniversityName,
+            Description = university.Description,
+            Image = university.Image,
+            Address = university.Address,
+            Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Success) ?? Enum.GetName(typeof(StatusEnum), StatusEnum.Pending)
+        };
+        var result = await _serviceWrapper.Universities.AddUniversity(addNewUniversity);
+        if (result == null)
+            return NotFound("University failed to add");
+        return CreatedAtAction("GetUniversity", university);
     }
 
     // DELETE: api/Universities/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteUniversity(int id)
     {
-        var university = await _context.University.FindAsync(id);
-        if (university == null) return NotFound();
-
-        _context.University.Remove(university);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-    private bool UniversityExists(int id)
-    {
-        return _context.University.Any(e => e.UniversityId == id);
+        var result = await _serviceWrapper.Universities.DeleteUniversity(id);
+        if (result)
+            return NotFound("University not found");
+        
+        return Ok("University deleted");
     }
 }

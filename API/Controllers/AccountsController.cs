@@ -36,6 +36,16 @@ public class AccountsController : ControllerBase
         return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
+    [HttpPost("register")]
+    public async Task<ActionResult<AccountGetDto>> CreateAccount(AccountCreateDto accountCreate)
+    {
+        var newAccount = new Account();
+        var result = await _serviceWrapper.Accounts.AddAccount(newAccount);
+        if (result == null)
+            return NotFound("Account not created");
+        return CreatedAtAction("GetAccount", new { id = result.AccountId }, result);
+    }
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
     {
@@ -67,7 +77,9 @@ public class AccountsController : ControllerBase
         if (result == null)
             return NotFound("Updating account failed");
 
-        return Ok($"Updated at : {DateTime.Now.ToShortDateString()}");
+        return Ok(result);
+
+        //return Ok($"Updated at : {DateTime.Now.ToShortDateString()}");
     }
 
     // POST: api/Accounts/Login

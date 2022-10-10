@@ -14,7 +14,7 @@ public class ContractService : IContractService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public  IQueryable<Contract> GetContractList()
+    public IQueryable<Contract> GetContractList()
     {
         return _repositoryWrapper.Contracts.GetContractList();
     }

@@ -1,7 +1,13 @@
-﻿using Domain.EntitiesForManagement;
-using Infrastructure;
+﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
+using Domain.EntitiesForManagement;
+using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Service.IService;
 
 namespace net6API.Controllers;
 
@@ -9,50 +15,81 @@ namespace net6API.Controllers;
 [ApiController]
 public class FlatTypesController : ControllerBase
 {
-    private readonly ApplicationContext _context;
-
-    public FlatTypesController(ApplicationContext context)
-    {
-        _context = context;
-    }
+    private readonly IMapper _mapper;
+    private readonly IServiceWrapper _serviceWrapper;
 
     // GET: api/FlatTypes
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<FlatType>>> GetFlatTypes()
+    public FlatTypesController(IMapper mapper, IServiceWrapper serviceWrapper)
     {
-        return await _context.FlatTypes.ToListAsync();
+        _mapper = mapper;
+        _serviceWrapper = serviceWrapper;
+    }
+
+    [HttpGet]
+    [EnableQuery]
+    public async Task<ActionResult<IEnumerable<FlatType>>> GetFlatTypes(ODataQueryOptions<FlatTypeGetDto>? options)
+    {
+        var list = await _serviceWrapper.FlatTypes.GetFlatTypeList().ToListAsync();
+        if (!list.Any())
+            return NotFound();
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/FlatTypes/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<FlatType>> GetFlatType(int id)
+    [HttpGet("{id:int}")]
+    [EnableQuery]
+    public async Task<ActionResult<FlatType>> GetFlatType(int id, ODataQueryOptions<FlatTypeGetDto>? options)
     {
-        var flatType = await _context.FlatTypes.FindAsync(id);
-
-        if (flatType == null) return NotFound();
-
-        return flatType;
+        var list = (await _serviceWrapper.FlatTypes.GetFlatTypeList().ToListAsync())
+            .Where(x => x.FlatTypeId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Request type not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/FlatTypes/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutFlatType(int id, FlatType flatType)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> PutFlatType(int id, FlatTypeUpdateDto flatType)
     {
         if (id != flatType.FlatTypeId) return BadRequest();
+        var updateFlatType = new FlatType
+        {
+            FlatTypeId = id,
+            Capacity = flatType.Capacity,
+            Status = flatType.Status
+        };
+        var result = await _serviceWrapper.FlatTypes.UpdateFlatType(updateFlatType);
+        if (result == null)
+            return NotFound("Flat type not found");
+        return Ok("Flat type updated");
     }
 
     // POST: api/FlatTypes
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<FlatType>> PostFlatType(FlatType flatType)
+    public async Task<ActionResult<FlatType>> PostFlatType(FlatTypeCreateDto flatType)
     {
+        var newFlatType = new FlatType
+        {
+            Capacity = flatType.Capacity,
+            Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Pending)
+        };
+        var result = await _serviceWrapper.FlatTypes.AddFlatType(newFlatType);
+        if (result == null)
+            return NotFound("Flat type not found");
         return CreatedAtAction("GetFlatType", new { id = flatType.FlatTypeId }, flatType);
     }
 
     // DELETE: api/FlatTypes/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteFlatType(int id)
     {
+        var result = await _serviceWrapper.FlatTypes.DeleteFlatType(id);
+        if (!result)
+            return NotFound("FlatType not found");
+
+        return Ok("FlatType deleted");
     }
 }

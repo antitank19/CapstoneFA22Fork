@@ -15,6 +15,6 @@ public class PaymentType
     public int PaymentTypeId { get; set; }
 
     public string Name { get; set; }
-    public string Status { get; set; }
+    public string? Status { get; set; }
     public virtual ICollection<Payment> Payments { get; set; }
 }

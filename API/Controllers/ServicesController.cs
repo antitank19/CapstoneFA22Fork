@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
+using AutoMapper.AspNet.OData;
+using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -18,32 +23,69 @@ public class ServicesController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: api/ServiceEntitys
+    // GET: api/ServiceEntities
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ServiceEntity>>> GetServiceEntitys()
+    public async Task<ActionResult<IEnumerable<ServiceEntity>>> GetServiceEntities(
+        ODataQueryOptions<ServiceGetDto>? options)
     {
+        var list = await _serviceWrapper.ServicesEntity.GetServiceEntityList().ToListAsync();
+        if (!list.Any())
+            return NotFound("No service available");
+
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/ServiceEntitys/5
+    [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ServiceEntity>> GetServiceEntity(int id)
+    public async Task<ActionResult<ServiceEntity>> GetServiceEntity(int id, ODataQueryOptions<ServiceGetDto>? options)
     {
-        return service;
+        var list = (await _serviceWrapper.ServicesEntity.GetServiceEntityList().ToListAsync())
+            .Where(e => e.ServiceTypeId == id).AsQueryable();
+        if (list.IsNullOrEmpty())
+            return NotFound("Service entities not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
     }
 
     // PUT: api/ServiceEntitys/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> PutServiceEntity(int id, ServiceEntity service)
+    public async Task<IActionResult> PutServiceEntity(int id, ServiceCreateDto service)
     {
         if (id != service.ServiceId) return BadRequest();
+        var updateService = new ServiceEntity
+        {
+            ServiceId = id,
+            Name = service.Name,
+            Description = service.Description,
+            Status = service.Status,
+            ServiceTypeId = service.ServiceTypeId
+        };
+        var result = await _serviceWrapper.ServicesEntity.UpdateServiceEntity(updateService);
+        if (result == null)
+            return NotFound("Service not found");
+
+        return Ok("Service updated successfully");
     }
 
-    // POST: api/ServiceEntitys
+    // POST: api/ServiceEntitiess
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<ServiceEntity>> PostServiceEntity(ServiceEntity service)
+    public async Task<ActionResult<ServiceEntity>> PostServiceEntity(ServiceCreateDto service)
     {
+        var newService = new ServiceEntity
+        {
+            Name = service.Name,
+            Description = service.Description,
+            Status = service.Status,
+            ServiceTypeId = service.ServiceTypeId
+        };
+
+        var result = await _serviceWrapper.ServicesEntity.AddServiceEntity(newService);
+        if (result == null)
+            return NotFound("Service not found");
+
         return CreatedAtAction("GetServiceEntity", new { id = service.ServiceId }, service);
     }
 
@@ -51,5 +93,10 @@ public class ServicesController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteServiceEntity(int id)
     {
+        var result = await _serviceWrapper.ServicesEntity.DeleteServiceEntity(id);
+        if (!result)
+            return NotFound("Service not found");
+
+        return Ok("Service deleted");
     }
 }

@@ -1,6 +1,5 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
-using Microsoft.EntityFrameworkCore;
 using Service.IService;
 
 namespace Service.Service;
