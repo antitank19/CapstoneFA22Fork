@@ -14,10 +14,9 @@ public class OrderService : IOrderService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Order?>> GetOrderList()
+    public IQueryable<Order> GetOrderList()
     {
-        return await _repositoryWrapper.Orders.GetOrderList()
-            .ToListAsync();
+        return _repositoryWrapper.Orders.GetOrderList();
     }
 
     public async Task<Order?> GetOrderById(int orderId)

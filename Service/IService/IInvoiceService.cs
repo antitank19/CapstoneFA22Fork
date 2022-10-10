@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IInvoiceService
 {
-    public Task<IEnumerable<Invoice?>> GetInvoiceList();
+    public IQueryable<Invoice> GetInvoiceList();
 
     // TODO : Get invoice based on room id
     public Task<Invoice?> GetInvoiceById(int invoiceId);

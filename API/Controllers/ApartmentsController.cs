@@ -4,6 +4,7 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -26,24 +27,26 @@ public class ApartmentsController : ControllerBase
     [EnableQuery]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ApartmentGetDto>>> GetApartments(
-        ODataQueryOptions<ApartmentGetDto>? deleteMePlz)
+        ODataQueryOptions<ApartmentGetDto>? options)
     {
-        var list = await _serviceWrapper.Apartments.GetApartmentList();
+        var list = await _serviceWrapper.Apartments.GetApartmentList().ToListAsync();
         if (!list.Any())
             return NotFound("No apartment available");
 
-        var dtos = await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz);
+        var dtos = await list.AsQueryable().GetQueryAsync(_mapper, options);
         return Ok(dtos);
     }
 
     // GET: api/Apartments/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Apartment>> GetApartment(int id, ODataQueryOptions<AccountGetDto>? deleteMePlz)
+    public async Task<ActionResult<Apartment>> GetApartment(int id, ODataQueryOptions<AccountGetDto>? options)
     {
-        var list = (await _serviceWrapper.Apartments.GetApartmentList()).Where(e => e.ApartmentId == id);
-        if (list.IsNullOrEmpty()) return NotFound("Appartment not found");
-        var dto = (await list.AsQueryable().GetQueryAsync(_mapper, deleteMePlz)).ToArray()[0];
+        var list = (await _serviceWrapper.Apartments.GetApartmentList().ToListAsync())
+            .Where(e => e.ApartmentId == id).AsQueryable();
+        if (list.IsNullOrEmpty()) 
+            return NotFound("Apartment not found");
+        var dto = (await list.AsQueryable().GetQueryAsync(_mapper, options)).ToArray()[0];
         return Ok(dto);
     }
 

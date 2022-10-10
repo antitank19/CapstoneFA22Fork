@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IContractHistoryService
 {
-    public Task<IEnumerable<ContractHistory?>> GetContractHistoryList();
+    public IQueryable<ContractHistory> GetContractHistoryList();
 
     // TODO : Get contract history list by user Id
     public Task<ContractHistory?> GetContractHistoryById(int contractHistoryId);

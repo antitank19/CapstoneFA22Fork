@@ -14,10 +14,9 @@ public class ExpenseService : IExpenseService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Expense?>> GetExpenseList()
+    public IQueryable<Expense> GetExpenseList()
     {
-        return await _repositoryWrapper.Expenses.GetExpenseList()
-            .ToListAsync();
+        return _repositoryWrapper.Expenses.GetExpenseList();
     }
 
     public async Task<Expense?> GetExpenseById(int expenseId)

@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IFeedbackService
 {
-    public Task<IEnumerable<Feedback?>> GetFeedbackList();
+    public IQueryable<Feedback> GetFeedbackList();
     public Task<Feedback?> GetFeedbackById(int feedbackId);
     public Task<Feedback?> AddFeedback(Feedback feedback);
     public Task<Feedback?> UpdateFeedback(Feedback feedback);

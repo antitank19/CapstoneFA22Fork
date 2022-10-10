@@ -14,10 +14,9 @@ public class RequestTypeService : IRequestTypeService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<RequestType?>> GetRequestTypeList()
+    public IQueryable<RequestType> GetRequestTypeList()
     {
-        return await _repositoryWrapper.RequestTypes.GetRequestTypeList()
-            .ToListAsync();
+        return _repositoryWrapper.RequestTypes.GetRequestTypeList();
     }
 
     public async Task<RequestType?> GetRequestTypeById(int requestTypeId)

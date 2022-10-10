@@ -1,5 +1,6 @@
 using Application.IRepository;
 using Domain.EntitiesForManagement;
+using Microsoft.EntityFrameworkCore;
 using Service.IService;
 
 namespace Service.Service;
@@ -13,28 +14,29 @@ public class FlatService : IFlatService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Flat?>> GetFlatList()
+    public IQueryable<Flat> GetFlatList()
     {
-        throw new NotImplementedException();
+        return _repositoryWrapper.Flats.GetFlatList();
     }
 
     public async Task<Flat?> GetFlatById(int flatId)
     {
-        throw new NotImplementedException();
+        return await _repositoryWrapper.Flats.GetFlatDetail(flatId)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<Flat?> AddFlat(Flat flat)
     {
-        throw new NotImplementedException();
+        return await _repositoryWrapper.Flats.AddFlat(flat);
     }
 
     public async Task<Flat?> UpdateFlat(Flat flat)
     {
-        throw new NotImplementedException();
+        return await _repositoryWrapper.Flats.UpdateFlat(flat);
     }
 
     public async Task<bool> DeleteFlat(int flatId)
     {
-        throw new NotImplementedException();
+        return await _repositoryWrapper.Flats.DeleteFlat(flatId);
     }
 }

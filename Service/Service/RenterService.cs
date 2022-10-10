@@ -14,10 +14,9 @@ public class RenterService : IRenterService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Renter?>> GetRenterList()
+    public IQueryable<Renter> GetRenterList()
     {
-        return await _repositoryWrapper.Renters.GetRenterList()
-            .ToListAsync();
+        return _repositoryWrapper.Renters.GetRenterList();
     }
 
     public async Task<Renter?> GetRenterById(int renterId)

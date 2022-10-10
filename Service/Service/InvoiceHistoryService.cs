@@ -14,10 +14,9 @@ public class InvoiceHistoryService : IInvoiceHistoryService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<InvoiceHistory?>> GetInvoiceHistoryList()
+    public IQueryable<InvoiceHistory> GetInvoiceHistoryList()
     {
-        return await _repositoryWrapper.InvoiceHistories.GetInvoiceHistoryList()
-            .ToListAsync();
+        return _repositoryWrapper.InvoiceHistories.GetInvoiceHistoryList();
     }
 
     public async Task<InvoiceHistory?> GetInvoiceHistoryById(int invoiceHistoryId)

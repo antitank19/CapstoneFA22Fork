@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IAreaService
 {
-    public Task<IEnumerable<Area?>> GetAreaList();
+    public IQueryable<Area> GetAreaList();
     public Task<Area?> GetAreaById(int areaId);
     public Task<Area?> AddArea(Area area);
     public Task<Area?> UpdateArea(Area area);

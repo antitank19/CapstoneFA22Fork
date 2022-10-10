@@ -14,10 +14,9 @@ public class BillService : IBillService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Bill?>> GetBillList()
+    public IQueryable<Bill> GetBillList()
     {
-        return await _repositoryWrapper.Bills.GetBillList()
-            .ToListAsync();
+        return _repositoryWrapper.Bills.GetBillList();
     }
 
     public async Task<Bill?> GetBillById(int billId)

@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IRoleService
 {
-    public Task<IEnumerable<Role?>> GetRoleList();
+    public IQueryable<Role> GetRoleList();
     public Task<Role?> GetRoleById(int roleId);
     public Task<Role?> AddRole(Role role);
     public Task<Role?> UpdateRole(Role role);

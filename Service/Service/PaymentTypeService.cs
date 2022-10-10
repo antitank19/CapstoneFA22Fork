@@ -14,10 +14,9 @@ public class PaymentTypeService : IPaymentTypeService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<PaymentType?>> GetPaymentTypeList()
+    public IQueryable<PaymentType> GetPaymentTypeList()
     {
-        return await _repositoryWrapper.PaymentTypes.GetPaymentTypeList()
-            .ToListAsync();
+        return _repositoryWrapper.PaymentTypes.GetPaymentTypeList();
     }
 
     public async Task<PaymentType?> GetPaymentTypeById(int paymentTypeId)

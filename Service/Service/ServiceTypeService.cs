@@ -14,10 +14,9 @@ public class ServiceTypeService : IServiceTypeService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<ServiceType?>> GetServiceTypeList()
+    public IQueryable<ServiceType> GetServiceTypeList()
     {
-        return await _repositoryWrapper.ServiceTypes.GetServiceTypeList()
-            .ToListAsync();
+        return _repositoryWrapper.ServiceTypes.GetServiceTypeList();
     }
 
     public async Task<ServiceType?> GetServiceTypeById(int serviceTypeId)

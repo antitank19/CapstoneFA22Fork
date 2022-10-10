@@ -14,10 +14,9 @@ public class InvoiceService : IInvoiceService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Invoice?>> GetInvoiceList()
+    public IQueryable<Invoice> GetInvoiceList()
     {
-        return await _repositoryWrapper.Invoices.GetInvoiceList()
-            .ToListAsync();
+        return _repositoryWrapper.Invoices.GetInvoiceList();
     }
 
     public async Task<Invoice?> GetInvoiceById(int invoiceId)

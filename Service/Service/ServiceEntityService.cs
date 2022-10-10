@@ -14,10 +14,9 @@ public class ServiceEntityService : IServiceEntityService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<ServiceEntity?>> GetServiceEntityList()
+    public IQueryable<ServiceEntity> GetServiceEntityList()
     {
-        return await _repositoryWrapper.ServiceEntities.GetServiceList()
-            .ToListAsync();
+        return _repositoryWrapper.ServiceEntities.GetServiceList();
     }
 
     public async Task<ServiceEntity?> GetServiceEntityById(int serviceEntityId)

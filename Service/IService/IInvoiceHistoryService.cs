@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IInvoiceHistoryService
 {
-    public Task<IEnumerable<InvoiceHistory?>> GetInvoiceHistoryList();
+    public IQueryable<InvoiceHistory> GetInvoiceHistoryList();
     public Task<InvoiceHistory?> GetInvoiceHistoryById(int invoiceHistoryId);
     public Task<InvoiceHistory?> AddInvoiceHistory(InvoiceHistory invoiceHistory);
     public Task<InvoiceHistory?> UpdateInvoiceHistory(InvoiceHistory invoiceHistory);

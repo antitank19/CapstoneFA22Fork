@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IExpenseTypeService
 {
-    public Task<IEnumerable<ExpenseType?>> GetExpenseTypeList();
+    public IQueryable<ExpenseType> GetExpenseTypeList();
 
     // TODO : Get expense list by user Id
     public Task<ExpenseType?> GetExpenseTypeById(int expenseTypeId);

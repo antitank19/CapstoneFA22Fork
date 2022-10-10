@@ -14,10 +14,10 @@ public class PaymentService : IPaymentService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Payment?>> GetPaymentList()
+    public IQueryable<Payment> GetPaymentList()
     {
-        return await _repositoryWrapper.Payments.GetPaymentList()
-            .ToListAsync();
+        return _repositoryWrapper.Payments.GetPaymentList()
+            .AsQueryable();
     }
 
     public async Task<Payment?> GetPaymentById(int paymentId)

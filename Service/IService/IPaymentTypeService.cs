@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IPaymentTypeService
 {
-    public Task<IEnumerable<PaymentType?>> GetPaymentTypeList();
+    public IQueryable<PaymentType> GetPaymentTypeList();
     public Task<PaymentType?> GetPaymentTypeById(int paymentTypeId);
     public Task<PaymentType?> AddPaymentType(PaymentType paymentType);
     public Task<PaymentType?> UpdatePaymentType(PaymentType paymentType);

@@ -14,10 +14,9 @@ public class FlatTypeService : IFlatTypeService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<FlatType?>> GetFlatTypeList()
+    public IQueryable<FlatType> GetFlatTypeList()
     {
-        return await _repositoryWrapper.FlatTypes.GetFlatTypeList()
-            .ToListAsync();
+        return _repositoryWrapper.FlatTypes.GetFlatTypeList();
     }
 
     public async Task<FlatType?> GetFlatTypeById(int flatTypeId)

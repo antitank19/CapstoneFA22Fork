@@ -14,10 +14,9 @@ public class MajorService : IMajorService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Major?>> GetMajorList()
+    public IQueryable<Major> GetMajorList()
     {
-        return await _repositoryWrapper.Majors.GetMajorList()
-            .ToListAsync();
+        return _repositoryWrapper.Majors.GetMajorList();
     }
 
     public async Task<Major?> GetMajorById(int majorId)

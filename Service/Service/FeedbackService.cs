@@ -14,10 +14,9 @@ public class FeedbackService : IFeedbackService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Feedback?>> GetFeedbackList()
+    public IQueryable<Feedback> GetFeedbackList()
     {
-        return await _repositoryWrapper.Feedbacks.GetFeedbackList()
-            .ToListAsync();
+        return _repositoryWrapper.Feedbacks.GetFeedbackList();
     }
 
     public async Task<Feedback?> GetFeedbackById(int feedbackId)

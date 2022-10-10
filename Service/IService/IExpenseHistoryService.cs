@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IExpenseHistoryService
 {
-    public Task<IEnumerable<ExpenseHistory?>> GetExpenseHistoryList();
+    public IQueryable<ExpenseHistory> GetExpenseHistoryList();
 
     // TODO : Get expense history list by user Id
     public Task<ExpenseHistory?> GetExpenseHistoryById(int expenseHistoryId);

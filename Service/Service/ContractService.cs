@@ -14,10 +14,9 @@ public class ContractService : IContractService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Contract?>> GetContractList()
+    public  IQueryable<Contract> GetContractList()
     {
-        return await _repositoryWrapper.Contracts.GetContractList()
-            .ToListAsync();
+        return _repositoryWrapper.Contracts.GetContractList();
     }
 
     public async Task<Contract?> GetContractById(int contractId)

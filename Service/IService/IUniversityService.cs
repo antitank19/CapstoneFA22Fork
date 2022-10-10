@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IUniversityService
 {
-    public Task<IEnumerable<University?>> GetUniversityList();
+    public IQueryable<University> GetUniversityList();
     public Task<University?> GetUniversityById(int universityId);
     public Task<University?> AddUniversity(University university);
     public Task<University?> UpdateUniversity(University university);

@@ -14,10 +14,9 @@ public class UniversityService : IUniversityService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<University?>> GetUniversityList()
+    public IQueryable<University> GetUniversityList()
     {
-        return await _repositoryWrapper.Universities.GetUniversityList()
-            .ToListAsync();
+        return _repositoryWrapper.Universities.GetUniversityList();
     }
 
     public async Task<University?> GetUniversityById(int universityId)

@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IMajorService
 {
-    public Task<IEnumerable<Major?>> GetMajorList();
+    public IQueryable<Major> GetMajorList();
     public Task<Major?> GetMajorById(int majorId);
     public Task<Major?> AddMajor(Major major);
     public Task<Major?> UpdateMajor(Major major);

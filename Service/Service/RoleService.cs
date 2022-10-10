@@ -14,10 +14,9 @@ public class RoleService : IRoleService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Role?>> GetRoleList()
+    public IQueryable<Role> GetRoleList()
     {
-        return await _repositoryWrapper.Roles.GetRoleList()
-            .ToListAsync();
+        return _repositoryWrapper.Roles.GetRoleList();
     }
 
     public async Task<Role?> GetRoleById(int roleId)

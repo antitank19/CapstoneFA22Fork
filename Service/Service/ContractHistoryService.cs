@@ -14,10 +14,9 @@ public class ContractHistoryService : IContractHistoryService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<ContractHistory?>> GetContractHistoryList()
+    public IQueryable<ContractHistory> GetContractHistoryList()
     {
-        return await _repositoryWrapper.ContractHistories.GetContractHistoryList()
-            .ToListAsync();
+        return _repositoryWrapper.ContractHistories.GetContractHistoryList();
     }
 
     public async Task<ContractHistory?> GetContractHistoryById(int contractHistoryId)

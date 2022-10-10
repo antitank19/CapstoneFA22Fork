@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Data.Entity;
+using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
@@ -27,18 +28,18 @@ public class AreasController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Area>>> GetAreas(ODataQueryOptions<AreaGetDto>? options)
     {
-        var list = (await _serviceWrapper.Areas.GetAreaList()).AsQueryable();
+        var list = (await _serviceWrapper.Areas.GetAreaList().ToListAsync();
         if (!list.Any())
             return NotFound("No area available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Areas/5
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Area>> GetArea(int id, ODataQueryOptions<AreaGetDto>? options)
     {
-        var list = (await _serviceWrapper.Areas.GetAreaList())
+        var list = (await _serviceWrapper.Areas.GetAreaList().ToListAsync())
             .Where(e => e.AreaId == id).AsQueryable();
         if (list.IsNullOrEmpty()) return NotFound("Account not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);

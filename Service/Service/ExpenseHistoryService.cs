@@ -14,10 +14,9 @@ public class ExpenseHistoryService : IExpenseHistoryService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<ExpenseHistory?>> GetExpenseHistoryList()
+    public IQueryable<ExpenseHistory> GetExpenseHistoryList()
     {
-        return await _repositoryWrapper.ExpenseHistories.GetExpenseList()
-            .ToListAsync();
+        return _repositoryWrapper.ExpenseHistories.GetExpenseList();
         ;
     }
 

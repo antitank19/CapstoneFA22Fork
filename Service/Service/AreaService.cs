@@ -14,10 +14,10 @@ public class AreaService : IAreaService
         _repositoryWrapper = repositoryWrapper;
     }
 
-    public async Task<IEnumerable<Area?>> GetAreaList()
+    public IQueryable<Area> GetAreaList()
     {
-        return await _repositoryWrapper.Areas.GetAreaList()
-            .ToListAsync();
+        return _repositoryWrapper.Areas.GetAreaList()
+            .AsQueryable();
     }
 
     public async Task<Area?> GetAreaById(int areaId)

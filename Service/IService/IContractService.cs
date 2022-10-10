@@ -4,7 +4,7 @@ namespace Service.IService;
 
 public interface IContractService
 {
-    public Task<IEnumerable<Contract?>> GetContractList();
+    public IQueryable<Contract> GetContractList();
 
     // TODO : Get contract list by user Id
     public Task<Contract?> GetContractById(int contractId);
