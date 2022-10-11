@@ -25,7 +25,7 @@ public class TokenService : ITokenService
         {
             new(ClaimTypes.Role, "Renter"),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.NameIdentifier, user.RenterId.ToString())
+            new(ClaimTypes.NameIdentifier, user.Username)
         };
 
         var securityKey = new SymmetricSecurityKey(
@@ -52,7 +52,7 @@ public class TokenService : ITokenService
         {
             new(ClaimTypes.Role, employee.Role.RoleName),
             new(ClaimTypes.Email, employee.Email),
-            new(ClaimTypes.NameIdentifier, employee.AccountId.ToString())
+            new(ClaimTypes.NameIdentifier, employee.Username)
         };
         var securityKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_configuration["JwtToken:NotTokenKeyForSureSourceTrustMeDude"]));

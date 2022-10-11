@@ -736,3 +736,4 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+API/appsettings.Development.json

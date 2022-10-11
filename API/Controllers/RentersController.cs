@@ -120,7 +120,7 @@ public class RentersController : ControllerBase
     {
         var renter = await _serviceWrapper.Renters.Login(loginModel.Username, loginModel.Password);
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForRenter(renter);
-        return Ok(jwtToken);
+        return Ok(new { Token = jwtToken });
     }
 
     // DELETE: api/Renters/5

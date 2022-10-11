@@ -1,4 +1,3 @@
-
 using API.Models;
 using AutoMapper;
 using AutoMapper.AspNet.OData;
@@ -29,7 +28,7 @@ public class AccountsController : ControllerBase
     // GET: api/Accounts
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? options)
+    public async Task<ActionResult<IQueryable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? options)
     {
         var list = _serviceWrapper.Accounts.GetAccountList();
         if (!list.Any())
@@ -59,8 +58,9 @@ public class AccountsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
     {
-        var list = _serviceWrapper.Accounts.GetAccountList()
-            .Where(e => e.AccountId == id);
+
+        var list = (_serviceWrapper.Accounts.GetAccountList())
+            .Where(e => e.AccountId == id).AsQueryable();
         if (list.IsNullOrEmpty() || !list.Any()) 
             return NotFound("Account not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
@@ -99,8 +99,12 @@ public class AccountsController : ControllerBase
     public async Task<ActionResult> Login(LoginModel loginModel)
     {
         var renter = await _serviceWrapper.Accounts.Login(loginModel.Username, loginModel.Password);
+        if(renter == null)
+        {
+            return Unauthorized("Username or password is wrong");
+        }
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(renter);
-        return Ok(jwtToken);
+        return Ok(new {Token=jwtToken});
     }
 
     [HttpPut("Toggle/{id:int}")]
