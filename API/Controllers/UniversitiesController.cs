@@ -31,11 +31,11 @@ public class UniversitiesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<IEnumerable<University>>> GetUniversity(ODataQueryOptions<RequestType>? options)
     {
-        var list = await _serviceWrapper.Universities.GetUniversityList().ToListAsync();
+        var list = _serviceWrapper.Universities.GetUniversityList();
         if (!list.Any())
             return NotFound("No university available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Universities/5
@@ -43,11 +43,11 @@ public class UniversitiesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<University>> GetUniversity(int id, ODataQueryOptions<RequestType>? options)
     {
-        var list = (await _serviceWrapper.Universities.GetUniversityList().ToListAsync())
-            .Where(x => x.UniversityId == id).AsQueryable();
+        var list = _serviceWrapper.Universities.GetUniversityList()
+            .Where(x => x.UniversityId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Universities/5

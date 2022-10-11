@@ -28,11 +28,11 @@ public class AreasController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Area>>> GetAreas(ODataQueryOptions<AreaGetDto>? options)
     {
-        var list = await _serviceWrapper.Areas.GetAreaList().ToListAsync();
+        var list = _serviceWrapper.Areas.GetAreaList();
         if (!list.Any())
             return NotFound("No area available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Areas/5
@@ -40,9 +40,10 @@ public class AreasController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<Area>> GetArea(int id, ODataQueryOptions<AreaGetDto>? options)
     {
-        var list = (await _serviceWrapper.Areas.GetAreaList().ToListAsync())
-            .Where(e => e.AreaId == id).AsQueryable();
-        if (list.IsNullOrEmpty()) return NotFound("Account not found");
+        var list = _serviceWrapper.Areas.GetAreaList()
+            .Where(e => e.AreaId == id);
+        if (list.IsNullOrEmpty()) 
+            return NotFound("Account not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 

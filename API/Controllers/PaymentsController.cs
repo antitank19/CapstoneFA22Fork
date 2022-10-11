@@ -29,11 +29,11 @@ public class PaymentsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(ODataQueryOptions<PaymentGetDto>? options)
     {
-        var list = await _serviceWrapper.Payments.GetPaymentList().ToListAsync();
+        var list = _serviceWrapper.Payments.GetPaymentList();
         if (!list.Any())
             return NotFound("No payment available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Payments/5
@@ -41,8 +41,8 @@ public class PaymentsController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<Payment>> GetPayment(int id, ODataQueryOptions<PaymentGetDto>? options)
     {
-        var list = (await _serviceWrapper.Payments.GetPaymentList().ToListAsync())
-            .Where(e => e.PaymentId == id).AsQueryable();
+        var list = _serviceWrapper.Payments.GetPaymentList()
+            .Where(e => e.PaymentId == id);
         if (list.IsNullOrEmpty()) return NotFound("Payment not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }

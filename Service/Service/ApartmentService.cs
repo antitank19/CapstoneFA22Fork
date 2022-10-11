@@ -16,8 +16,7 @@ public class ApartmentService : IApartmentService
 
     public IQueryable<Apartment> GetApartmentList()
     {
-        return _repositoryWrapper.Apartments.GetApartmentList()
-            .AsQueryable();
+        return _repositoryWrapper.Apartments.GetApartmentList();
     }
 
     public async Task<Apartment?> GetApartmentById(int apartmentId)

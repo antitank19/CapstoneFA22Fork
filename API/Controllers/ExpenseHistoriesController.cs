@@ -29,11 +29,11 @@ public class ExpenseHistoriesController : ControllerBase
     public async Task<ActionResult<IEnumerable<ExpenseHistory>>> GetExpenseHistories(
         ODataQueryOptions<ExpenseHistoryGetDto>? options)
     {
-        var list = await _serviceWrapper.ExpenseHistories.GetExpenseHistoryList().ToListAsync();
+        var list = _serviceWrapper.ExpenseHistories.GetExpenseHistoryList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/ExpenseHistories/5
@@ -42,11 +42,11 @@ public class ExpenseHistoriesController : ControllerBase
     public async Task<ActionResult<ExpenseHistory>> GetExpenseHistory(int id,
         ODataQueryOptions<ExpenseHistoryGetDto>? options)
     {
-        var list = (await _serviceWrapper.ExpenseHistories.GetExpenseHistoryList().ToListAsync())
-            .Where(x => x.ExpenseHistoryId == id).AsQueryable();
+        var list = _serviceWrapper.ExpenseHistories.GetExpenseHistoryList()
+            .Where(x => x.ExpenseHistoryId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Expense history not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/ExpenseHistories/5

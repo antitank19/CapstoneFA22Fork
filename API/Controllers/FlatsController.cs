@@ -41,11 +41,11 @@ public class FlatsController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<Flat>> GetFlat(int id, ODataQueryOptions<FlatGetDto>? options)
     {
-        var list = (await _serviceWrapper.RequestTypes.GetRequestTypeList().ToListAsync())
-            .Where(x => x.RequestTypeId == id).AsQueryable();
+        var list = _serviceWrapper.RequestTypes.GetRequestTypeList()
+            .Where(x => x.RequestTypeId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Flats/5

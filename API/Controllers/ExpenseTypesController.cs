@@ -28,11 +28,11 @@ public class ExpenseTypesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ExpenseType>>> GetExpenseTypes(ODataQueryOptions<ExpenseTypeGetDto>? options)
     {
-        var list = await _serviceWrapper.Expenses.GetExpenseList().ToListAsync();
+        var list = _serviceWrapper.Expenses.GetExpenseList();
         if (!list.Any())
             return NotFound("No expense type available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/ExpenseTypes/5
@@ -40,11 +40,11 @@ public class ExpenseTypesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ExpenseType>> GetExpenseType(int id, ODataQueryOptions<ExpenseTypeGetDto>? options)
     {
-        var list = (await _serviceWrapper.Expenses.GetExpenseList().ToListAsync())
-            .Where(x => x.ExpenseId == id).AsQueryable();
+        var list = _serviceWrapper.Expenses.GetExpenseList()
+            .Where(x => x.ExpenseId == id);
         if (list.IsNullOrEmpty())
             return NotFound("No expense type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/ExpenseTypes/5

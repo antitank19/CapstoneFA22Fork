@@ -28,11 +28,11 @@ public class BuildingsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Building>>> GetBuildings(ODataQueryOptions<BuildingGetDto>? options)
     {
-        var list = await _serviceWrapper.Buildings.GetBuildingList().ToListAsync();
+        var list = _serviceWrapper.Buildings.GetBuildingList();
         if (!list.Any())
             return NotFound("No account available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Buildings/5
@@ -40,8 +40,8 @@ public class BuildingsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Building>> GetBuilding(int id, ODataQueryOptions<BuildingGetDto>? options)
     {
-        var list = (await _serviceWrapper.Buildings.GetBuildingList().ToListAsync())
-            .Where(e => e.BuildingId == id).AsQueryable();
+        var list = _serviceWrapper.Buildings.GetBuildingList()
+            .Where(e => e.BuildingId == id);
         if (list.IsNullOrEmpty()) return NotFound("Building not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }

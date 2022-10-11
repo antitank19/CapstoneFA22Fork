@@ -28,22 +28,22 @@ public class RequestsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Request>>> GetRequests(ODataQueryOptions<RequestTypeGetDto>? options)
     {
-        var list = await _serviceWrapper.Requests.GetRequestList().ToListAsync();
+        var list = _serviceWrapper.Requests.GetRequestList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Requests/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Request>> GetRequest(int id, ODataQueryOptions<RequestTypeGetDto>? options)
     {
-        var list = (await _serviceWrapper.Requests.GetRequestList().ToListAsync())
-            .Where(x => x.RequestTypeId == id).AsQueryable();
+        var list = _serviceWrapper.Requests.GetRequestList()
+            .Where(x => x.RequestTypeId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Requests/5

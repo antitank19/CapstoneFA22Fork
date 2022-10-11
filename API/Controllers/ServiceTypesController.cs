@@ -30,11 +30,11 @@ public class ServiceTypesController : ControllerBase
     public async Task<ActionResult<IEnumerable<ServiceType>>> GetServiceTypes(
         ODataQueryOptions<ServiceTypeGetDto>? options)
     {
-        var list = await _serviceWrapper.ServiceTypes.GetServiceTypeList().ToListAsync();
+        var list = _serviceWrapper.ServiceTypes.GetServiceTypeList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/ServiceTypes/5
@@ -42,11 +42,11 @@ public class ServiceTypesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<ServiceType>> GetServiceType(int id, ODataQueryOptions<ServiceTypeGetDto>? options)
     {
-        var list = (await _serviceWrapper.ServiceTypes.GetServiceTypeList().ToListAsync())
-            .Where(x => x.ServiceTypeId == id).AsQueryable();
+        var list = _serviceWrapper.ServiceTypes.GetServiceTypeList()
+            .Where(x => x.ServiceTypeId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Service type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/ServiceTypes/5

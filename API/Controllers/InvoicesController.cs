@@ -28,11 +28,11 @@ public class InvoicesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices(ODataQueryOptions<InvoiceGetDto>? options)
     {
-        var list = await _serviceWrapper.Invoices.GetInvoiceList().ToListAsync();
+        var list = _serviceWrapper.Invoices.GetInvoiceList();
         if (!list.Any())
             return NotFound("No invoice available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Invoices/5
@@ -40,11 +40,11 @@ public class InvoicesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<Invoice>> GetInvoice(int id, ODataQueryOptions<InvoiceGetDto>? options)
     {
-        var list = (await _serviceWrapper.Invoices.GetInvoiceList().ToListAsync())
-            .Where(x => x.InvoiceId == id).AsQueryable();
+        var list = _serviceWrapper.Invoices.GetInvoiceList()
+            .Where(x => x.InvoiceId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Invoice not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Invoices/5

@@ -29,11 +29,11 @@ public class FlatTypesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<IEnumerable<FlatType>>> GetFlatTypes(ODataQueryOptions<FlatTypeGetDto>? options)
     {
-        var list = await _serviceWrapper.FlatTypes.GetFlatTypeList().ToListAsync();
+        var list = _serviceWrapper.FlatTypes.GetFlatTypeList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/FlatTypes/5
@@ -41,11 +41,11 @@ public class FlatTypesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<FlatType>> GetFlatType(int id, ODataQueryOptions<FlatTypeGetDto>? options)
     {
-        var list = (await _serviceWrapper.FlatTypes.GetFlatTypeList().ToListAsync())
-            .Where(x => x.FlatTypeId == id).AsQueryable();
+        var list = _serviceWrapper.FlatTypes.GetFlatTypeList()
+            .Where(x => x.FlatTypeId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/FlatTypes/5

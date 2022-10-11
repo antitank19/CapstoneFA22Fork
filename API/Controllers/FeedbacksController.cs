@@ -29,11 +29,11 @@ public class FeedbacksController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<Feedback>> GetFeedbacks(ODataQueryOptions<FeedbackGetDto>? options)
     {
-        var list = await _serviceWrapper.Feedbacks.GetFeedbackList().ToListAsync();
+        var list = _serviceWrapper.Feedbacks.GetFeedbackList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Feedbacks/5
@@ -41,11 +41,11 @@ public class FeedbacksController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Feedback>> GetFeedback(int id, ODataQueryOptions<FeedbackGetDto>? options)
     {
-        var list = (await _serviceWrapper.Feedbacks.GetFeedbackList().ToListAsync())
-            .Where(x => x.FeedbackId == id).AsQueryable();
+        var list = _serviceWrapper.Feedbacks.GetFeedbackList()
+            .Where(x => x.FeedbackId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Feedback not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Feedbacks/5

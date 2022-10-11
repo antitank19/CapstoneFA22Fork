@@ -44,7 +44,7 @@ public class ExpensesController : ControllerBase
             .Where(x => x.ExpenseId == id).AsQueryable();
         if (list.IsNullOrEmpty())
             return NotFound("Expense not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Expenses/5

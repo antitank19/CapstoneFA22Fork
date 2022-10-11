@@ -28,11 +28,11 @@ public class OrderDetailsController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<IEnumerable<OrderDetail>>> GetOrderDetails(ODataQueryOptions<OrderDetail>? options)
     {
-        var list = await _serviceWrapper.OrderDetails.GetOrderDetailList().ToListAsync();
+        var list = _serviceWrapper.OrderDetails.GetOrderDetailList();
         if (!list.Any())
             return NotFound("No Order Details Found");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/OrderDetails/5
@@ -40,11 +40,11 @@ public class OrderDetailsController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<OrderDetail>> GetOrderDetail(int id, ODataQueryOptions<OrderDetail>? options)
     {
-        var list = (await _serviceWrapper.OrderDetails.GetOrderDetailList().ToListAsync())
-            .Where(x => x.OrderDetailId == id).AsQueryable();
+        var list = _serviceWrapper.OrderDetails.GetOrderDetailList()
+            .Where(x => x.OrderDetailId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Order detail not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/OrderDetails/5

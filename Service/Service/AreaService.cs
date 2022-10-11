@@ -16,8 +16,7 @@ public class AreaService : IAreaService
 
     public IQueryable<Area> GetAreaList()
     {
-        return _repositoryWrapper.Areas.GetAreaList()
-            .AsQueryable();
+        return _repositoryWrapper.Areas.GetAreaList();
     }
 
     public async Task<Area?> GetAreaById(int areaId)

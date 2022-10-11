@@ -29,12 +29,11 @@ public class ApartmentsController : ControllerBase
     public async Task<ActionResult<IEnumerable<ApartmentGetDto>>> GetApartments(
         ODataQueryOptions<ApartmentGetDto>? options)
     {
-        var list = await _serviceWrapper.Apartments.GetApartmentList().ToListAsync();
+        var list = _serviceWrapper.Apartments.GetApartmentList();
         if (!list.Any())
             return NotFound("No apartment available");
 
-        var dtos = await list.AsQueryable().GetQueryAsync(_mapper, options);
-        return Ok(dtos);
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Apartments/5
@@ -42,11 +41,11 @@ public class ApartmentsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Apartment>> GetApartment(int id, ODataQueryOptions<ApartmentGetDto>? options)
     {
-        var list = (await _serviceWrapper.Apartments.GetApartmentList().ToListAsync())
-            .Where(e => e.ApartmentId == id).AsQueryable();
+        var list = _serviceWrapper.Apartments.GetApartmentList()
+            .Where(e => e.ApartmentId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Apartment not found");
-        var dto = (await list.AsQueryable().GetQueryAsync(_mapper, options)).ToArray()[0];
+        var dto = (await list.GetQueryAsync(_mapper, options)).ToArray()[0];
         return Ok(dto);
     }
 

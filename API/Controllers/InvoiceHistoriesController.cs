@@ -28,11 +28,11 @@ public class InvoiceHistoriesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<IEnumerable<InvoiceHistory>>> GetInvoiceHistories(ODataQueryOptions<InvoiceHistoryGetDto>? options)
     {
-        var list = await _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList().ToListAsync();
+        var list = _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList();
         if (!list.Any())
             return NotFound("Invoice history not found");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/InvoiceHistories/5
@@ -40,11 +40,11 @@ public class InvoiceHistoriesController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<InvoiceHistory>> GetInvoiceHistory(int id, ODataQueryOptions<InvoiceHistoryGetDto>? options)
     {
-        var list = (await _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList().ToListAsync())
-            .Where(x => x.InvoiceHistoryId == id).AsQueryable();
+        var list = _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList()
+            .Where(x => x.InvoiceHistoryId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Invoice history not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/InvoiceHistories/5

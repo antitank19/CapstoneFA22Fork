@@ -4,6 +4,7 @@ using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
+using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
@@ -30,18 +31,26 @@ public class AccountsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? options)
     {
-        var list = await _serviceWrapper.Accounts.GetAccountList().ToListAsync();
+        var list = _serviceWrapper.Accounts.GetAccountList();
         if (!list.Any())
             return NotFound("No account available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<AccountGetDto>> CreateAccount(AccountCreateDto accountCreate)
+    public async Task<ActionResult<AccountGetDto>> CreateAccount(AccountCreateDto account)
     {
-        var newAccount = new Account();
-        var result = await _serviceWrapper.Accounts.AddAccount(newAccount);
+        var newAccount = new Account()
+        {
+            Username = account.Username,
+            Password = account.Password,
+            Email = account.Email,
+            Phone = account.Phone,
+            Status = true,
+            RoleId = account.RoleId
+        };
+            var result = await _serviceWrapper.Accounts.AddAccount(newAccount);
         if (result == null)
             return NotFound("Account not created");
         return CreatedAtAction("GetAccount", new { id = result.AccountId }, result);
@@ -50,9 +59,10 @@ public class AccountsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
     {
-        var list = (await _serviceWrapper.Accounts.GetAccountList().ToListAsync())
-            .Where(e => e.AccountId == id).AsQueryable();
-        if (list.IsNullOrEmpty() || !list.Any()) return NotFound("Account not found");
+        var list = _serviceWrapper.Accounts.GetAccountList()
+            .Where(e => e.AccountId == id);
+        if (list.IsNullOrEmpty() || !list.Any()) 
+            return NotFound("Account not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 

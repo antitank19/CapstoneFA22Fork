@@ -18,7 +18,7 @@ public class BuildingRepository : IBuildingRepository
     ///     Get a list of building
     /// </summary>
     /// <returns></returns>
-    public IQueryable<Building?> GetBuildingList()
+    public IQueryable<Building> GetBuildingList()
     {
         return _context.Buildings.AsQueryable();
     }

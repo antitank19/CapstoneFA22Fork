@@ -27,12 +27,12 @@ public class RolesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetRoleList(ODataQueryOptions<RequestType>? options)
     {
-        var list = await _serviceWrapper.Roles.GetRoleList().ToListAsync();
+        var list = _serviceWrapper.Roles.GetRoleList();
         if (!list.Any())
             return NotFound("No role available");
 
         //var response = _mapper.Map<IEnumerable<Role>>(result);
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     [HttpGet("{id:int}")]
@@ -45,11 +45,11 @@ public class RolesController : ControllerBase
             return NotFound("No role available");
 
         return Ok(result);*/
-        var list = (await _serviceWrapper.Roles.GetRoleList().ToListAsync())
-            .Where(x => x.RoleId == id).AsQueryable();
+        var list = _serviceWrapper.Roles.GetRoleList()
+            .Where(x => x.RoleId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     /*

@@ -28,11 +28,11 @@ public class OrdersController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<IEnumerable<Order>>> GetOrders(ODataQueryOptions<OrderGetDto>? options)
     {
-        var list = await _serviceWrapper.Orders.GetOrderList().ToListAsync();
+        var list = _serviceWrapper.Orders.GetOrderList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Orders/5
@@ -40,11 +40,13 @@ public class OrdersController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<Order>> GetOrder(int id, ODataQueryOptions<OrderGetDto>? options)
     {
-        var list = (await _serviceWrapper.Orders.GetOrderList().ToListAsync())
-            .Where(x => x.OrderId == id).AsQueryable();
+        var list = _serviceWrapper.Orders.GetOrderList()
+            .Where(x => x.OrderId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Order not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());    }
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        
+    }
 
     // PUT: api/Orders/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

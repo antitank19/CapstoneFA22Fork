@@ -28,11 +28,11 @@ public class RequestTypesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RequestType>>> GetRequestTypes(ODataQueryOptions<RequestType>? options)
     {
-        var list = await _serviceWrapper.RequestTypes.GetRequestTypeList().ToListAsync();
+        var list = _serviceWrapper.RequestTypes.GetRequestTypeList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/RequestTypes/5
@@ -40,11 +40,11 @@ public class RequestTypesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<RequestType>> GetRequestType(int id, ODataQueryOptions<RequestType>? options)
     {
-        var list = (await _serviceWrapper.RequestTypes.GetRequestTypeList().ToListAsync())
-            .Where(x => x.RequestTypeId == id).AsQueryable();
+        var list = _serviceWrapper.RequestTypes.GetRequestTypeList()
+            .Where(x => x.RequestTypeId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/RequestTypes/5

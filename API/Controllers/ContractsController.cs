@@ -28,11 +28,11 @@ public class ContractsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Contract>>> GetContracts(ODataQueryOptions<ContractGetDto>? options)
     {
-        var list = await _serviceWrapper.Contracts.GetContractList().ToListAsync();
+        var list = _serviceWrapper.Contracts.GetContractList();
         if (!list.Any())
             return NotFound("No contract available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Contracts/5
@@ -40,8 +40,8 @@ public class ContractsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Contract>> GetContract(int id, ODataQueryOptions<ContractGetDto>? options)
     {
-        var list = (await _serviceWrapper.Contracts.GetContractList().ToListAsync())
-            .Where(e => e.ContractId == id).AsQueryable();
+        var list = _serviceWrapper.Contracts.GetContractList()
+            .Where(e => e.ContractId == id);
         if (list.IsNullOrEmpty() || !list.Any()) return NotFound("Contract not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }

@@ -29,11 +29,11 @@ public class FeedbackTypesController : ControllerBase
     public async Task<ActionResult<IEnumerable<FeedbackType>>> GetFeedbackTypes(
         ODataQueryOptions<FeedbackTypeGetDto>? options)
     {
-        var list = await _serviceWrapper.FeedbackTypes.GetFeedbackTypeList().ToListAsync();
+        var list = _serviceWrapper.FeedbackTypes.GetFeedbackTypeList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/FeedbackTypes/5
@@ -42,11 +42,11 @@ public class FeedbackTypesController : ControllerBase
     public async Task<ActionResult<FeedbackType>> GetFeedbackType(int id,
         ODataQueryOptions<FeedbackTypeGetDto>? options)
     {
-        var list = (await _serviceWrapper.Feedbacks.GetFeedbackList().ToListAsync())
-            .Where(x => x.FeedbackId == id).AsQueryable();
+        var list = _serviceWrapper.Feedbacks.GetFeedbackList()
+            .Where(x => x.FeedbackId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Feedback type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/FeedbackTypes/5

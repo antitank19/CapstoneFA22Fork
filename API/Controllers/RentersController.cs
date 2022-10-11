@@ -29,11 +29,11 @@ public class RentersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<Renter>> GetRenters(ODataQueryOptions<RenterGetDto>? options)
     {
-        var list = await _serviceWrapper.Renters.GetRenterList().ToListAsync();
+        var list = _serviceWrapper.Renters.GetRenterList();
         if (!list.Any())
             return NotFound("No renter available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
 
         //var response = _mapper.Map<IEnumerable<Renter>>(result);
         //return Ok(response);
@@ -44,11 +44,11 @@ public class RentersController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Renter>> GetRenter(int id, ODataQueryOptions<RenterGetDto>? options)
     {
-        var list = (await _serviceWrapper.Requests.GetRequestList().ToListAsync())
-            .Where(x => x.RequestTypeId == id).AsQueryable();
+        var list = _serviceWrapper.Requests.GetRequestList()
+            .Where(x => x.RequestTypeId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Renters/5

@@ -29,11 +29,11 @@ public class BillsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Bill>>> GetBills(ODataQueryOptions<BillGetDto>? options)
     {
-        var list = await _serviceWrapper.Bills.GetBillList().ToListAsync();
+        var list = _serviceWrapper.Bills.GetBillList();
         if (!list.Any())
             return NotFound("No bill available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Bills/5
@@ -41,8 +41,8 @@ public class BillsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Bill>> GetBill(int id, ODataQueryOptions<BillGetDto>? options)
     {
-        var list = (await _serviceWrapper.Bills.GetBillList().ToListAsync())
-            .Where(e => e.BillId == id).AsQueryable();
+        var list = _serviceWrapper.Bills.GetBillList()
+            .Where(e => e.BillId == id);
         if (list.IsNullOrEmpty()) return NotFound("Bill not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }

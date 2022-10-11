@@ -29,11 +29,11 @@ public class ServicesController : ControllerBase
     public async Task<ActionResult<IEnumerable<ServiceEntity>>> GetServiceEntities(
         ODataQueryOptions<ServiceGetDto>? options)
     {
-        var list = await _serviceWrapper.ServicesEntity.GetServiceEntityList().ToListAsync();
+        var list = _serviceWrapper.ServicesEntity.GetServiceEntityList();
         if (!list.Any())
             return NotFound("No service available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/ServiceEntitys/5
@@ -41,11 +41,11 @@ public class ServicesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ServiceEntity>> GetServiceEntity(int id, ODataQueryOptions<ServiceGetDto>? options)
     {
-        var list = (await _serviceWrapper.ServicesEntity.GetServiceEntityList().ToListAsync())
-            .Where(e => e.ServiceTypeId == id).AsQueryable();
+        var list = _serviceWrapper.ServicesEntity.GetServiceEntityList()
+            .Where(e => e.ServiceTypeId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Service entities not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).FirstOrDefaultAsync());
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/ServiceEntitys/5

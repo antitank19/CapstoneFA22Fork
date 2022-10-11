@@ -30,11 +30,11 @@ public class ContractHistoriesController : ControllerBase
     public async Task<ActionResult<IEnumerable<ContractHistory>>> GetContractHistories(
         ODataQueryOptions<ContractHistoryGetDto>? options)
     {
-        var list = await _serviceWrapper.ContractHistories.GetContractHistoryList().ToListAsync();
+        var list = _serviceWrapper.ContractHistories.GetContractHistoryList();
         if (!list.Any())
             return NotFound("No contract history available");
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/ContractHistories/5
@@ -43,8 +43,8 @@ public class ContractHistoriesController : ControllerBase
     public async Task<ActionResult<ContractHistory>> GetContractHistory(int id,
         ODataQueryOptions<ContractHistoryGetDto>? options)
     {
-        var list = (await _serviceWrapper.ContractHistories.GetContractHistoryList().ToListAsync())
-            .Where(e => e.ContractHistoryId == id).AsQueryable();
+        var list = _serviceWrapper.ContractHistories.GetContractHistoryList()
+            .Where(e => e.ContractHistoryId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Contract history not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
