@@ -39,6 +39,7 @@ public class AutoMapper : Profile
         MapServiceType();
         MapUniversity();
     }
+    
 
     private void MapExpenseHistory()
     {

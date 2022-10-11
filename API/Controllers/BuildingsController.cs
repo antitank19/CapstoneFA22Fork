@@ -26,11 +26,11 @@ public class BuildingsController : ControllerBase
     // GET: api/Buildings
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Building>>> GetBuildings(ODataQueryOptions<BuildingGetDto>? options)
+    public async Task<ActionResult<IQueryable<Building>>> GetBuildings(ODataQueryOptions<BuildingGetDto>? options)
     {
         var list = _serviceWrapper.Buildings.GetBuildingList();
         if (!list.Any())
-            return NotFound("No account available");
+            return NotFound("No builings available");
 
         return Ok(await list.GetQueryAsync(_mapper, options));
     }

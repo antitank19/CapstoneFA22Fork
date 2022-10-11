@@ -25,14 +25,13 @@ public class RolesController : ControllerBase
 
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult> GetRoleList(ODataQueryOptions<RequestType>? options)
+    public async Task<ActionResult<IQueryable<Role>>> GetRoleList()
     {
-        var list = _serviceWrapper.Roles.GetRoleList();
+        var list = await _serviceWrapper.Roles.GetRoleList().ToListAsync();
         if (!list.Any())
             return NotFound("No role available");
 
-        //var response = _mapper.Map<IEnumerable<Role>>(result);
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<IEnumerable<RoleGetDto>>(list));
     }
 
     [HttpGet("{id:int}")]

@@ -27,16 +27,13 @@ public class RentersController : ControllerBase
     // GET: api/Renters
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<Renter>> GetRenters(ODataQueryOptions<RenterGetDto>? options)
+    public async Task<ActionResult<IQueryable<Renter>>> GetRenters(ODataQueryOptions<RenterGetDto>? options)
     {
         var list = _serviceWrapper.Renters.GetRenterList();
         if (!list.Any())
             return NotFound("No renter available");
 
         return Ok(await list.GetQueryAsync(_mapper, options));
-
-        //var response = _mapper.Map<IEnumerable<Renter>>(result);
-        //return Ok(response);
     }
 
     // GET: api/Renters/5
