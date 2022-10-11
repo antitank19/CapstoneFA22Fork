@@ -1,4 +1,4 @@
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using API.Models;
 using AutoMapper;
 using AutoMapper.AspNet.OData;

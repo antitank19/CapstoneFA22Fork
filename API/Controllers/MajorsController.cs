@@ -1,4 +1,4 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
