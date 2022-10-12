@@ -1,5 +1,4 @@
 using AutoMapper;
-using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Domain.EnumEntities;
@@ -7,7 +6,6 @@ using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -25,29 +23,28 @@ public class UniversitiesController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
-
     // GET: api/Universities
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<University>>> GetUniversity(ODataQueryOptions<RequestType>? options)
+    public async Task<ActionResult<IEnumerable<University>>> GetUniversity()
     {
-        var list = _serviceWrapper.Universities.GetUniversityList();
+        var list = await _serviceWrapper.Universities.GetUniversityList().ToListAsync();
         if (!list.Any())
             return NotFound("No university available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<IEnumerable<UniversityGetDto>>(list));
     }
 
     // GET: api/Universities/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<University>> GetUniversity(int id, ODataQueryOptions<RequestType>? options)
+    public async Task<ActionResult<University>> GetUniversity(int id)
     {
-        var list = _serviceWrapper.Universities.GetUniversityList()
-            .Where(x => x.UniversityId == id);
-        if (list.IsNullOrEmpty())
-            return NotFound("Request type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var result = await _serviceWrapper.Universities.GetUniversityById(id);
+        if (result == null)
+            return NotFound("No university available");
+
+        return Ok(result);
     }
 
     // PUT: api/Universities/5
@@ -56,14 +53,14 @@ public class UniversitiesController : ControllerBase
     public async Task<IActionResult> PutUniversity(int id, UniversityUpdateDto university)
     {
         if (id != university.UniversityId) return BadRequest();
-        var updateUniversity = new University()
+        var updateUniversity = new University
         {
             UniversityId = id,
             UniversityName = university.UniversityName,
             Description = university.Description,
             Image = university.Image,
             Address = university.Address,
-            Status = university.Status,
+            Status = university.Status
         };
         var result = await _serviceWrapper.Universities.UpdateUniversity(updateUniversity);
         if (result == null)
@@ -74,15 +71,16 @@ public class UniversitiesController : ControllerBase
     // POST: api/Universities
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<University>> PostUniversity(UniversityCreateDto university)
+    public async Task<ActionResult<University>> PostUniversity([FromBody] UniversityCreateDto university)
     {
-        var addNewUniversity = new University()
+        var addNewUniversity = new University
         {
             UniversityName = university.UniversityName,
             Description = university.Description,
             Image = university.Image,
             Address = university.Address,
-            Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Success) ?? Enum.GetName(typeof(StatusEnum), StatusEnum.Pending)
+            Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Success) ??
+                     Enum.GetName(typeof(StatusEnum), StatusEnum.Pending)
         };
         var result = await _serviceWrapper.Universities.AddUniversity(addNewUniversity);
         if (result == null)
@@ -97,7 +95,7 @@ public class UniversitiesController : ControllerBase
         var result = await _serviceWrapper.Universities.DeleteUniversity(id);
         if (result)
             return NotFound("University not found");
-        
+
         return Ok("University deleted");
     }
 }

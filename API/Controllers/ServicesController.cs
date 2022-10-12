@@ -4,7 +4,6 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -53,7 +52,13 @@ public class ServicesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutServiceEntity(int id, ServiceCreateDto service)
     {
-        if (id != service.ServiceId) return BadRequest();
+        if (id != service.ServiceId)
+            return BadRequest("Service id mismatch");
+
+        var serviceTypeCheck = await _serviceWrapper.ServiceTypes.GetServiceTypeById(service.ServiceTypeId);
+        if (serviceTypeCheck == null)
+            return BadRequest("Service type not found");
+        
         var updateService = new ServiceEntity
         {
             ServiceId = id,

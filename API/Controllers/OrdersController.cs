@@ -4,7 +4,6 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -45,7 +44,6 @@ public class OrdersController : ControllerBase
         if (list.IsNullOrEmpty())
             return NotFound("Order not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
-        
     }
 
     // PUT: api/Orders/5
@@ -54,16 +52,16 @@ public class OrdersController : ControllerBase
     public async Task<IActionResult> PutOrder(int id, OrderUpdateDto order)
     {
         if (id != order.OrderId) return BadRequest();
-        var updateOrder = new Order()
+        var updateOrder = new Order
         {
             OrderId = id,
             Name = order.Name,
             Status = order.Status,
             RenterId = order.RenterId,
-            RequestId = order.RequestId, 
+            RequestId = order.RequestId
             // TODO: Check request ID if match
         };
-        
+
         var result = await _serviceWrapper.Orders.UpdateOrder(updateOrder);
         if (result == null)
             return NotFound("Request type not found");
@@ -76,12 +74,12 @@ public class OrdersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Order>> PostOrder(OrderGetDto order)
     {
-        var newOrder = new Order()
+        var newOrder = new Order
         {
             Name = order.Name,
             Status = order.Status,
             RenterId = order.RenterId,
-            RequestId = order.RequestId,
+            RequestId = order.RequestId
         };
         var result = await _serviceWrapper.Orders.AddOrder(newOrder);
         if (result == null)

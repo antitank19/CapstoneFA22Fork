@@ -4,7 +4,6 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -26,7 +25,8 @@ public class InvoiceHistoriesController : ControllerBase
 
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<InvoiceHistory>>> GetInvoiceHistories(ODataQueryOptions<InvoiceHistoryGetDto>? options)
+    public async Task<ActionResult<IEnumerable<InvoiceHistory>>> GetInvoiceHistories(
+        ODataQueryOptions<InvoiceHistoryGetDto>? options)
     {
         var list = _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList();
         if (!list.Any())
@@ -38,7 +38,8 @@ public class InvoiceHistoriesController : ControllerBase
     // GET: api/InvoiceHistories/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<InvoiceHistory>> GetInvoiceHistory(int id, ODataQueryOptions<InvoiceHistoryGetDto>? options)
+    public async Task<ActionResult<InvoiceHistory>> GetInvoiceHistory(int id,
+        ODataQueryOptions<InvoiceHistoryGetDto>? options)
     {
         var list = _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList()
             .Where(x => x.InvoiceHistoryId == id);
@@ -54,7 +55,7 @@ public class InvoiceHistoriesController : ControllerBase
     {
         if (id != invoiceHistory.InvoiceHistoryId) return BadRequest();
 
-        var updateInvoiceHistory = new InvoiceHistory()
+        var updateInvoiceHistory = new InvoiceHistory
         {
             InvoiceHistoryId = id,
             Name = invoiceHistory.Name,
@@ -63,9 +64,9 @@ public class InvoiceHistoriesController : ControllerBase
             Status = invoiceHistory.Status,
             SendDate = invoiceHistory.SendDate,
             UpdatedDate = invoiceHistory.UpdatedDate,
-            InvoiceId = invoiceHistory.InvoiceId,
+            InvoiceId = invoiceHistory.InvoiceId
         };
-        
+
         var result = await _serviceWrapper.InvoiceHistories.UpdateInvoiceHistory(updateInvoiceHistory);
         if (result == null)
             return NotFound("Invoice history not found");
@@ -78,7 +79,7 @@ public class InvoiceHistoriesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<InvoiceHistory>> PostInvoiceHistory(InvoiceHistoryCreateDto invoiceHistory)
     {
-        var updateInvoiceHistory = new InvoiceHistory()
+        var updateInvoiceHistory = new InvoiceHistory
         {
             Name = invoiceHistory.Name,
             Image = invoiceHistory.Image,
@@ -86,7 +87,7 @@ public class InvoiceHistoriesController : ControllerBase
             Status = invoiceHistory.Status,
             SendDate = invoiceHistory.SendDate,
             UpdatedDate = invoiceHistory.UpdatedDate,
-            InvoiceId = invoiceHistory.InvoiceId,
+            InvoiceId = invoiceHistory.InvoiceId
         };
         var result = await _serviceWrapper.InvoiceHistories.UpdateInvoiceHistory(updateInvoiceHistory);
         if (result == null)

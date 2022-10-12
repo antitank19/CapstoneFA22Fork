@@ -4,7 +4,6 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -26,7 +25,8 @@ public class ExpenseTypesController : ControllerBase
 
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ExpenseType>>> GetExpenseTypes(ODataQueryOptions<ExpenseTypeGetDto>? options)
+    public async Task<ActionResult<IEnumerable<ExpenseType>>> GetExpenseTypes(
+        ODataQueryOptions<ExpenseTypeGetDto>? options)
     {
         var list = _serviceWrapper.Expenses.GetExpenseList();
         if (!list.Any())
@@ -53,12 +53,12 @@ public class ExpenseTypesController : ControllerBase
     public async Task<IActionResult> PutExpenseType(int id, ExpenseTypeUpdateDto expenseType)
     {
         if (id != expenseType.ExpenseTypeId) return BadRequest();
-        var updateExpenseType = new ExpenseType()
+        var updateExpenseType = new ExpenseType
         {
             ExpenseTypeId = id,
             Name = expenseType.Name,
             Price = expenseType.Price,
-            Status = expenseType.Status,
+            Status = expenseType.Status
         };
         var result = await _serviceWrapper.ExpenseTypes.UpdateExpenseType(updateExpenseType);
         if (result == null)
@@ -71,16 +71,16 @@ public class ExpenseTypesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ExpenseType>> PostExpenseType(ExpenseTypeGetDto expenseType)
     {
-        var newExpenseType = new ExpenseType()
+        var newExpenseType = new ExpenseType
         {
             Name = expenseType.Name,
             Price = expenseType.Price,
-            Status = expenseType.Status,
+            Status = expenseType.Status
         };
         var result = await _serviceWrapper.ExpenseTypes.AddExpenseType(newExpenseType);
         if (result == null)
             return NotFound("No expense type not found");
-        
+
         return CreatedAtAction("GetExpenseType", expenseType);
     }
 

@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;

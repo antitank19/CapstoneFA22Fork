@@ -1,11 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using Service.IService;
 
 namespace API.Controllers;
@@ -23,7 +20,6 @@ public class RolesController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
-    [EnableQuery]
     [HttpGet]
     public async Task<ActionResult<IQueryable<Role>>> GetRoleList()
     {
@@ -35,20 +31,20 @@ public class RolesController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    [EnableQuery]
-    public async Task<ActionResult> GetRole(int id, ODataQueryOptions<RequestType>? options)
+    public async Task<ActionResult> GetRole(int id)
     {
-        /*
         var result = await _serviceWrapper.Roles.GetRoleById(id);
         if (result == null)
             return NotFound("No role available");
 
-        return Ok(result);*/
+        return Ok(result);
+        /*
         var list = _serviceWrapper.Roles.GetRoleList()
             .Where(x => x.RoleId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        */
     }
 
     /*

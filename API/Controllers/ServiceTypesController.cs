@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
@@ -54,7 +53,8 @@ public class ServiceTypesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutServiceType(int id, ServiceTypeCreateDto serviceType)
     {
-        if (id != serviceType.ServiceTypeId) return BadRequest();
+        if (id != serviceType.ServiceTypeId) 
+            return BadRequest("Service type id mismatch");
 
         var updateServiceType = new ServiceType
         {
@@ -85,7 +85,6 @@ public class ServiceTypesController : ControllerBase
             return BadRequest("Service type failed to add");
 
         return CreatedAtAction("GetServiceType", new { id = serviceType.ServiceTypeId }, serviceType);
-        //return CreatedAtAction("GetServiceType", new { id = serviceType.ServiceTypeId }, serviceType);
     }
 
     // DELETE: api/ServiceTypes/5

@@ -4,7 +4,6 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -53,12 +52,12 @@ public class OrderDetailsController : ControllerBase
     public async Task<IActionResult> PutOrderDetail(int id, OrderDetailUpdateDto orderDetail)
     {
         if (id != orderDetail.OrderDetailId) return BadRequest();
-        var updateOrderDetail = new OrderDetail()
+        var updateOrderDetail = new OrderDetail
         {
             OrderDetailId = id,
             Amount = orderDetail.Amount,
             OrderId = orderDetail.OrderId,
-            ServiceId = orderDetail.ServiceId,
+            ServiceId = orderDetail.ServiceId
         };
         var result = await _serviceWrapper.OrderDetails.UpdateOrderDetail(updateOrderDetail);
         if (result == null)
@@ -71,16 +70,16 @@ public class OrderDetailsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<OrderDetail>> PostOrderDetail(OrderDetailCreateDto orderDetail)
     {
-        var newOrderDetail = new OrderDetail()
+        var newOrderDetail = new OrderDetail
         {
             Amount = orderDetail.Amount,
             OrderId = orderDetail.OrderId,
-            ServiceId = orderDetail.ServiceId,
+            ServiceId = orderDetail.ServiceId
         };
         var result = await _serviceWrapper.OrderDetails.AddOrderDetail(newOrderDetail);
         if (result == null)
             return NotFound("Order detail not found");
-        return CreatedAtAction("GetOrderDetail",orderDetail);
+        return CreatedAtAction("GetOrderDetail", orderDetail);
     }
 
     // DELETE: api/OrderDetails/5

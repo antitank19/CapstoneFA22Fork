@@ -3,10 +3,8 @@ using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
-using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -40,7 +38,7 @@ public class AccountsController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<AccountGetDto>> CreateAccount(AccountCreateDto account)
     {
-        var newAccount = new Account()
+        var newAccount = new Account
         {
             Username = account.Username,
             Password = account.Password,
@@ -49,7 +47,7 @@ public class AccountsController : ControllerBase
             Status = true,
             RoleId = account.RoleId
         };
-            var result = await _serviceWrapper.Accounts.AddAccount(newAccount);
+        var result = await _serviceWrapper.Accounts.AddAccount(newAccount);
         if (result == null)
             return NotFound("Account not created");
         return CreatedAtAction("GetAccount", new { id = result.AccountId }, result);
@@ -58,10 +56,9 @@ public class AccountsController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
     {
-
-        var list = (_serviceWrapper.Accounts.GetAccountList())
+        var list = _serviceWrapper.Accounts.GetAccountList()
             .Where(e => e.AccountId == id).AsQueryable();
-        if (list.IsNullOrEmpty() || !list.Any()) 
+        if (list.IsNullOrEmpty() || !list.Any())
             return NotFound("Account not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
@@ -99,12 +96,9 @@ public class AccountsController : ControllerBase
     public async Task<ActionResult> Login(LoginModel loginModel)
     {
         var renter = await _serviceWrapper.Accounts.Login(loginModel.Username, loginModel.Password);
-        if(renter == null)
-        {
-            return Unauthorized("Username or password is wrong");
-        }
+        if (renter == null) return Unauthorized("Username or password is wrong");
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(renter);
-        return Ok(new {Token=jwtToken});
+        return Ok(new { Token = jwtToken });
     }
 
     [HttpPut("Toggle/{id:int}")]

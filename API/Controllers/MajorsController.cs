@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using Service.IService;
 
 namespace API.Controllers;
@@ -24,14 +25,13 @@ public class MajorsController : ControllerBase
     // GET: api/Majors
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<MajorGetDto>> GetMajors()
+    public async Task<ActionResult<Major>> GetMajors()
     {
         var result = await _serviceWrapper.Majors.GetMajorList().ToListAsync();
         if (!result.Any())
             return NotFound("No major available");
 
-        var response = _mapper.Map<IEnumerable<Major>>(result);
-        return Ok(response);
+        return Ok(_mapper.Map<IEnumerable<MajorGetDto>>(result));
     }
 
 // GET: api/Majors/5
@@ -39,11 +39,29 @@ public class MajorsController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<Major>> GetMajor(int id)
     {
-        var result = await _serviceWrapper.Majors.GetMajorById(id);
+        var result = await GetMajorById(id);
         if (result == null)
             return NotFound("No major found");
 
-        return Ok(result);
+        return Ok(result.Name.ToJson());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostMajor([FromBody] MajorCreateDto major)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var addNewMajor = new Major
+        {
+            Name = major.Name
+        };
+
+        var result = await _serviceWrapper.Majors.AddMajor(addNewMajor);
+        if (result == null)
+            return BadRequest("Major already exists");
+
+        return CreatedAtAction("GetMajor", new { id = result.MajorId }, result.Name);
     }
 
     // PUT: api/Majors/5
@@ -75,5 +93,11 @@ public class MajorsController : ControllerBase
             return NotFound("Deleting major failed");
 
         return Ok($"Major deleted at : {DateTime.Now.ToShortDateString()}");
+    }
+    
+    private async Task<Major?> GetMajorById(int id)
+    {
+        var result = await _serviceWrapper.Majors.GetMajorById(id);
+        return result ?? null;
     }
 }

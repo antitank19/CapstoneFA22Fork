@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using API.Models;
 using AutoMapper;
 using AutoMapper.AspNet.OData;
@@ -51,10 +50,18 @@ public class RentersController : ControllerBase
     // PUT: api/Renters/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> PutRenter(int id, Renter renter)
+    public async Task<IActionResult> PutRenter(int id, [FromBody] Renter renter)
     {
         if (id != renter.RenterId)
             return BadRequest();
+
+        var majorCheck = await GetMajorById(renter.MajorId);
+        if (majorCheck == null)
+            return BadRequest("Major not found");
+
+        var universityCheck = await GetUniversityById(renter.UniversityId);
+        if (universityCheck == null)
+            return BadRequest("University not found");
 
         var updateRenter = new Renter
         {
@@ -69,11 +76,11 @@ public class RentersController : ControllerBase
             Address = renter.Address,
             University = new University
             {
-                UniversityName = renter.University.UniversityName
+                UniversityId = universityCheck.UniversityId
             },
             Major = new Major
             {
-                Name = renter.Major.Name
+                MajorId = majorCheck.MajorId
             }
         };
 
@@ -89,7 +96,15 @@ public class RentersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Renter>> PostRenter(RenterCreateDto renter)
     {
-        var newRenter = new Renter()
+        var majorCheck = await GetMajorById(renter.MajorId);
+        if (majorCheck == null)
+            return BadRequest("Major not found");
+
+        var universityCheck = await GetUniversityById(renter.UniversityId);
+        if (universityCheck == null)
+            return BadRequest("University not found");
+        
+        var newRenter = new Renter
         {
             Username = renter.Username,
             Email = renter.Email,
@@ -107,7 +122,9 @@ public class RentersController : ControllerBase
         var result = await _serviceWrapper.Renters.AddRenter(newRenter);
         if (result == null)
             return NotFound("Create failed");
-        return CreatedAtAction("GetRenter", renter);
+        
+        return Ok("Create successfully");
+        //return CreatedAtAction( "GetRenter", new { id = result.RenterId }, result);
     }
 
     // POST: api/Accounts/Login
@@ -129,5 +146,17 @@ public class RentersController : ControllerBase
             return NotFound("Renter not found");
 
         return Ok("Renter deleted");
+    }
+    
+    private async Task<Major?> GetMajorById(int id)
+    {
+        var result = await _serviceWrapper.Majors.GetMajorById(id);
+        return result ?? null;
+    }
+    
+    private async Task<University?> GetUniversityById(int id)
+    {
+        var result = await _serviceWrapper.Universities.GetUniversityById(id);
+        return result ?? null;
     }
 }

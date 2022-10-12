@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
@@ -42,7 +41,7 @@ public class AreasController : ControllerBase
     {
         var list = _serviceWrapper.Areas.GetAreaList()
             .Where(e => e.AreaId == id);
-        if (list.IsNullOrEmpty()) 
+        if (list.IsNullOrEmpty())
             return NotFound("Account not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }

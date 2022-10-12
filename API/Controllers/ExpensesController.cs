@@ -61,7 +61,7 @@ public class ExpensesController : ControllerBase
             ExpenseTypeId = expense.ExpenseTypeId
         };
         var result1 = await _serviceWrapper.Expenses.UpdateExpense(updateExpense);
-        if (result1 == null) 
+        if (result1 == null)
             return NotFound("Expense not found");
         var addNewExpenseHistory = new ExpenseHistory
         {
@@ -70,7 +70,7 @@ public class ExpensesController : ControllerBase
             ExpenseId = updateExpense.ExpenseId
         };
         var result2 = await _serviceWrapper.ExpenseHistories.AddExpenseHistory(addNewExpenseHistory);
-        if (result2 == null) 
+        if (result2 == null)
             return NotFound("Expense History not added");
         return Ok("Expense updated successfully");
     }

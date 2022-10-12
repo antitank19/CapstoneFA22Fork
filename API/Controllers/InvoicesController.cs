@@ -4,7 +4,6 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -54,33 +53,33 @@ public class InvoicesController : ControllerBase
     {
         if (id != invoice.InvoiceId) return BadRequest();
 
-        var updateInvoice = new Invoice()
+        var updateInvoice = new Invoice
         {
             InvoiceId = id,
             Name = invoice.Name,
             Image = invoice.Image,
             Detail = invoice.Detail,
             SenderId = invoice.SenderId,
-            ContractId = invoice.ContractId,
+            ContractId = invoice.ContractId
         };
-        
+
         var result1 = await _serviceWrapper.Invoices.UpdateInvoice(updateInvoice);
         if (result1 == null)
             return NotFound("Invoice failed to update");
-        
-        var updateInvoiceHistory = new InvoiceHistory()
+
+        var updateInvoiceHistory = new InvoiceHistory
         {
             Name = updateInvoice.Name,
             Image = updateInvoice.Image,
             Detail = updateInvoice.Detail,
             Status = updateInvoice.Status,
             UpdatedDate = DateTime.Now,
-            InvoiceId = updateInvoice.InvoiceId,
+            InvoiceId = updateInvoice.InvoiceId
         };
         var result2 = await _serviceWrapper.InvoiceHistories.AddInvoiceHistory(updateInvoiceHistory);
         if (result2 == null)
             return NotFound("Invoice history failed to add");
-        
+
         return Ok("Invoice updated successfully");
     }
 
@@ -89,18 +88,18 @@ public class InvoicesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Invoice>> PostInvoice(InvoiceCreateDto invoice)
     {
-        var addNewInvoice = new Invoice()
-        {   
+        var addNewInvoice = new Invoice
+        {
             Name = invoice.Name,
             Image = invoice.Image,
             Detail = invoice.Detail,
             SenderId = invoice.SenderId,
-            ContractId = invoice.ContractId,
+            ContractId = invoice.ContractId
         };
         var result = await _serviceWrapper.Invoices.AddInvoice(addNewInvoice);
         if (result == null)
             return NotFound("Invoice not found");
-       
+
         return CreatedAtAction("GetInvoice", invoice);
     }
 
