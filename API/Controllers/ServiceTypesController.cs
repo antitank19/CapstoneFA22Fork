@@ -31,7 +31,7 @@ public class ServiceTypesController : ControllerBase
     {
         var list = _serviceWrapper.ServiceTypes.GetServiceTypeList();
         if (!list.Any())
-            return NotFound();
+            return NotFound("Service type not found");
 
         return Ok(await list.GetQueryAsync(_mapper, options));
     }

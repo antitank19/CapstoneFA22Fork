@@ -34,7 +34,7 @@ public class MajorsController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<MajorGetDto>>(result));
     }
 
-// GET: api/Majors/5
+    // GET: api/Majors/5
     [HttpGet("{id:int}")]
     [EnableQuery]
     public async Task<ActionResult<Major>> GetMajor(int id)

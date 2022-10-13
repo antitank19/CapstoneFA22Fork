@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.AspNet.OData;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Domain.EnumEntities;
@@ -6,6 +7,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
 namespace API.Controllers;
@@ -23,6 +25,7 @@ public class UniversitiesController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
+    /*
     // GET: api/Universities
     [HttpGet]
     [EnableQuery]
@@ -45,6 +48,31 @@ public class UniversitiesController : ControllerBase
             return NotFound("No university available");
 
         return Ok(result);
+    }
+    */
+    
+    // GET: api/Universities
+    [HttpGet]
+    [EnableQuery]
+    public async Task<ActionResult<IEnumerable<University>>> GetUniversity(ODataQueryOptions<UniversityGetDto>? options)
+    {
+        var list = _serviceWrapper.Universities.GetUniversityList();
+        if (!list.Any())
+            return NotFound("No university available");
+
+        return Ok(await list.GetQueryAsync(_mapper, options));
+    }
+
+    // GET: api/Universities/5
+    [HttpGet("{id:int}")]
+    [EnableQuery]
+    public async Task<ActionResult<University>> GetUniversity(int id, ODataQueryOptions<UniversityGetDto>? options)
+    {
+        var list = _serviceWrapper.Universities.GetUniversityList()
+            .Where(x => x.UniversityId == id);
+        if (list.IsNullOrEmpty())
+            return NotFound("Request type not found");
+        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
 
     // PUT: api/Universities/5

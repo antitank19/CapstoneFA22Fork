@@ -53,7 +53,7 @@ public class AccountsController : ControllerBase
         return CreatedAtAction("GetAccount", new { id = result.AccountId }, result);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("get/{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
     {
         var list = _serviceWrapper.Accounts.GetAccountList()
@@ -65,7 +65,7 @@ public class AccountsController : ControllerBase
 
     // PUT: api/Accounts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id:int}")]
+    [HttpPut("update/{id:int}")]
     public async Task<IActionResult> UpdateAccount(int id, [FromBody] AccountUpdateDto account)
     {
         if (id != account.AccountId)
@@ -92,7 +92,7 @@ public class AccountsController : ControllerBase
 
     // POST: api/Accounts/Login
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPost("Login")]
+    [HttpPost("login")]
     public async Task<ActionResult> Login(LoginModel loginModel)
     {
         var renter = await _serviceWrapper.Accounts.Login(loginModel.Username, loginModel.Password);
@@ -101,7 +101,7 @@ public class AccountsController : ControllerBase
         return Ok(new { Token = jwtToken });
     }
 
-    [HttpPut("Toggle/{id:int}")]
+    [HttpPut("toggle/{id:int}")]
     public async Task<IActionResult> ToggleAccountStatus(int id, [FromBody] AccountUpdateDto account)
     {
         if (id != account.AccountId)
@@ -115,7 +115,7 @@ public class AccountsController : ControllerBase
     }
 
     // DELETE: api/Accounts/5
-    [HttpDelete("{id:int}")]
+    [HttpDelete("delete/{id:int}")]
     public async Task<IActionResult> DeleteAccount(int id)
     {
         var result = await _serviceWrapper.Accounts.DeleteAccount(id);
