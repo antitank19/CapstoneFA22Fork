@@ -27,7 +27,7 @@ public class FlatsController : ControllerBase
 
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<Flat>>> GetFlats(ODataQueryOptions<FlatGetDto>? options)
+    public async Task<ActionResult<IQueryable<FlatGetDto>>> GetFlats(ODataQueryOptions<FlatGetDto>? options)
     {
         var list = _serviceWrapper.Flats.GetFlatList();
         if (!list.Any())
@@ -39,7 +39,7 @@ public class FlatsController : ControllerBase
     // GET: api/Flats/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<Flat>> GetFlat(int id, ODataQueryOptions<FlatGetDto>? options)
+    public async Task<ActionResult<FlatGetDto>> GetFlat(int id, ODataQueryOptions<FlatGetDto>? options)
     {
         var list = _serviceWrapper.Flats.GetFlatList()
             .Where(x => x.FlatId == id);

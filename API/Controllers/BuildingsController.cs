@@ -25,7 +25,7 @@ public class BuildingsController : ControllerBase
     // GET: api/Buildings
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<Building>>> GetBuildings(ODataQueryOptions<BuildingGetDto>? options)
+    public async Task<ActionResult<IQueryable<BuildingGetDto>>> GetBuildings(ODataQueryOptions<BuildingGetDto>? options)
     {
         var list = _serviceWrapper.Buildings.GetBuildingList();
         if (!list.Any())
@@ -37,7 +37,7 @@ public class BuildingsController : ControllerBase
     // GET: api/Buildings/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Building>> GetBuilding(int id, ODataQueryOptions<BuildingGetDto>? options)
+    public async Task<ActionResult<BuildingGetDto>> GetBuilding(int id, ODataQueryOptions<BuildingGetDto>? options)
     {
         var list = _serviceWrapper.Buildings.GetBuildingList()
             .Where(e => e.BuildingId == id);

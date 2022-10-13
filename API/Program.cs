@@ -40,7 +40,7 @@ var config = builder.Configuration;
 
 builder.Services.AddRegisteredService(config);
 
-builder.Logging.AddLoggerConfig();
+//builder.Logging.AddLoggerConfig();
 
 builder.Services.AddApplicationService(config);
 
@@ -73,7 +73,7 @@ app.UseAuthorization();
 
 app.UseCustomCorsService();
 
-app.ConfigMiddleware(config);
+//app.ConfigMiddleware(config);
 
 app.MapControllers();
 

@@ -25,7 +25,7 @@ public class ContractsController : ControllerBase
     // GET: api/Contracts
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Contract>>> GetContracts(ODataQueryOptions<ContractGetDto>? options)
+    public async Task<ActionResult<IQueryable<ContractGetDto>>> GetContracts(ODataQueryOptions<ContractGetDto>? options)
     {
         var list = _serviceWrapper.Contracts.GetContractList();
         if (!list.Any())
@@ -37,7 +37,7 @@ public class ContractsController : ControllerBase
     // GET: api/Contracts/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Contract>> GetContract(int id, ODataQueryOptions<ContractGetDto>? options)
+    public async Task<ActionResult<ContractGetDto>> GetContract(int id, ODataQueryOptions<ContractGetDto>? options)
     {
         var list = _serviceWrapper.Contracts.GetContractList()
             .Where(e => e.ContractId == id);

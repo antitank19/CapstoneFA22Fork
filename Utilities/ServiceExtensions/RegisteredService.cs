@@ -28,7 +28,7 @@ public static class RegisteredService
         if (isEnabled != "True")
             return services;
         Console.WriteLine("Logging enabled");
-        services.AddSingleton<LoggingExtension>();
+        //services.AddSingleton<LoggingExtension>();
 
         return services;
     }

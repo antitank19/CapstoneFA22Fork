@@ -6,5 +6,5 @@ public class AreaGetDto
     public string Name { get; set; }
     public string Address { get; set; }
     public string Status { get; set; }
-    public virtual ICollection<ApartmentGetDto> Appartments { get; set; }
+    public virtual ICollection<ApartmentGetDto> Apartments { get; set; }
 }

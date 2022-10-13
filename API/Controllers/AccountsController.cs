@@ -52,7 +52,7 @@ public class AccountsController : ControllerBase
             return NotFound("Account not created");
         return CreatedAtAction("GetAccount", new { id = result.AccountId }, result);
     }
-
+    [EnableQuery]
     [HttpGet("get/{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
     {

@@ -26,7 +26,7 @@ public class BillsController : ControllerBase
     // GET: api/Bills
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Bill>>> GetBills(ODataQueryOptions<BillGetDto>? options)
+    public async Task<ActionResult<IQueryable<BillGetDto>>> GetBills(ODataQueryOptions<BillGetDto>? options)
     {
         var list = _serviceWrapper.Bills.GetBillList();
         if (!list.Any())
@@ -38,7 +38,7 @@ public class BillsController : ControllerBase
     // GET: api/Bills/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Bill>> GetBill(int id, ODataQueryOptions<BillGetDto>? options)
+    public async Task<ActionResult<BillGetDto>> GetBill(int id, ODataQueryOptions<BillGetDto>? options)
     {
         var list = _serviceWrapper.Bills.GetBillList()
             .Where(e => e.BillId == id);

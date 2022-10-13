@@ -56,7 +56,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Apartment", b =>
@@ -78,7 +78,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("AreaId");
 
-                    b.ToTable("Apartments");
+                    b.ToTable("Apartments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Area", b =>
@@ -102,7 +102,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("AreaId");
 
-                    b.ToTable("Areas");
+                    b.ToTable("Areas", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Bill", b =>
@@ -134,7 +134,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.ToTable("Bills");
+                    b.ToTable("Bills", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Building", b =>
@@ -179,7 +179,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ApartmentId");
 
-                    b.ToTable("Buildings");
+                    b.ToTable("Buildings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Contract", b =>
@@ -225,7 +225,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RenterId");
 
-                    b.ToTable("Contracts");
+                    b.ToTable("Contracts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.ContractHistory", b =>
@@ -257,7 +257,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ContractId");
 
-                    b.ToTable("ContractHistories");
+                    b.ToTable("ContractHistories", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Expense", b =>
@@ -284,7 +284,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SupervisorId");
 
-                    b.ToTable("Expenses");
+                    b.ToTable("Expenses", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.ExpenseHistory", b =>
@@ -309,7 +309,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ExpenseId");
 
-                    b.ToTable("ExpenseHistories");
+                    b.ToTable("ExpenseHistories", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.ExpenseType", b =>
@@ -333,7 +333,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ExpenseTypeId");
 
-                    b.ToTable("ExpenseTypes");
+                    b.ToTable("ExpenseTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Feedback", b =>
@@ -371,7 +371,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RenterId");
 
-                    b.ToTable("Feedbacks");
+                    b.ToTable("Feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.FeedbackType", b =>
@@ -388,7 +388,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("FeedbackTypeId");
 
-                    b.ToTable("FeedbackTypes");
+                    b.ToTable("FeedbackTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Flat", b =>
@@ -422,7 +422,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("FlatTypeId");
 
-                    b.ToTable("Flats");
+                    b.ToTable("Flats", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.FlatType", b =>
@@ -441,7 +441,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("FlatTypeId");
 
-                    b.ToTable("FlatTypes");
+                    b.ToTable("FlatTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Invoice", b =>
@@ -480,7 +480,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoices", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.InvoiceHistory", b =>
@@ -520,7 +520,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.ToTable("InvoiceHistories");
+                    b.ToTable("InvoiceHistories", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Major", b =>
@@ -537,7 +537,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("MajorId");
 
-                    b.ToTable("Majors");
+                    b.ToTable("Majors", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Order", b =>
@@ -568,7 +568,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RequestId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.OrderDetail", b =>
@@ -597,7 +597,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ServiceEntityServiceId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Payment", b =>
@@ -639,7 +639,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("PaymentTypeId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.PaymentType", b =>
@@ -659,7 +659,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("PaymentTypeId");
 
-                    b.ToTable("PaymentType");
+                    b.ToTable("PaymentType", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Renter", b =>
@@ -720,7 +720,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("UniversityId");
 
-                    b.ToTable("Renters");
+                    b.ToTable("Renters", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Request", b =>
@@ -748,7 +748,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RequestTypeId");
 
-                    b.ToTable("Requests");
+                    b.ToTable("Requests", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.RequestType", b =>
@@ -772,7 +772,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("RequestTypeId");
 
-                    b.ToTable("RequestTypes");
+                    b.ToTable("RequestTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Role", b =>
@@ -792,7 +792,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.ServiceEntity", b =>
@@ -822,7 +822,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ServiceTypeId");
 
-                    b.ToTable("Services");
+                    b.ToTable("Services", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.ServiceType", b =>
@@ -842,7 +842,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ServiceTypeId");
 
-                    b.ToTable("ServiceTypes");
+                    b.ToTable("ServiceTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.University", b =>
@@ -874,7 +874,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("UniversityId");
 
-                    b.ToTable("University");
+                    b.ToTable("University", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EntitiesForManagement.Account", b =>

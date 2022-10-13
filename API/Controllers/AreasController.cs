@@ -25,7 +25,7 @@ public class AreasController : ControllerBase
     // GET: api/Areas
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Area>>> GetAreas(ODataQueryOptions<AreaGetDto>? options)
+    public async Task<ActionResult<IQueryable<AreaGetDto>>> GetAreas(ODataQueryOptions<AreaGetDto>? options)
     {
         var list = _serviceWrapper.Areas.GetAreaList();
         if (!list.Any())
