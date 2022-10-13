@@ -25,7 +25,7 @@ public class RequestsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Request>>> GetRequests(ODataQueryOptions<RequestTypeGetDto>? options)
+    public async Task<ActionResult<IQueryable<RequestGetDto>>> GetRequests(ODataQueryOptions<RequestTypeGetDto>? options)
     {
         var list = _serviceWrapper.Requests.GetRequestList();
         if (!list.Any())
@@ -36,7 +36,7 @@ public class RequestsController : ControllerBase
 
     // GET: api/Requests/5
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Request>> GetRequest(int id, ODataQueryOptions<RequestTypeGetDto>? options)
+    public async Task<ActionResult<RequestGetDto>> GetRequest(int id, ODataQueryOptions<RequestTypeGetDto>? options)
     {
         var list = _serviceWrapper.Requests.GetRequestList()
             .Where(x => x.RequestTypeId == id);

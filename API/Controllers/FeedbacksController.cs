@@ -26,7 +26,7 @@ public class FeedbacksController : ControllerBase
 
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<Feedback>> GetFeedbacks(ODataQueryOptions<FeedbackGetDto>? options)
+    public async Task<ActionResult<IQueryable<FeedbackGetDto>>> GetFeedbacks(ODataQueryOptions<FeedbackGetDto>? options)
     {
         var list = _serviceWrapper.Feedbacks.GetFeedbackList();
         if (!list.Any())

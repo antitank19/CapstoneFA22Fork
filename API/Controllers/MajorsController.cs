@@ -25,7 +25,7 @@ public class MajorsController : ControllerBase
     // GET: api/Majors
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<Major>> GetMajors()
+    public async Task<ActionResult<IQueryable<MajorGetDto>>> GetMajors()
     {
         var result = await _serviceWrapper.Majors.GetMajorList().ToListAsync();
         if (!result.Any())
@@ -37,7 +37,7 @@ public class MajorsController : ControllerBase
     // GET: api/Majors/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<Major>> GetMajor(int id)
+    public async Task<ActionResult<MajorGetDto>> GetMajor(int id)
     {
         var result = await GetMajorById(id);
         if (result == null)

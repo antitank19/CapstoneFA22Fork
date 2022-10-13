@@ -25,7 +25,7 @@ public class InvoicesController : ControllerBase
 
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices(ODataQueryOptions<InvoiceGetDto>? options)
+    public async Task<ActionResult<IQueryable<InvoiceGetDto>>> GetInvoices(ODataQueryOptions<InvoiceGetDto>? options)
     {
         var list = _serviceWrapper.Invoices.GetInvoiceList();
         if (!list.Any())
@@ -37,7 +37,7 @@ public class InvoicesController : ControllerBase
     // GET: api/Invoices/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<Invoice>> GetInvoice(int id, ODataQueryOptions<InvoiceGetDto>? options)
+    public async Task<ActionResult<InvoiceGetDto>> GetInvoice(int id, ODataQueryOptions<InvoiceGetDto>? options)
     {
         var list = _serviceWrapper.Invoices.GetInvoiceList()
             .Where(x => x.InvoiceId == id);

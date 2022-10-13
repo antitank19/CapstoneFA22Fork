@@ -25,7 +25,7 @@ public class RolesController : ControllerBase
     
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult> GetRoleList(ODataQueryOptions<RoleGetDto>? options)
+    public async Task<ActionResult<IQueryable<RoleGetDto>>> GetRoleList(ODataQueryOptions<RoleGetDto>? options)
     {
         var list = _serviceWrapper.Roles.GetRoleList();
         if (!list.Any())
@@ -37,7 +37,7 @@ public class RolesController : ControllerBase
 
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult> GetRole(int id, ODataQueryOptions<RoleGetDto>? options)
+    public async Task<ActionResult<RoleGetDto>> GetRole(int id, ODataQueryOptions<RoleGetDto>? options)
     {
         var list = _serviceWrapper.Roles.GetRoleList()
             .Where(x => x.RoleId == id);

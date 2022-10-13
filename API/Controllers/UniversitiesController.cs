@@ -54,7 +54,7 @@ public class UniversitiesController : ControllerBase
     // GET: api/Universities
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<University>>> GetUniversity(ODataQueryOptions<UniversityGetDto>? options)
+    public async Task<ActionResult<IQueryable<UniversityGetDto>>> GetUniversity(ODataQueryOptions<UniversityGetDto>? options)
     {
         var list = _serviceWrapper.Universities.GetUniversityList();
         if (!list.Any())
@@ -66,7 +66,7 @@ public class UniversitiesController : ControllerBase
     // GET: api/Universities/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<University>> GetUniversity(int id, ODataQueryOptions<UniversityGetDto>? options)
+    public async Task<ActionResult<UniversityGetDto>> GetUniversity(int id, ODataQueryOptions<UniversityGetDto>? options)
     {
         var list = _serviceWrapper.Universities.GetUniversityList()
             .Where(x => x.UniversityId == id);

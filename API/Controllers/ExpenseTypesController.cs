@@ -25,7 +25,7 @@ public class ExpenseTypesController : ControllerBase
 
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ExpenseType>>> GetExpenseTypes(
+    public async Task<ActionResult<IQueryable<ExpenseTypeGetDto>>> GetExpenseTypes(
         ODataQueryOptions<ExpenseTypeGetDto>? options)
     {
         var list = _serviceWrapper.ExpenseTypes.GetExpenseTypeList();

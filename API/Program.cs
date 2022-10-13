@@ -40,7 +40,7 @@ var config = builder.Configuration;
 
 builder.Services.AddRegisteredService(config);
 
-//builder.Logging.AddLoggerConfig();
+builder.Logging.AddLoggerConfig();
 
 builder.Services.AddApplicationService(config);
 

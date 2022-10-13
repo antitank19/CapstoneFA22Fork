@@ -26,7 +26,7 @@ public class ExpensesController : ControllerBase
 
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses(ODataQueryOptions<ExpenseGetDto>? options)
+    public async Task<ActionResult<IQueryable<ExpenseGetDto>>> GetExpenses(ODataQueryOptions<ExpenseGetDto>? options)
     {
         var list = await _serviceWrapper.Expenses.GetExpenseList().ToListAsync();
         if (!list.Any())

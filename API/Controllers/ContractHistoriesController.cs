@@ -26,7 +26,7 @@ public class ContractHistoriesController : ControllerBase
     // GET: api/ContractHistories
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ContractHistory>>> GetContractHistories(
+    public async Task<ActionResult<IQueryable<ContractHistoryGetDto>>> GetContractHistories(
         ODataQueryOptions<ContractHistoryGetDto>? options)
     {
         var list = _serviceWrapper.ContractHistories.GetContractHistoryList();
@@ -39,7 +39,7 @@ public class ContractHistoriesController : ControllerBase
     // GET: api/ContractHistories/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ContractHistory>> GetContractHistory(int id,
+    public async Task<ActionResult<ContractHistoryGetDto>> GetContractHistory(int id,
         ODataQueryOptions<ContractHistoryGetDto>? options)
     {
         var list = _serviceWrapper.ContractHistories.GetContractHistoryList()

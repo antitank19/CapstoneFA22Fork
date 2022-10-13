@@ -25,7 +25,7 @@ public class InvoiceHistoriesController : ControllerBase
 
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<InvoiceHistory>>> GetInvoiceHistories(
+    public async Task<ActionResult<IQueryable<InvoiceHistoryGetDto>>> GetInvoiceHistories(
         ODataQueryOptions<InvoiceHistoryGetDto>? options)
     {
         var list = _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList();
@@ -38,7 +38,7 @@ public class InvoiceHistoriesController : ControllerBase
     // GET: api/InvoiceHistories/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<InvoiceHistory>> GetInvoiceHistory(int id,
+    public async Task<ActionResult<InvoiceHistoryGetDto>> GetInvoiceHistory(int id,
         ODataQueryOptions<InvoiceHistoryGetDto>? options)
     {
         var list = _serviceWrapper.InvoiceHistories.GetInvoiceHistoryList()

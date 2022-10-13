@@ -25,7 +25,7 @@ public class ExpenseHistoriesController : ControllerBase
     // GET: api/ExpenseHistories
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ExpenseHistory>>> GetExpenseHistories(
+    public async Task<ActionResult<IQueryable<ExpenseHistoryGetDto>>> GetExpenseHistories(
         ODataQueryOptions<ExpenseHistoryGetDto>? options)
     {
         var list = _serviceWrapper.ExpenseHistories.GetExpenseHistoryList();

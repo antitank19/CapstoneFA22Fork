@@ -26,7 +26,7 @@ public class PaymentsController : ControllerBase
     // GET: api/Payments
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Payment>>> GetPayments(ODataQueryOptions<PaymentGetDto>? options)
+    public async Task<ActionResult<IQueryable<PaymentGetDto>>> GetPayments(ODataQueryOptions<PaymentGetDto>? options)
     {
         var list = _serviceWrapper.Payments.GetPaymentList();
         if (!list.Any())
@@ -38,7 +38,7 @@ public class PaymentsController : ControllerBase
     // GET: api/Payments/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<Payment>> GetPayment(int id, ODataQueryOptions<PaymentGetDto>? options)
+    public async Task<ActionResult<PaymentGetDto>> GetPayment(int id, ODataQueryOptions<PaymentGetDto>? options)
     {
         var list = _serviceWrapper.Payments.GetPaymentList()
             .Where(e => e.PaymentId == id);

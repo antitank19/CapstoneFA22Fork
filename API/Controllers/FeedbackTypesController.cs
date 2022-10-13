@@ -25,7 +25,7 @@ public class FeedbackTypesController : ControllerBase
 
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<FeedbackType>>> GetFeedbackTypes(
+    public async Task<ActionResult<IQueryable<FeedbackTypeGetDto>>> GetFeedbackTypes(
         ODataQueryOptions<FeedbackTypeGetDto>? options)
     {
         var list = _serviceWrapper.FeedbackTypes.GetFeedbackTypeList();

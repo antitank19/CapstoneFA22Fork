@@ -26,7 +26,7 @@ public class RentersController : ControllerBase
     // GET: api/Renters
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<Renter>>> GetRenters(ODataQueryOptions<RenterGetDto>? options)
+    public async Task<ActionResult<IQueryable<RenterGetDto>>> GetRenters(ODataQueryOptions<RenterGetDto>? options)
     {
         var list = _serviceWrapper.Renters.GetRenterList();
         if (!list.Any())
@@ -38,7 +38,7 @@ public class RentersController : ControllerBase
     // GET: api/Renters/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Renter>> GetRenter(int id, ODataQueryOptions<RenterGetDto>? options)
+    public async Task<ActionResult<RenterGetDto>> GetRenter(int id, ODataQueryOptions<RenterGetDto>? options)
     {
         var list = _serviceWrapper.Requests.GetRequestList()
             .Where(x => x.RequestTypeId == id);

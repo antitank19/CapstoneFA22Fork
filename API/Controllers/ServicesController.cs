@@ -25,7 +25,7 @@ public class ServicesController : ControllerBase
     // GET: api/ServiceEntities
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ServiceEntity>>> GetServiceEntities(
+    public async Task<ActionResult<IQueryable<ServiceGetDto>>> GetServiceEntities(
         ODataQueryOptions<ServiceGetDto>? options)
     {
         var list = _serviceWrapper.ServicesEntity.GetServiceEntityList();
@@ -38,7 +38,7 @@ public class ServicesController : ControllerBase
     // GET: api/ServiceEntitys/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ServiceEntity>> GetServiceEntity(int id, ODataQueryOptions<ServiceGetDto>? options)
+    public async Task<ActionResult<ServiceGetDto>> GetServiceEntity(int id, ODataQueryOptions<ServiceGetDto>? options)
     {
         var list = _serviceWrapper.ServicesEntity.GetServiceEntityList()
             .Where(e => e.ServiceTypeId == id);

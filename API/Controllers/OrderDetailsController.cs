@@ -25,7 +25,7 @@ public class OrderDetailsController : ControllerBase
     // GET: api/OrderDetails
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<OrderDetail>>> GetOrderDetails(ODataQueryOptions<OrderDetail>? options)
+    public async Task<ActionResult<IQueryable<OrderDetailGetDto>>> GetOrderDetails(ODataQueryOptions<OrderDetail>? options)
     {
         var list = _serviceWrapper.OrderDetails.GetOrderDetailList();
         if (!list.Any())
@@ -37,7 +37,7 @@ public class OrderDetailsController : ControllerBase
     // GET: api/OrderDetails/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<OrderDetail>> GetOrderDetail(int id, ODataQueryOptions<OrderDetail>? options)
+    public async Task<ActionResult<OrderDetailGetDto>> GetOrderDetail(int id, ODataQueryOptions<OrderDetail>? options)
     {
         var list = _serviceWrapper.OrderDetails.GetOrderDetailList()
             .Where(x => x.OrderDetailId == id);

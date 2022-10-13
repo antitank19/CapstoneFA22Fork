@@ -26,7 +26,7 @@ public class FlatTypesController : ControllerBase
 
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IEnumerable<FlatType>>> GetFlatTypes(ODataQueryOptions<FlatTypeGetDto>? options)
+    public async Task<ActionResult<IQueryable<FlatTypeGetDto>>> GetFlatTypes(ODataQueryOptions<FlatTypeGetDto>? options)
     {
         var list = _serviceWrapper.FlatTypes.GetFlatTypeList();
         if (!list.Any())
@@ -38,7 +38,7 @@ public class FlatTypesController : ControllerBase
     // GET: api/FlatTypes/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<FlatType>> GetFlatType(int id, ODataQueryOptions<FlatTypeGetDto>? options)
+    public async Task<ActionResult<FlatTypeGetDto>> GetFlatType(int id, ODataQueryOptions<FlatTypeGetDto>? options)
     {
         var list = _serviceWrapper.FlatTypes.GetFlatTypeList()
             .Where(x => x.FlatTypeId == id);
