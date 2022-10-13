@@ -51,7 +51,25 @@ public class OrdersController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutOrder(int id, OrderUpdateDto order)
     {
-        if (id != order.OrderId) return BadRequest();
+        if (id != order.OrderId) 
+            return BadRequest();
+
+        var requestCheck = await _serviceWrapper.Requests.GetRequestById(order.RequestId);
+        if (requestCheck == null)
+            return NotFound("Request not found");
+
+        var renterCheck = await _serviceWrapper.Renters.GetRenterById(order.RenterId);
+        if (renterCheck == null)
+            return NotFound("Renter not found");
+
+        var flatCheck = renterCheck.Contracts
+            .Where(x => x.ContractStatus == "Active")
+            .Select(x => x.RenterId == order.RenterId)
+            .First();
+
+        if (!flatCheck)
+            return BadRequest("This user is not having any active contract");
+            
         var updateOrder = new Order
         {
             OrderId = id,

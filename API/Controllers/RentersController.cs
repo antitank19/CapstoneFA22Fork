@@ -103,7 +103,7 @@ public class RentersController : ControllerBase
         var universityCheck = await GetUniversityById(renter.UniversityId);
         if (universityCheck == null)
             return BadRequest("University not found");
-        
+
         var newRenter = new Renter
         {
             Username = renter.Username,
@@ -122,7 +122,7 @@ public class RentersController : ControllerBase
         var result = await _serviceWrapper.Renters.AddRenter(newRenter);
         if (result == null)
             return NotFound("Create failed");
-        
+
         return Ok("Create successfully");
         //return CreatedAtAction( "GetRenter", new { id = result.RenterId }, result);
     }
@@ -147,13 +147,13 @@ public class RentersController : ControllerBase
 
         return Ok("Renter deleted");
     }
-    
+
     private async Task<Major?> GetMajorById(int id)
     {
         var result = await _serviceWrapper.Majors.GetMajorById(id);
         return result ?? null;
     }
-    
+
     private async Task<University?> GetUniversityById(int id)
     {
         var result = await _serviceWrapper.Universities.GetUniversityById(id);

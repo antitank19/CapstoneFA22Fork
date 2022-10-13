@@ -29,7 +29,7 @@ public class FlatsController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<IEnumerable<Flat>>> GetFlats(ODataQueryOptions<FlatGetDto>? options)
     {
-        var list = await _serviceWrapper.RequestTypes.GetRequestTypeList().ToListAsync();
+        var list = _serviceWrapper.Flats.GetFlatList();
         if (!list.Any())
             return NotFound();
 
@@ -41,8 +41,8 @@ public class FlatsController : ControllerBase
     [EnableQuery]
     public async Task<ActionResult<Flat>> GetFlat(int id, ODataQueryOptions<FlatGetDto>? options)
     {
-        var list = _serviceWrapper.RequestTypes.GetRequestTypeList()
-            .Where(x => x.RequestTypeId == id);
+        var list = _serviceWrapper.Flats.GetFlatList()
+            .Where(x => x.FlatId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);

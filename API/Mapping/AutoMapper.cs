@@ -105,6 +105,7 @@ public class AutoMapper : Profile
             .ReverseMap();
         CreateMap<ExpenseTypeUpdateDto, ExpenseType>()
             .ReverseMap();
+        
     }
 
     private void MapRequest()

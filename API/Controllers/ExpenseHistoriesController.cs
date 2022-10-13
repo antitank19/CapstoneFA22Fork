@@ -30,7 +30,7 @@ public class ExpenseHistoriesController : ControllerBase
     {
         var list = _serviceWrapper.ExpenseHistories.GetExpenseHistoryList();
         if (!list.Any())
-            return NotFound();
+            return NotFound("Expense history not found");
 
         return Ok(await list.GetQueryAsync(_mapper, options));
     }

@@ -58,7 +58,7 @@ public class ServicesController : ControllerBase
         var serviceTypeCheck = await _serviceWrapper.ServiceTypes.GetServiceTypeById(service.ServiceTypeId);
         if (serviceTypeCheck == null)
             return BadRequest("Service type not found");
-        
+
         var updateService = new ServiceEntity
         {
             ServiceId = id,

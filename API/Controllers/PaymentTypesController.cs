@@ -32,7 +32,7 @@ public class PaymentTypesController : ControllerBase
     {
         var list = _serviceWrapper.PaymentTypes.GetPaymentTypeList();
         if (!list.Any())
-            return NotFound();
+            return NotFound("No payment type available");
 
         return Ok(await list.GetQueryAsync(_mapper, options));
     }

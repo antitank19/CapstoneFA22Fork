@@ -94,7 +94,7 @@ public class MajorsController : ControllerBase
 
         return Ok($"Major deleted at : {DateTime.Now.ToShortDateString()}");
     }
-    
+
     private async Task<Major?> GetMajorById(int id)
     {
         var result = await _serviceWrapper.Majors.GetMajorById(id);

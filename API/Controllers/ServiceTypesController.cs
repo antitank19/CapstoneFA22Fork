@@ -53,7 +53,7 @@ public class ServiceTypesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutServiceType(int id, ServiceTypeCreateDto serviceType)
     {
-        if (id != serviceType.ServiceTypeId) 
+        if (id != serviceType.ServiceTypeId)
             return BadRequest("Service type id mismatch");
 
         var updateServiceType = new ServiceType

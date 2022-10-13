@@ -28,7 +28,7 @@ public class ExpenseTypesController : ControllerBase
     public async Task<ActionResult<IEnumerable<ExpenseType>>> GetExpenseTypes(
         ODataQueryOptions<ExpenseTypeGetDto>? options)
     {
-        var list = _serviceWrapper.Expenses.GetExpenseList();
+        var list = _serviceWrapper.ExpenseTypes.GetExpenseTypeList();
         if (!list.Any())
             return NotFound("No expense type available");
 
@@ -40,8 +40,8 @@ public class ExpenseTypesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ExpenseType>> GetExpenseType(int id, ODataQueryOptions<ExpenseTypeGetDto>? options)
     {
-        var list = _serviceWrapper.Expenses.GetExpenseList()
-            .Where(x => x.ExpenseId == id);
+        var list = _serviceWrapper.ExpenseTypes.GetExpenseTypeList()
+            .Where(x => x.ExpenseTypeId == id);
         if (list.IsNullOrEmpty())
             return NotFound("No expense type not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);

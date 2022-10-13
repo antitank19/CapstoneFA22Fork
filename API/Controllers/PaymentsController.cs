@@ -51,7 +51,11 @@ public class PaymentsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutPayment(int id, PaymentUpdateDto payment)
     {
-        if (id != payment.PaymentId) return BadRequest();
+        if (id != payment.PaymentId) return BadRequest("Id mismatch");
+
+        var paymentTypeCheck = await _serviceWrapper.PaymentTypes.GetPaymentTypeById(payment.PaymentTypeId);
+        if (paymentTypeCheck == null)
+            return NotFound("Payment type not found");
 
         var updatePayment = new Payment
         {

@@ -51,7 +51,12 @@ public class OrderDetailsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutOrderDetail(int id, OrderDetailUpdateDto orderDetail)
     {
-        if (id != orderDetail.OrderDetailId) return BadRequest();
+        if (id != orderDetail.OrderDetailId) 
+            return BadRequest("Id mismatch");
+        var orderCheck = await _serviceWrapper.Orders.GetOrderById(orderDetail.OrderId);
+        if (orderCheck == null)
+            return NotFound("Order not found");
+        
         var updateOrderDetail = new OrderDetail
         {
             OrderDetailId = id,

@@ -87,7 +87,7 @@ public class BuildingsController : ControllerBase
             CoordinateY = building.CoordinateY,
             TotalFloor = building.TotalFloor,
             TotalRooms = building.TotalRooms,
-            ApartmentId = building.AppartmentId
+            ApartmentId = building.ApartmentId
         };
 
         var result = await _serviceWrapper.Buildings.AddBuilding(newBuilding);
