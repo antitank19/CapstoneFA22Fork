@@ -66,6 +66,10 @@ public class AutoMapper : Profile
     private void MapServiceType()
     {
         CreateMap<ServiceType, ServiceTypeGetDto>()
+            .ForMember(
+            o => o.Services,
+            opt => opt.MapFrom(src => src.ServiceEntities)
+            )
             .ForAllMembers(o => o.ExplicitExpansion());
         CreateMap<ServiceTypeGetDto, ServiceType>();
         CreateMap<ServiceTypeCreateDto, ServiceType>()
@@ -319,8 +323,8 @@ public class AutoMapper : Profile
     private void MapRenter()
     {
         CreateMap<Renter, RenterGetDto>()
-            .ReverseMap()
             .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<RenterGetDto, Renter>();
         CreateMap<RenterCreateDto, Renter>()
             .ReverseMap();
         CreateMap<RenterUpdateDto, Renter>().ReverseMap()

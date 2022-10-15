@@ -7,7 +7,7 @@ public class Expense
 {
     public Expense()
     {
-        ExpenseHistory = new HashSet<ExpenseHistory>();
+        ExpenseHistories = new HashSet<ExpenseHistory>();
     }
 
     [Key]
@@ -16,10 +16,11 @@ public class Expense
 
     public string Name { get; set; }
 
-    [ForeignKey("Supervisor")] public int SupervisorId { get; set; }
+    [ForeignKey("Supervisor")] 
+    public int SupervisorId { get; set; }
 
     public virtual Account Supervisor { get; set; }
     public int ExpenseTypeId { get; set; }
     public virtual ExpenseType ExpenseType { get; set; }
-    public virtual ICollection<ExpenseHistory> ExpenseHistory { get; set; }
+    public virtual ICollection<ExpenseHistory> ExpenseHistories { get; set; }
 }

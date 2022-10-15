@@ -9,5 +9,5 @@ public class ExpenseGetDto
     public virtual AccountGetDto Supervisor { get; set; }
     public int ExpenseTypeId { get; set; }
     public virtual ExpenseTypeGetDto ExpenseType { get; set; }
-    public virtual ICollection<ExpenseHistoryGetDto> ExpenseHistory { get; set; }
+    public virtual ICollection<ExpenseHistoryGetDto> ExpenseHistories { get; set; }
 }

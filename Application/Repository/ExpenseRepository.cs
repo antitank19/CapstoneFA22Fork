@@ -20,7 +20,7 @@ internal class ExpenseRepository : IExpenseRepository
     /// <returns></returns>
     public IQueryable<Expense> GetExpenseList()
     {
-        return _context.Expenses.AsQueryable();
+        return _context.Expenses;
     }
 
     /// <summary>
