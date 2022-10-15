@@ -109,17 +109,17 @@ public class AccountRepository : IAccountRepository
         await _context.SaveChangesAsync();
         return true;
     }
-
+    
     /// <summary>
-    /// Get account based on login model
+    /// Get account based on username and password
     /// </summary>
-    /// <param name="account"></param>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
     /// <returns></returns>
-    public IQueryable<Account> GetAccount(Account account)
+    public IQueryable<Account> GetAccount(string username, string password)
     {
         return _context.Accounts
-            .Where(a => a.Username == account.Username
-                        && a.Password == account.Password)
+            .Where(a => a.Username == username && a.Password == password)
             .Include(b => b.Role);
     }
 }

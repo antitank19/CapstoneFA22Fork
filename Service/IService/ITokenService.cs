@@ -4,6 +4,6 @@ namespace Service.IService;
 
 public interface ITokenService
 {
-    string CreateTokenForRenter(Renter user);
-    string CreateTokenForAccount(Account user);
+    string CreateTokenForRenter(Renter renter);
+    string CreateTokenForAccount(Account account);
 }

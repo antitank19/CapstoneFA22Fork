@@ -53,9 +53,10 @@ public class AccountService : IAccountService
         return logined;
     }
 
-    public async Task<Account?> AccountLogin(Account account)
+    public async Task<Account?> AccountLogin(string username, string password)
     {
-        return await _repositoryWrapper.Accounts.GetAccount(account)
+        return await _repositoryWrapper.Accounts.GetAccount(username, password)
             .FirstOrDefaultAsync();
     }
+
 }

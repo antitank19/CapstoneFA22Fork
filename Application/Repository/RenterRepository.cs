@@ -120,4 +120,16 @@ public class RenterRepository : IRenterRepository
 
         return true;
     }
+
+    /// <summary>
+    /// Get renter based on username and passowrd
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns></returns>
+    public IQueryable<Renter?> GetRenter(string username, string password)
+    {
+        return _context.Renters
+            .Where(a => a.Username == username && a.Password == password);
+    }
 }

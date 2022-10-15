@@ -44,15 +44,15 @@ public class TokenService : ITokenService
         return tokenHandler.WriteToken(token);
     }
 
-    public string CreateTokenForAccount(Account employee)
+    public string CreateTokenForAccount(Account account)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Role, employee.Role.RoleName),
-            new(ClaimTypes.Email, employee.Email),
-            new(ClaimTypes.NameIdentifier, employee.Username)
+            new(ClaimTypes.Role, account.Role.RoleName),
+            new(ClaimTypes.Email, account.Email),
+            new(ClaimTypes.NameIdentifier, account.Username)
         };
         var securityKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_configuration["JwtToken:NotTokenKeyForSureSourceTrustMeDude"]));

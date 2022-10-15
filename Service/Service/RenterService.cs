@@ -51,4 +51,10 @@ public class RenterService : IRenterService
     {
         return await _repositoryWrapper.Renters.DeleteRenter(renterId);
     }
+    
+    public async Task<Renter?> RenterLogin(string username, string password)
+    {
+        return await _repositoryWrapper.Renters.GetRenter(username, password)
+            .FirstOrDefaultAsync();
+    }
 }

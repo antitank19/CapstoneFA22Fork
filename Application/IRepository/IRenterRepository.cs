@@ -11,4 +11,6 @@ public interface IRenterRepository
     public Task<Renter?> UpdateRenter(Renter renter);
     public Task<bool> ToggleRenter(int renterId);
     public Task<bool> DeleteRenter(int renterId);
+    public IQueryable<Renter?> GetRenter(string username, string password);
+
 }

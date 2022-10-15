@@ -14,17 +14,11 @@ public class AuthController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
-    [HttpPost("v1/login")]
-    public async Task<ActionResult> Login(LoginModel loginModel)
+    [HttpPost("management/v1/login")]
+    public async Task<ActionResult> LoginManagement(LoginModel loginModel)
     {
-        var login = new Account()
-        {
-            Username = loginModel.Username,
-            Password = loginModel.Password
-        };
-        
         var account = await _serviceWrapper.Accounts
-            .AccountLogin(login);
+            .AccountLogin(loginModel.Username, loginModel.Password);
         
         if (account == null) 
             return Unauthorized("Username or password is wrong");
@@ -32,4 +26,18 @@ public class AuthController : ControllerBase
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(account);
         return Ok(new { Token = jwtToken });
     }
+    
+    [HttpPost("user/v1/login")]
+    public async Task<ActionResult> LoginRenter(LoginModel loginModel)
+    {
+        var renter = await _serviceWrapper.Renters
+            .RenterLogin(loginModel.Username, loginModel.Password);
+        
+        if (renter == null) 
+            return Unauthorized("Username or password is wrong");
+        
+        var jwtToken = _serviceWrapper.Tokens.CreateTokenForRenter(renter);
+        return Ok(new { Token = jwtToken });
+    }
+    
 }
