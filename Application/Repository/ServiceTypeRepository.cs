@@ -20,7 +20,7 @@ internal class ServiceTypeRepository : IServiceTypeRepository
     /// <returns></returns>
     public IQueryable<ServiceType> GetServiceTypeList()
     {
-        return _context.ServiceTypes.AsQueryable();
+        return _context.ServiceTypes;
     }
 
     /// <summary>
