@@ -24,7 +24,7 @@ public class ApartmentsController : ControllerBase
 
     // GET: api/Apartments
     [EnableQuery]
-    [HttpGet]
+    [HttpGet("get-all")]
     public async Task<ActionResult<IEnumerable<ApartmentGetDto>>> GetApartments(
         ODataQueryOptions<ApartmentGetDto>? options)
     {

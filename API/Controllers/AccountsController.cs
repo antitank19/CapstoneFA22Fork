@@ -1,6 +1,6 @@
-using API.Models;
 using AutoMapper;
 using AutoMapper.AspNet.OData;
+using Domain.ControllerEntities;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +25,7 @@ public class AccountsController : ControllerBase
 
     // GET: api/Accounts
     [EnableQuery]
-    [HttpGet]
+    [HttpGet("get-all")]
     public async Task<ActionResult<IQueryable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? options)
     {
         var list = _serviceWrapper.Accounts.GetAccountList();
@@ -52,8 +52,9 @@ public class AccountsController : ControllerBase
             return NotFound("Account not created");
         return CreatedAtAction("GetAccount", new { id = result.AccountId }, result);
     }
+    
     [EnableQuery]
-    [HttpGet("get/{id:int}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
     {
         var list = _serviceWrapper.Accounts.GetAccountList()
@@ -65,7 +66,7 @@ public class AccountsController : ControllerBase
 
     // PUT: api/Accounts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("update/{id:int}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateAccount(int id, [FromBody] AccountUpdateDto account)
     {
         if (id != account.AccountId)
@@ -95,13 +96,14 @@ public class AccountsController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult> Login(LoginModel loginModel)
     {
-        var renter = await _serviceWrapper.Accounts.Login(loginModel.Username, loginModel.Password);
-        if (renter == null) return Unauthorized("Username or password is wrong");
-        var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(renter);
+        var account = await _serviceWrapper.Accounts.Login(loginModel.Username, loginModel.Password);
+        if (account == null) 
+            return Unauthorized("Username or password is wrong");
+        var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(account);
         return Ok(new { Token = jwtToken });
     }
 
-    [HttpPut("toggle/{id:int}")]
+    [HttpPut("toggle-account/{id:int}")]
     public async Task<IActionResult> ToggleAccountStatus(int id, [FromBody] AccountUpdateDto account)
     {
         if (id != account.AccountId)
@@ -115,7 +117,7 @@ public class AccountsController : ControllerBase
     }
 
     // DELETE: api/Accounts/5
-    [HttpDelete("delete/{id:int}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteAccount(int id)
     {
         var result = await _serviceWrapper.Accounts.DeleteAccount(id);

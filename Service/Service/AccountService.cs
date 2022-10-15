@@ -52,4 +52,10 @@ public class AccountService : IAccountService
         if (logined != null) logined.Role = await _repositoryWrapper.Roles.GetRoleDetail(logined.RoleId);
         return logined;
     }
+
+    public async Task<Account?> AccountLogin(Account account)
+    {
+        return await _repositoryWrapper.Accounts.GetAccount(account)
+            .FirstOrDefaultAsync();
+    }
 }
