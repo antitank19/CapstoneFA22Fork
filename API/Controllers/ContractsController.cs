@@ -44,6 +44,12 @@ public class ContractsController : ControllerBase
         if (list.IsNullOrEmpty() || !list.Any()) return NotFound("Contract not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
+    
+    [HttpGet("{id:int}/user")]
+    public async Task<ActionResult<Contract>> GetContractByUserId(int userId)
+    {
+        return Ok();
+    }
 
     // PUT: api/Contracts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

@@ -1,6 +1,6 @@
-using API.Models;
 using AutoMapper;
 using AutoMapper.AspNet.OData;
+using Domain.ControllerEntities;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
