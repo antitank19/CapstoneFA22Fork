@@ -53,11 +53,12 @@ public class FeedbackTypesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutFeedbackType(int id, FeedbackTypeUpdateDto feedbackType)
     {
-        if (id != feedbackType.FeedbackTypeId) return BadRequest();
+        if (id != feedbackType.FeedbackTypeId) 
+            return BadRequest("Id mismatch");
         var updateFeedBackType = new FeedbackType
         {
-            Name = feedbackType.Name,
-            FeedbackTypeId = id
+            FeedbackTypeId = id,
+            Name = feedbackType.Name
         };
         var result = await _serviceWrapper.FeedbackTypes.UpdateFeedbackType(updateFeedBackType);
         if (result == null)

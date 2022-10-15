@@ -53,7 +53,12 @@ public class InvoiceHistoriesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutInvoiceHistory(int id, InvoiceHistoryUpdateDto invoiceHistory)
     {
-        if (id != invoiceHistory.InvoiceHistoryId) return BadRequest();
+        if (id != invoiceHistory.InvoiceHistoryId) 
+            return BadRequest("Invoice history not found");
+        
+        var invoiceCheck = await InvoiceCheck(invoiceHistory.InvoiceId);
+        if (invoiceCheck == null)
+            return NotFound("Invoice not found");
 
         var updateInvoiceHistory = new InvoiceHistory
         {
@@ -66,7 +71,7 @@ public class InvoiceHistoriesController : ControllerBase
             UpdatedDate = invoiceHistory.UpdatedDate,
             InvoiceId = invoiceHistory.InvoiceId
         };
-
+       
         var result = await _serviceWrapper.InvoiceHistories.UpdateInvoiceHistory(updateInvoiceHistory);
         if (result == null)
             return NotFound("Invoice history not found");
@@ -79,6 +84,10 @@ public class InvoiceHistoriesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<InvoiceHistory>> PostInvoiceHistory(InvoiceHistoryCreateDto invoiceHistory)
     {
+        var invoiceCheck = await InvoiceCheck(invoiceHistory.InvoiceId);
+        if (invoiceCheck == null)
+            return NotFound("Invoice not found");
+
         var updateInvoiceHistory = new InvoiceHistory
         {
             Name = invoiceHistory.Name,
@@ -89,6 +98,7 @@ public class InvoiceHistoriesController : ControllerBase
             UpdatedDate = invoiceHistory.UpdatedDate,
             InvoiceId = invoiceHistory.InvoiceId
         };
+        
         var result = await _serviceWrapper.InvoiceHistories.UpdateInvoiceHistory(updateInvoiceHistory);
         if (result == null)
             return NotFound("Invoice history not found");
@@ -104,5 +114,10 @@ public class InvoiceHistoriesController : ControllerBase
             return NotFound("Invoice history not found");
 
         return Ok("Invoice history deleted");
+    }
+
+    private async Task<Invoice?> InvoiceCheck(int invoiceId)
+    {
+        return await _serviceWrapper.Invoices.GetInvoiceById(invoiceId) ?? null;
     }
 }

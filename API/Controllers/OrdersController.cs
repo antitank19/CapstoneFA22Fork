@@ -54,11 +54,11 @@ public class OrdersController : ControllerBase
         if (id != order.OrderId) 
             return BadRequest();
 
-        var requestCheck = await _serviceWrapper.Requests.GetRequestById(order.RequestId);
+        var requestCheck = await RequestCheck(order.RequestId);
         if (requestCheck == null)
             return NotFound("Request not found");
 
-        var renterCheck = await _serviceWrapper.Renters.GetRenterById(order.RenterId);
+        var renterCheck = await RenterCheck(order.RenterId);
         if (renterCheck == null)
             return NotFound("Renter not found");
 
@@ -114,5 +114,15 @@ public class OrdersController : ControllerBase
             return NotFound("Order not found");
 
         return Ok("Order deleted");
+    }
+
+    private async Task<Request?> RequestCheck(int id)
+    {
+        return await _serviceWrapper.Requests.GetRequestById(id) ?? null;
+    }
+    
+    private async Task<Renter?> RenterCheck(int id)
+    {
+        return await _serviceWrapper.Renters.GetRenterById(id) ?? null;
     }
 }

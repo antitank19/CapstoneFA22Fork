@@ -52,7 +52,8 @@ public class FlatTypesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutFlatType(int id, FlatTypeUpdateDto flatType)
     {
-        if (id != flatType.FlatTypeId) return BadRequest();
+        if (id != flatType.FlatTypeId) 
+            return BadRequest("Id mismatch");
         var updateFlatType = new FlatType
         {
             FlatTypeId = id,

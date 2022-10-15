@@ -29,7 +29,7 @@ public class BuildingsController : ControllerBase
     {
         var list = _serviceWrapper.Buildings.GetBuildingList();
         if (!list.Any())
-            return NotFound("No builings available");
+            return NotFound("No buildings available");
 
         return Ok(await list.GetQueryAsync(_mapper, options));
     }
@@ -51,7 +51,7 @@ public class BuildingsController : ControllerBase
     public async Task<IActionResult> PutBuilding(int id, BuildingUpdateDto building)
     {
         if (id != building.BuildingId)
-            return BadRequest();
+            return BadRequest("Building id does not match");
 
         var updateBuilding = new Building
         {

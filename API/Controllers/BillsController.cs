@@ -52,7 +52,11 @@ public class BillsController : ControllerBase
     public async Task<IActionResult> PutBill(int id, Bill bill)
     {
         if (id != bill.BillId)
-            return BadRequest();
+            return BadRequest("Bill id does not match");
+
+        var invoiceCheck = await InvoiceCheck(bill.InvoiceId);
+        if (invoiceCheck == null)
+            return NotFound("Invoice not found");
 
         var updateBill = new Bill
         {
@@ -64,7 +68,7 @@ public class BillsController : ControllerBase
 
         var result = await _serviceWrapper.Bills.UpdateBill(updateBill);
         if (result == null)
-            return NotFound();
+            return NotFound("Bill not found");
 
         return Ok("Bill updated successfully");
     }
@@ -74,6 +78,10 @@ public class BillsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Bill>> PostBill(BillCreateDto bill)
     {
+        var invoiceCheck = await InvoiceCheck(bill.InvoiceId);
+        if (invoiceCheck == null)
+            return NotFound("Invoice not found");
+
         var newBill = new Bill
         {
             Name = bill.Name,
@@ -83,9 +91,10 @@ public class BillsController : ControllerBase
             InvoiceId = bill.InvoiceId
         };
 
+       
         var result = await _serviceWrapper.Bills.AddBill(newBill);
         if (result == null)
-            return NotFound();
+            return NotFound("Bill not created");
 
         return CreatedAtAction("GetBill", new { id = newBill.BillId }, bill);
     }
@@ -99,5 +108,10 @@ public class BillsController : ControllerBase
             return NotFound();
 
         return Ok("Bill deleted successfully");
+    }
+    
+    private async Task<Invoice?> InvoiceCheck(int id)
+    {
+        return await _serviceWrapper.Invoices.GetInvoiceById(id) ?? null;
     }
 }

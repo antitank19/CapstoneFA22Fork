@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Common;
 using Service.IService;
 
 namespace API.Controllers;
@@ -28,11 +29,11 @@ public class ExpensesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IQueryable<ExpenseGetDto>>> GetExpenses(ODataQueryOptions<ExpenseGetDto>? options)
     {
-        var list = await _serviceWrapper.Expenses.GetExpenseList().ToListAsync();
+        var list = _serviceWrapper.Expenses.GetExpenseList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.AsQueryable().GetQueryAsync(_mapper, options));
+        return Ok(await list.GetQueryAsync(_mapper, options));
     }
 
     // GET: api/Expenses/5
@@ -40,8 +41,8 @@ public class ExpensesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Expense>> GetExpense(int id, ODataQueryOptions<ExpenseGetDto>? options)
     {
-        var list = (await _serviceWrapper.Expenses.GetExpenseList().ToListAsync())
-            .Where(x => x.ExpenseId == id).AsQueryable();
+        var list = _serviceWrapper.Expenses.GetExpenseList()
+            .Where(x => x.ExpenseId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Expense not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
@@ -52,7 +53,18 @@ public class ExpensesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutExpense(int id, ExpenseUpdateDto expense)
     {
-        if (id != expense.ExpenseId) return BadRequest();
+        if (id != expense.ExpenseId) 
+            return BadRequest("Expense not found");
+
+        var supervisorCheck = await _serviceWrapper.Accounts.GetAccountById(expense.SupervisorId);
+        
+        if (supervisorCheck == null)
+            return NotFound("Supervisor not found");
+
+        var expenseTypeCheck = await ExpenseTypeCheck(expense.ExpenseTypeId);
+        if (expenseTypeCheck == null)
+            return NotFound("Expense type not found");
+        
         var updateExpense = new Expense
         {
             ExpenseId = id,
@@ -60,15 +72,18 @@ public class ExpensesController : ControllerBase
             SupervisorId = expense.SupervisorId,
             ExpenseTypeId = expense.ExpenseTypeId
         };
+        
         var result1 = await _serviceWrapper.Expenses.UpdateExpense(updateExpense);
         if (result1 == null)
             return NotFound("Expense not found");
+        
         var addNewExpenseHistory = new ExpenseHistory
         {
             Name = updateExpense.Name,
             Date = DateTime.Today,
             ExpenseId = updateExpense.ExpenseId
         };
+        
         var result2 = await _serviceWrapper.ExpenseHistories.AddExpenseHistory(addNewExpenseHistory);
         if (result2 == null)
             return NotFound("Expense History not added");
@@ -80,12 +95,22 @@ public class ExpensesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Expense>> PostExpense(ExpenseCreateDto expense)
     {
+        
+        var supervisorCheck = await SupervisorCheck(expense.SupervisorId);
+        if (supervisorCheck == null)
+            return NotFound("Supervisor not found");
+        
+        var expenseCheck = await ExpenseTypeCheck(expense.ExpenseTypeId);
+        if (expenseCheck == null)
+            return NotFound("Expense type not found");
+        
         var newExpense = new Expense
         {
             SupervisorId = expense.SupervisorId,
             Name = expense.Name,
             ExpenseTypeId = expense.ExpenseTypeId
         };
+
         var result = await _serviceWrapper.Expenses.AddExpense(newExpense);
         if (result == null)
             return NotFound("Expense not found");
@@ -101,4 +126,16 @@ public class ExpensesController : ControllerBase
             return NotFound("Expense not found");
         return Ok("Expense deleted");
     }
+
+    private async Task<ExpenseType?> ExpenseTypeCheck(int id)
+    {
+        return await _serviceWrapper.ExpenseTypes.GetExpenseTypeById(id) ?? null;
+    }
+    
+    private async Task<Account?> SupervisorCheck(int id)
+    {
+        return await _serviceWrapper.Accounts
+            .GetSupervisorAccount(id) ?? null;
+    }
+
 }

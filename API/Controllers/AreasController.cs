@@ -52,7 +52,7 @@ public class AreasController : ControllerBase
     public async Task<IActionResult> PutArea(int id, AreaGetDto area)
     {
         if (id != area.AreaId)
-            return BadRequest();
+            return BadRequest("Area id mismatch");
 
         var updateArea = new Area
         {
@@ -63,7 +63,7 @@ public class AreasController : ControllerBase
 
         var result = await _serviceWrapper.Areas.UpdateArea(updateArea);
         if (result == null)
-            return NotFound();
+            return NotFound("Area not found");
 
         return Ok("Area updated successfully");
     }
@@ -92,7 +92,7 @@ public class AreasController : ControllerBase
     {
         var result = await _serviceWrapper.Areas.DeleteArea(id);
         if (!result)
-            return NotFound();
+            return NotFound("Area not found");
 
         return Ok("Area deleted successfully");
     }

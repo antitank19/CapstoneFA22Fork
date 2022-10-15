@@ -50,7 +50,13 @@ public class RequestsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutRequest(int id, RequestCreateDto request)
     {
-        if (id != request.RequestId) return BadRequest();
+        if (id != request.RequestId) 
+            return BadRequest("Request id is not valid");
+
+        var requestTypeCheck = await RequestTypeCheck(request.RequestTypeId);
+        if (requestTypeCheck == null)
+            return NotFound("Request type not found");
+        
         var updateRequest = new Request
         {
             RequestId = id,
@@ -70,6 +76,10 @@ public class RequestsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Request>> PostRequest(RequestCreateDto request)
     {
+        var requestTypeCheck = await RequestTypeCheck(request.RequestTypeId);
+        if (requestTypeCheck == null)
+            return NotFound("Request type not found");
+        
         var newRequest = new Request
         {
             Description = request.Description,
@@ -90,5 +100,10 @@ public class RequestsController : ControllerBase
         if (!result)
             return NotFound("Request not found");
         return Ok("Request deleted");
+    }
+
+    private async Task<RequestType?> RequestTypeCheck(int id)
+    {
+        return await _serviceWrapper.RequestTypes.GetRequestTypeById(id) ?? null;
     }
 }

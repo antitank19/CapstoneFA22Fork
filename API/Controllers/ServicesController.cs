@@ -55,9 +55,9 @@ public class ServicesController : ControllerBase
         if (id != service.ServiceId)
             return BadRequest("Service id mismatch");
 
-        var serviceTypeCheck = await _serviceWrapper.ServiceTypes.GetServiceTypeById(service.ServiceTypeId);
+        var serviceTypeCheck = await ServiceCheck(service.ServiceTypeId);
         if (serviceTypeCheck == null)
-            return BadRequest("Service type not found");
+            return NotFound("Service type not found");
 
         var updateService = new ServiceEntity
         {
@@ -79,6 +79,10 @@ public class ServicesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ServiceEntity>> PostServiceEntity(ServiceCreateDto service)
     {
+        var serviceTypeCheck = await ServiceCheck(service.ServiceTypeId);
+        if (serviceTypeCheck == null)
+            return NotFound("Service type not found");
+        
         var newService = new ServiceEntity
         {
             Name = service.Name,
@@ -103,5 +107,10 @@ public class ServicesController : ControllerBase
             return NotFound("Service not found");
 
         return Ok("Service deleted");
+    }
+
+    private async Task<ServiceType?> ServiceCheck(int id)
+    {
+        return await _serviceWrapper.ServiceTypes.GetServiceTypeById(id) ?? null;
     }
 }

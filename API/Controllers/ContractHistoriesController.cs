@@ -55,7 +55,7 @@ public class ContractHistoriesController : ControllerBase
     public async Task<IActionResult> PutContractHistory(int id, ContractHistoryCreateDto contractHistory)
     {
         if (id != contractHistory.ContractHistoryId)
-            return BadRequest();
+            return BadRequest("Contract history id mismatch");
 
         var updateContract = new ContractHistory
         {
@@ -78,6 +78,10 @@ public class ContractHistoriesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ContractHistory>> PostContractHistory(ContractHistoryCreateDto contractHistory)
     {
+        var contractCheck = await _serviceWrapper.Contracts.GetContractById(contractHistory.ContractId);
+        if (contractCheck == null)
+            return NotFound("Contract not found");
+        
         var addNewContractHistory = new ContractHistory
         {
             ContractId = contractHistory.ContractId,

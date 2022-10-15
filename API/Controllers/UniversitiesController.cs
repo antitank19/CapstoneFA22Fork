@@ -80,7 +80,9 @@ public class UniversitiesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutUniversity(int id, UniversityUpdateDto university)
     {
-        if (id != university.UniversityId) return BadRequest();
+        if (id != university.UniversityId) 
+            return BadRequest("University id mismatch");
+
         var updateUniversity = new University
         {
             UniversityId = id,
@@ -90,6 +92,7 @@ public class UniversitiesController : ControllerBase
             Address = university.Address,
             Status = university.Status
         };
+        
         var result = await _serviceWrapper.Universities.UpdateUniversity(updateUniversity);
         if (result == null)
             return NotFound("University not found");
@@ -110,6 +113,7 @@ public class UniversitiesController : ControllerBase
             Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Success) ??
                      Enum.GetName(typeof(StatusEnum), StatusEnum.Pending)
         };
+        
         var result = await _serviceWrapper.Universities.AddUniversity(addNewUniversity);
         if (result == null)
             return NotFound("University failed to add");
@@ -121,7 +125,7 @@ public class UniversitiesController : ControllerBase
     public async Task<IActionResult> DeleteUniversity(int id)
     {
         var result = await _serviceWrapper.Universities.DeleteUniversity(id);
-        if (result)
+        if (!result)
             return NotFound("University not found");
 
         return Ok("University deleted");

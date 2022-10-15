@@ -54,7 +54,12 @@ public class ExpenseHistoriesController : ControllerBase
     public async Task<IActionResult> PutExpenseHistory(int id, ExpenseHistoryCreateDto expenseHistory)
     {
         if (id != expenseHistory.ExpenseHistoryId)
-            return BadRequest();
+            return BadRequest("Expense history not found");
+        
+        var expenseCheck = await _serviceWrapper.Expenses.GetExpenseById(id);
+        if (expenseCheck == null)
+            return NotFound("Expense type not found");
+        
         var updateExpenseHistory = new ExpenseHistory
         {
             ExpenseHistoryId = id,
@@ -80,7 +85,7 @@ public class ExpenseHistoriesController : ControllerBase
         };
         var result = await _serviceWrapper.ExpenseHistories.AddExpenseHistory(newExpenseHistory);
         if (result == null)
-            return BadRequest();
+            return BadRequest("Expense history not added");
 
         return CreatedAtAction("GetExpenseHistory", new { id = expenseHistory.ExpenseHistoryId }, expenseHistory);
     }

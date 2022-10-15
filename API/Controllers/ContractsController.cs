@@ -57,12 +57,16 @@ public class ContractsController : ControllerBase
     public async Task<IActionResult> PutContract(int id, ContractUpdateDto contract)
     {
         if (id != contract.ContractId)
-            return BadRequest();
+            return BadRequest("Contract id mismatch");
 
         var contractDetail = await _serviceWrapper.Contracts.GetContractById(id);
 
         if (contractDetail == null)
-            return NotFound();
+            return NotFound("Contract not found");
+
+        var flatCheck = await _serviceWrapper.Flats.GetFlatById(contract.FlatId);
+        if (flatCheck == null)
+            return NotFound("Flat not found");
 
         var updateContract = new Contract
         {
@@ -79,16 +83,16 @@ public class ContractsController : ControllerBase
 
         var result1 = await _serviceWrapper.Contracts.UpdateContract(updateContract);
         if (result1 == null)
-            return BadRequest();
+            return BadRequest("Contract update failed");
 
         // Create another copy of contract history
         var addNewContractHistory = new ContractHistory
         {
-            ContractId = contractDetail.ContractId,
-            Description = contractDetail.Description,
-            Price = contractDetail.Price,
-            ContractHistoryStatus = contractDetail.ContractStatus,
-            ContractExpiredDate = contractDetail.EndDate
+            ContractId = result1.ContractId,
+            Description = result1.Description,
+            Price = result1.Price,
+            ContractHistoryStatus = result1.ContractStatus,
+            ContractExpiredDate = result1.EndDate
         };
 
         var result2 = await _serviceWrapper.ContractHistories.AddContractHistory(addNewContractHistory);
@@ -103,6 +107,11 @@ public class ContractsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Contract>> PostContract(ContractCreateDto contract)
     {
+        
+        var renterCheck = await _serviceWrapper.Renters.GetRenterById(contract.RenterId);
+        if (renterCheck == null)
+            return NotFound("Renter not found");
+        
         var newContract = new Contract
         {
             DateSigned = contract.DateSigned,

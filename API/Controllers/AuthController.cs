@@ -14,6 +14,11 @@ public class AuthController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
+    /// <summary>
+    /// login for management
+    /// </summary>
+    /// <param name="loginModel"></param>
+    /// <returns></returns>
     [HttpPost("management/v1/login")]
     public async Task<ActionResult> LoginManagement(LoginModel loginModel)
     {
@@ -27,6 +32,11 @@ public class AuthController : ControllerBase
         return Ok(new { Token = jwtToken });
     }
     
+    /// <summary>
+    /// login for renter
+    /// </summary>
+    /// <param name="loginModel"></param>
+    /// <returns></returns>
     [HttpPost("user/v1/login")]
     public async Task<ActionResult> LoginRenter(LoginModel loginModel)
     {
@@ -39,5 +49,4 @@ public class AuthController : ControllerBase
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForRenter(renter);
         return Ok(new { Token = jwtToken });
     }
-    
 }

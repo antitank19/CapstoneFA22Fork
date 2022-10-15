@@ -54,7 +54,7 @@ public class ApartmentsController : ControllerBase
     public async Task<IActionResult> PutApartment(int id, ApartmentUpdateDto apartment)
     {
         if (id != apartment.ApartmentId)
-            return BadRequest();
+            return BadRequest("Id mismatch");
         var updateApartment = new Apartment
         {
             ApartmentId = id,

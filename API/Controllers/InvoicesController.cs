@@ -51,7 +51,12 @@ public class InvoicesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutInvoice(int id, InvoiceUpdateDto invoice)
     {
-        if (id != invoice.InvoiceId) return BadRequest();
+        if (id != invoice.InvoiceId) 
+            return BadRequest("Invoice id mismatch");
+
+        var contractCheck = await ContractCheck(invoice.ContractId);
+        if (contractCheck == null)
+            return NotFound("Contract not found");
 
         var updateInvoice = new Invoice
         {
@@ -67,14 +72,18 @@ public class InvoicesController : ControllerBase
         if (result1 == null)
             return NotFound("Invoice failed to update");
 
+        var invoiceCheck = await InvoiceCheck(invoice.InvoiceId);
+        if (invoiceCheck == null)
+            return NotFound("Invoice not found");
+        
         var updateInvoiceHistory = new InvoiceHistory
         {
-            Name = updateInvoice.Name,
-            Image = updateInvoice.Image,
-            Detail = updateInvoice.Detail,
-            Status = updateInvoice.Status,
+            Name = result1.Name,
+            Image = result1.Image,
+            Detail = result1.Detail,
+            Status = result1.Status,
             UpdatedDate = DateTime.Now,
-            InvoiceId = updateInvoice.InvoiceId
+            InvoiceId = result1.InvoiceId
         };
         var result2 = await _serviceWrapper.InvoiceHistories.AddInvoiceHistory(updateInvoiceHistory);
         if (result2 == null)
@@ -112,5 +121,15 @@ public class InvoicesController : ControllerBase
             return NotFound("Invoice not found");
 
         return Ok("Invoice deleted");
+    }
+    
+    private async Task<Invoice?> InvoiceCheck(int id)
+    {
+        return await _serviceWrapper.Invoices.GetInvoiceById(id) ?? null;
+    }
+    
+    private async Task<Contract?> ContractCheck(int id)
+    {
+        return await _serviceWrapper.Contracts.GetContractById(id) ?? null;
     }
 }

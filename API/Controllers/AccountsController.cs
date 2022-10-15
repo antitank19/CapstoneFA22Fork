@@ -72,9 +72,13 @@ public class AccountsController : ControllerBase
         if (id != account.AccountId)
             return BadRequest();
 
+        var roleCheck = await RoleCheck(account.RoleId);
+        if (roleCheck == null)
+            return BadRequest("Role not found");
+
         var updateAccount = new Account
         {
-            AccountId = account.AccountId,
+            AccountId = id,
             Username = account.Username,
             Password = account.Password,
             Email = account.Email,
@@ -93,6 +97,7 @@ public class AccountsController : ControllerBase
 
     // POST: api/Accounts/Login
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    /*
     [HttpPost("login")]
     public async Task<ActionResult> Login(LoginModel loginModel)
     {
@@ -102,6 +107,7 @@ public class AccountsController : ControllerBase
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(account);
         return Ok(new { Token = jwtToken });
     }
+    */
 
     [HttpPut("toggle-account/{id:int}")]
     public async Task<IActionResult> ToggleAccountStatus(int id, [FromBody] AccountUpdateDto account)
@@ -127,4 +133,10 @@ public class AccountsController : ControllerBase
 
         return Ok($"Account deleted at : {DateTime.Now.ToShortDateString()}");
     }
+
+    private async Task<Role?> RoleCheck(int id)
+    {
+        return await _serviceWrapper.Roles.GetRoleById(id) ?? null;
+    }
+
 }

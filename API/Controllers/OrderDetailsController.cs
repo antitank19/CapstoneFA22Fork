@@ -53,7 +53,14 @@ public class OrderDetailsController : ControllerBase
     {
         if (id != orderDetail.OrderDetailId) 
             return BadRequest("Id mismatch");
-        var orderCheck = await _serviceWrapper.Orders.GetOrderById(orderDetail.OrderId);
+
+        var serviceCheck = await ServiceCheck(orderDetail.ServiceId);
+        
+        if (serviceCheck == null)
+            return NotFound("Service not found");
+
+        var orderCheck = await OrderCheck(orderDetail.OrderId);
+
         if (orderCheck == null)
             return NotFound("Order not found");
         
@@ -64,9 +71,12 @@ public class OrderDetailsController : ControllerBase
             OrderId = orderDetail.OrderId,
             ServiceId = orderDetail.ServiceId
         };
+        
         var result = await _serviceWrapper.OrderDetails.UpdateOrderDetail(updateOrderDetail);
+        
         if (result == null)
             return NotFound("Order detail not found");
+        
         return Ok("Order detail updated successfully");
     }
 
@@ -97,4 +107,15 @@ public class OrderDetailsController : ControllerBase
 
         return Ok("Order detail deleted");
     }
+
+    private async Task<ServiceEntity?> ServiceCheck(int id)
+    {
+        return await _serviceWrapper.ServicesEntity.GetServiceEntityById(id) ?? null;
+    }
+    
+    private async Task<Order?> OrderCheck(int id)
+    { 
+        return await _serviceWrapper.Orders.GetOrderById(id) ?? null;
+    }
+    
 }

@@ -53,8 +53,17 @@ public class FlatsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutFlat(int id, Flat flat)
     {
-        if (id != flat.FlatId) return BadRequest();
+        if (id != flat.FlatId)
+            return BadRequest("Id is not equal");
 
+        var flatTypeCheck = await FlatTypeCheck(flat.FlatTypeId);
+        if (flatTypeCheck == null)
+            return NotFound("Flat type not found");
+
+        var buildingCheck = await BuildingCheck(flat.BuildingId);
+        if (buildingCheck == null)
+            return NotFound("Building not found");
+        
         var updateFlat = new Flat
         {
             FlatId = id,
@@ -76,6 +85,10 @@ public class FlatsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Flat>> PostFlat(FlatCreateDto flat)
     {
+        var flatTypeCheck = await FlatTypeCheck(flat.FlatTypeId);
+        if (flatTypeCheck == null)
+            return NotFound("Flat type not found");
+        
         var newFlat = new Flat
         {
             Description = flat.Description,
@@ -98,5 +111,15 @@ public class FlatsController : ControllerBase
         if (!result)
             return NotFound("Flat not found");
         return Ok("Flat deleted");
+    }
+
+    private async Task<FlatType?> FlatTypeCheck(int id)
+    {
+        return await _serviceWrapper.FlatTypes.GetFlatTypeById(id) ?? null;
+    }
+    
+    private async Task<Building?> BuildingCheck(int id)
+    {
+        return await _serviceWrapper.Buildings.GetBuildingById(id) ?? null;
     }
 }

@@ -97,7 +97,6 @@ public class MajorsController : ControllerBase
 
     private async Task<Major?> GetMajorById(int id)
     {
-        var result = await _serviceWrapper.Majors.GetMajorById(id);
-        return result ?? null;
+        return await _serviceWrapper.Majors.GetMajorById(id) ?? null;
     }
 }

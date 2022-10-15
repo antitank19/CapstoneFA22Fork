@@ -53,21 +53,29 @@ public class FeedbacksController : ControllerBase
     public async Task<IActionResult> PutFeedback(int id, FeedbackUpdateDto feedback)
     {
         if (id != feedback.FeedbackId)
-            return BadRequest();
+            return BadRequest("Id mismatch");
+
+        var feedbackTypeCheck = await FeedbackTypeCheck(feedback.FeedbackTypeId);
+        if (feedbackTypeCheck == null)
+            return NotFound("Feedback not found");
+        
+        var flatCheck = await FlatCheck(feedback.FlatId);
+        if (flatCheck == null)
+            return NotFound("Flat not found");
 
         var updateFeedback = new Feedback
         {
             FeedbackId = id,
             FeedbackTypeId = feedback.FeedbackTypeId,
             Description = feedback.Description,
-            FlatId = feedback.RenterId
+            FlatId = feedback.FlatId
         };
 
         var result = await _serviceWrapper.Feedbacks.UpdateFeedback(updateFeedback);
         if (result == null)
-            return NotFound();
+            return NotFound("Feedback not found");
 
-        return Ok();
+        return Ok("Feedback updated");
     }
 
 
@@ -76,6 +84,10 @@ public class FeedbacksController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Feedback>> PostFeedback(FeedbackCreateDto feedback)
     {
+        var feedbackTypeCheck = await FeedbackTypeCheck(feedback.FeedbackTypeId);
+        if (feedbackTypeCheck == null)
+            return NotFound("Feedback not found");
+        
         var addNewFeedback = new Feedback
         {
             FeedbackTypeId = feedback.FeedbackTypeId,
@@ -101,5 +113,15 @@ public class FeedbacksController : ControllerBase
             return NotFound("Feedback not found");
 
         return Ok("Feedback deleted");
+    }
+
+    private async Task<FeedbackType?> FeedbackTypeCheck(int id)
+    {
+        return await _serviceWrapper.FeedbackTypes.GetFeedbackTypeById(id) ?? null;
+    }
+    
+    private async Task<Flat?> FlatCheck(int id)
+    {
+        return await _serviceWrapper.Flats.GetFlatById(id) ?? null;
     }
 }

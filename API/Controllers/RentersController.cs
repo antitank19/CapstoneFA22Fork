@@ -127,6 +127,7 @@ public class RentersController : ControllerBase
         //return CreatedAtAction( "GetRenter", new { id = result.RenterId }, result);
     }
 
+    /*
     // POST: api/Accounts/Login
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost("Login")]
@@ -136,7 +137,8 @@ public class RentersController : ControllerBase
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForRenter(renter);
         return Ok(new { Token = jwtToken });
     }
-
+    */
+    
     // DELETE: api/Renters/5
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteRenter(int id)

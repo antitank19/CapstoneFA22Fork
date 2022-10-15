@@ -25,6 +25,13 @@ public class AccountService : IAccountService
             .FirstOrDefaultAsync();
     }
 
+    public async Task<Account?> GetSupervisorAccount(int accountId)
+    {
+        return await _repositoryWrapper.Accounts.GetAccountDetail(accountId: accountId)
+            .Where(x => x.Role.RoleName == "Supervisor")
+            .FirstOrDefaultAsync();
+    }
+
     public async Task<Account?> AddAccount(Account account)
     {
         return await _repositoryWrapper.Accounts.AddAccount(account);
