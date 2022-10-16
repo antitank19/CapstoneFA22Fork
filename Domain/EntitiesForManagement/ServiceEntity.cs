@@ -7,7 +7,7 @@ public class ServiceEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int ServiceId { get; set; }
+    public int ServiceEntityId { get; set; }
 
     public string Name { get; set; }
     public string Description { get; set; }

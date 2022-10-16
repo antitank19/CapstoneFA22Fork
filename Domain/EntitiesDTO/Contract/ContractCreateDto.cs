@@ -11,5 +11,4 @@ public class ContractCreateDto
     public float Price { get; set; }
     public int RenterId { get; set; } // User Id
     public int FlatId { get; set; }
-    public virtual ICollection<ContractHistoryCreateDto>? ContractHistories { get; set; }
 }
