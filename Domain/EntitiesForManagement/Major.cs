@@ -13,7 +13,6 @@ public class Major
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [JsonIgnore]
     public int MajorId { get; set; }
 
     public string Name { get; set; }
