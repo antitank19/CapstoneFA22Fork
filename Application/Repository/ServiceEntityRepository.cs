@@ -31,7 +31,7 @@ internal class ServiceEntityRepository : IServiceEntityRepository
     public IQueryable<ServiceEntity> GetServiceDetail(int serviceId)
     {
         return _context.Services
-            .Where(x => x.ServiceEntityId == serviceId);
+            .Where(x => x.ServiceId == serviceId);
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ internal class ServiceEntityRepository : IServiceEntityRepository
     public async Task<ServiceEntity?> UpdateService(ServiceEntity? service)
     {
         var serviceData = await _context.Services
-            .FirstOrDefaultAsync(x => x.ServiceEntityId == service!.ServiceEntityId);
+            .FirstOrDefaultAsync(x => x.ServiceId == service!.ServiceId);
         if (serviceData == null)
             return null;
 

@@ -67,8 +67,8 @@ public class AutoMapper : Profile
     {
         CreateMap<ServiceType, ServiceTypeGetDto>()
             .ForMember(
-            o => o.Services,
-            opt => opt.MapFrom(src => src.ServiceEntities)
+                o => o.Services,
+                opt => opt.MapFrom(src => src.ServiceEntities)
             )
             .ForAllMembers(o => o.ExplicitExpansion());
         CreateMap<ServiceTypeGetDto, ServiceType>();
@@ -81,6 +81,10 @@ public class AutoMapper : Profile
     private void MapService()
     {
         CreateMap<ServiceEntity, ServiceGetDto>()
+            .ForMember(
+                o=>o.ServiceId,
+                opt=>opt.MapFrom(src=>src.ServiceId)
+            )
             .ForAllMembers(o => o.ExplicitExpansion());
         CreateMap<ServiceGetDto, ServiceEntity>();
         CreateMap<ServiceCreateDto, ServiceEntity>()
