@@ -61,7 +61,7 @@ public class ServicesController : ControllerBase
 
         var updateService = new ServiceEntity
         {
-            ServiceId = id,
+            ServiceEntityId = id,
             Name = service.Name,
             Description = service.Description,
             Status = service.Status,

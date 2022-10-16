@@ -51,6 +51,16 @@ public class ContractsController : ControllerBase
         return Ok();
     }
 
+    private async Task<Flat?> FlatCheck(int id)
+    {
+        return await _serviceWrapper.Flats.GetFlatById(id) ?? null;
+    } 
+    
+    private async Task<Renter?> RenterCheck(int id)
+    {
+        return await _serviceWrapper.Renters.GetRenterById(id) ?? null;
+    } 
+
     // PUT: api/Contracts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id:int}")]
@@ -64,7 +74,7 @@ public class ContractsController : ControllerBase
         if (contractDetail == null)
             return NotFound("Contract not found");
 
-        var flatCheck = await _serviceWrapper.Flats.GetFlatById(contract.FlatId);
+        var flatCheck = await FlatCheck(contract.FlatId);
         if (flatCheck == null)
             return NotFound("Flat not found");
 
@@ -104,23 +114,28 @@ public class ContractsController : ControllerBase
 
     // POST: api/Contracts
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPost]
+    [HttpPost("sign")]
     public async Task<ActionResult<Contract>> PostContract(ContractCreateDto contract)
     {
         
-        var renterCheck = await _serviceWrapper.Renters.GetRenterById(contract.RenterId);
+        var renterCheck = await RenterCheck(contract.RenterId);
         if (renterCheck == null)
             return NotFound("Renter not found");
-        
+
+        var flatCheck = await FlatCheck(contract.FlatId);
+        if (flatCheck == null)
+            return NotFound("Flat not found");
+
         var newContract = new Contract
         {
             DateSigned = contract.DateSigned,
             StartDate = contract.StartDate,
             EndDate = contract.EndDate,
-            LastUpdated = DateTime.Now,
+            LastUpdated = DateTime.UtcNow,
             ContractStatus = contract.ContractStatus,
             Price = contract.Price,
-            RenterId = contract.RenterId
+            RenterId = contract.RenterId,
+            FlatId = contract.FlatId,
             // TODO : get the current user id based on the token
         };
 
@@ -141,4 +156,5 @@ public class ContractsController : ControllerBase
 
         return Ok("Contract deleted");
     }
+    
 }
