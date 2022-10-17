@@ -38,6 +38,7 @@ public class AutoMapper : Profile
         MapService();
         MapServiceType();
         MapUniversity();
+        MapWalletAndWalletType();
     }
 
 
@@ -355,5 +356,15 @@ public class AutoMapper : Profile
             .ReverseMap();
         CreateMap<BuildingUpdateDto, Building>()
             .ReverseMap();
+    }
+
+    private void MapWalletAndWalletType()
+    {
+        CreateMap<Wallet, WalletDTO>()
+            .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<WalletDTO, Wallet>();
+        CreateMap<WalletType, WalletTypeDTO>()
+            .ForAllMembers(o => o.ExplicitExpansion());
+        CreateMap<WalletTypeDTO, WalletType>();
     }
 }

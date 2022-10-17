@@ -264,6 +264,16 @@ public class RepositoryWrapper : IRepositoryWrapper
         }
     }
 
+    public IWalletRepository Wallets
+    {
+        get
+        {
+            if (_wallets == null) _wallets = new WalletRepository(_context);
+            return _wallets;
+        }
+    }
+
+
     #region fields
 
     private IAccountRepository _accounts;
@@ -294,6 +304,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IServiceEntityRepository _servicesEntity;
     private IServiceTypeRepository _serviceTypes;
     private IUniversityRepository _universities;
+    private IWalletRepository _wallets;
 
     #endregion
 }

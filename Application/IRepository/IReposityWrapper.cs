@@ -30,4 +30,5 @@ public interface IRepositoryWrapper
     public IServiceEntityRepository ServiceEntities { get; }
     public IServiceTypeRepository ServiceTypes { get; }
     public IUniversityRepository Universities { get; }
+    public IWalletRepository Wallets { get; }
 }
