@@ -31,4 +31,5 @@ public interface IServiceWrapper
     public IServiceEntityService ServicesEntity { get; }
     public IServiceTypeService ServiceTypes { get; }
     public IUniversityService Universities { get; }
+    public IWalletService Wallets { get; }
 }

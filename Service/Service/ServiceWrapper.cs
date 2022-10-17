@@ -291,6 +291,15 @@ public class ServiceWrapper : IServiceWrapper
         }
     }
 
+    public IWalletService Wallets
+    {
+        get
+        {
+            if (_wallets == null) _wallets = new WalletService(repositories);
+            return _wallets;
+        }
+    }
+
     #region fields
 
     private IAccountService _account;
@@ -321,6 +330,7 @@ public class ServiceWrapper : IServiceWrapper
     private IServiceEntityService _serviceEntity;
     private IServiceTypeService _serviceType;
     private IUniversityService _universities;
+    private IWalletService _wallets;
     private ITokenService tokens;
 
     #endregion

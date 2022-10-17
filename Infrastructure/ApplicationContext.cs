@@ -38,6 +38,8 @@ public class ApplicationContext : DbContext
     public virtual DbSet<ServiceEntity> Services { get; set; }
     public virtual DbSet<ServiceType> ServiceTypes { get; set; }
     public virtual DbSet<University> University { get; set; }
+    public virtual DbSet<Wallet> Wallets { get; set; } = null!;
+    public virtual DbSet<WalletType> WalletTypes { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -50,6 +52,31 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Wallet>(entity =>
+        {
+            entity.ToTable("Wallet");
+
+            entity.Property(e => e.WalletId)
+                .HasColumnName("WalletID")
+                .HasDefaultValueSql("(newid())");
+
+            entity.Property(e => e.AccountId).HasColumnName("AccountID");
+
+            entity.Property(e => e.CreatedDate).HasDefaultValueSql("(getdate())");
+
+            entity.Property(e => e.WalletTypeId).HasColumnName("WalletTypeID");
+        });
+
+        modelBuilder.Entity<WalletType>(entity =>
+        {
+            entity.ToTable("WalletType");
+
+            entity.Property(e => e.WalletTypeId).HasColumnName("WalletTypeID");
+
+            entity.Property(e => e.WalletTypeName).HasMaxLength(20);
+        });
+
+        OnModelCreatingPartial(modelBuilder);
     }
 
     private void OnModelCreatingPartial(ModelBuilder modelBuilder)
