@@ -54,7 +54,7 @@ public class PaymentsController : ControllerBase
         if (id != payment.PaymentId) return BadRequest("Id mismatch");
 
         var paymentTypeCheck = await _serviceWrapper.PaymentTypes.GetPaymentTypeById(payment.PaymentTypeId);
-        
+
         if (paymentTypeCheck == null)
             return NotFound("Payment type not found");
 
@@ -83,10 +83,10 @@ public class PaymentsController : ControllerBase
     public async Task<ActionResult<Payment>> PostPayment(PaymentCreateDto payment)
     {
         var paymentTypeCheck = await _serviceWrapper.PaymentTypes.GetPaymentTypeById(payment.PaymentTypeId);
-        
+
         if (paymentTypeCheck == null)
             return NotFound("Payment type not found");
-        
+
         var newPayment = new Payment
         {
             PaymentPeriod = DateTime.Now.AddMonths(1).TimeOfDay,

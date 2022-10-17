@@ -16,8 +16,7 @@ public class Expense
 
     public string Name { get; set; }
 
-    [ForeignKey("Supervisor")] 
-    public int SupervisorId { get; set; }
+    [ForeignKey("Supervisor")] public int SupervisorId { get; set; }
 
     public virtual Account Supervisor { get; set; }
     public int ExpenseTypeId { get; set; }

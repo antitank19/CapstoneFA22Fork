@@ -44,7 +44,7 @@ public class ContractsController : ControllerBase
         if (list.IsNullOrEmpty() || !list.Any()) return NotFound("Contract not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
     }
-    
+
     [HttpGet("{id:int}/user")]
     public async Task<ActionResult<Contract>> GetContractByUserId(int userId)
     {
@@ -54,12 +54,12 @@ public class ContractsController : ControllerBase
     private async Task<Flat?> FlatCheck(int id)
     {
         return await _serviceWrapper.Flats.GetFlatById(id) ?? null;
-    } 
-    
+    }
+
     private async Task<Renter?> RenterCheck(int id)
     {
         return await _serviceWrapper.Renters.GetRenterById(id) ?? null;
-    } 
+    }
 
     // PUT: api/Contracts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -117,7 +117,6 @@ public class ContractsController : ControllerBase
     [HttpPost("sign")]
     public async Task<ActionResult<Contract>> PostContract(ContractCreateDto contract)
     {
-        
         var renterCheck = await RenterCheck(contract.RenterId);
         if (renterCheck == null)
             return NotFound("Renter not found");
@@ -136,6 +135,8 @@ public class ContractsController : ControllerBase
             Price = contract.Price,
             RenterId = contract.RenterId,
             FlatId = contract.FlatId,
+            Description = contract.Description
+
             // TODO : get the current user id based on the token
         };
 
@@ -156,5 +157,4 @@ public class ContractsController : ControllerBase
 
         return Ok("Contract deleted");
     }
-    
 }

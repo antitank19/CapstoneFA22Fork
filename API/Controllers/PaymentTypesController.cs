@@ -40,7 +40,8 @@ public class PaymentTypesController : ControllerBase
     // GET: api/PaymentTypes/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<PaymentTypeGetDto>> GetPaymentType(int id, ODataQueryOptions<PaymentTypeGetDto>? options)
+    public async Task<ActionResult<PaymentTypeGetDto>> GetPaymentType(int id,
+        ODataQueryOptions<PaymentTypeGetDto>? options)
     {
         var list = _serviceWrapper.PaymentTypes.GetPaymentTypeList()
             .Where(x => x.PaymentTypeId == id);

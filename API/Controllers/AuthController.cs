@@ -1,5 +1,4 @@
 using Domain.ControllerEntities;
-using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Service.IService;
 
@@ -15,7 +14,7 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// login for management
+    ///     login for management
     /// </summary>
     /// <param name="loginModel"></param>
     /// <returns></returns>
@@ -24,16 +23,16 @@ public class AuthController : ControllerBase
     {
         var account = await _serviceWrapper.Accounts
             .AccountLogin(loginModel.Username, loginModel.Password);
-        
-        if (account == null) 
+
+        if (account == null)
             return Unauthorized("Username or password is wrong");
-        
+
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(account);
         return Ok(new { Token = jwtToken });
     }
-    
+
     /// <summary>
-    /// login for renter
+    ///     login for renter
     /// </summary>
     /// <param name="loginModel"></param>
     /// <returns></returns>
@@ -42,10 +41,10 @@ public class AuthController : ControllerBase
     {
         var renter = await _serviceWrapper.Renters
             .RenterLogin(loginModel.Username, loginModel.Password);
-        
-        if (renter == null) 
+
+        if (renter == null)
             return Unauthorized("Username or password is wrong");
-        
+
         var jwtToken = _serviceWrapper.Tokens.CreateTokenForRenter(renter);
         return Ok(new { Token = jwtToken });
     }

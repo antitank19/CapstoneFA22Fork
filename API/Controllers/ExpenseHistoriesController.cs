@@ -55,11 +55,11 @@ public class ExpenseHistoriesController : ControllerBase
     {
         if (id != expenseHistory.ExpenseHistoryId)
             return BadRequest("Expense history not found");
-        
+
         var expenseCheck = await _serviceWrapper.Expenses.GetExpenseById(id);
         if (expenseCheck == null)
             return NotFound("Expense type not found");
-        
+
         var updateExpenseHistory = new ExpenseHistory
         {
             ExpenseHistoryId = id,

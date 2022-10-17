@@ -1,6 +1,5 @@
 using AutoMapper;
 using AutoMapper.AspNet.OData;
-using Domain.ControllerEntities;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +51,7 @@ public class AccountsController : ControllerBase
             return NotFound("Account not created");
         return CreatedAtAction("GetAccount", new { id = result.AccountId }, result);
     }
-    
+
     [EnableQuery]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
@@ -91,23 +90,7 @@ public class AccountsController : ControllerBase
             return NotFound("Updating account failed");
 
         return Ok(result);
-
-        //return Ok($"Updated at : {DateTime.Now.ToShortDateString()}");
     }
-
-    // POST: api/Accounts/Login
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    /*
-    [HttpPost("login")]
-    public async Task<ActionResult> Login(LoginModel loginModel)
-    {
-        var account = await _serviceWrapper.Accounts.Login(loginModel.Username, loginModel.Password);
-        if (account == null) 
-            return Unauthorized("Username or password is wrong");
-        var jwtToken = _serviceWrapper.Tokens.CreateTokenForAccount(account);
-        return Ok(new { Token = jwtToken });
-    }
-    */
 
     [HttpPut("toggle-account/{id:int}")]
     public async Task<IActionResult> ToggleAccountStatus(int id, [FromBody] AccountUpdateDto account)
@@ -138,5 +121,4 @@ public class AccountsController : ControllerBase
     {
         return await _serviceWrapper.Roles.GetRoleById(id) ?? null;
     }
-
 }

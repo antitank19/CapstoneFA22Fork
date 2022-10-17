@@ -51,7 +51,7 @@ public class InvoicesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutInvoice(int id, InvoiceUpdateDto invoice)
     {
-        if (id != invoice.InvoiceId) 
+        if (id != invoice.InvoiceId)
             return BadRequest("Invoice id mismatch");
 
         var contractCheck = await ContractCheck(invoice.ContractId);
@@ -75,7 +75,7 @@ public class InvoicesController : ControllerBase
         var invoiceCheck = await InvoiceCheck(invoice.InvoiceId);
         if (invoiceCheck == null)
             return NotFound("Invoice not found");
-        
+
         var updateInvoiceHistory = new InvoiceHistory
         {
             Name = result1.Name,
@@ -122,12 +122,12 @@ public class InvoicesController : ControllerBase
 
         return Ok("Invoice deleted");
     }
-    
+
     private async Task<Invoice?> InvoiceCheck(int id)
     {
         return await _serviceWrapper.Invoices.GetInvoiceById(id) ?? null;
     }
-    
+
     private async Task<Contract?> ContractCheck(int id)
     {
         return await _serviceWrapper.Contracts.GetContractById(id) ?? null;

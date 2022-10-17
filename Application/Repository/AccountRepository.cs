@@ -109,9 +109,9 @@ public class AccountRepository : IAccountRepository
         await _context.SaveChangesAsync();
         return true;
     }
-    
+
     /// <summary>
-    /// Get account based on username and password
+    ///     Get account based on username and password
     /// </summary>
     /// <param name="username"></param>
     /// <param name="password"></param>

@@ -13,5 +13,4 @@ public interface IAccountService
     public Task<Account> Login(string username, string password);
     public Task<Account?> AccountLogin(string username, string password);
     public Task<Account?> GetSupervisorAccount(int accountId);
-
 }

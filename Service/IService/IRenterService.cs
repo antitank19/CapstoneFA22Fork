@@ -12,5 +12,4 @@ public interface IRenterService
     public Task<bool> DeleteRenter(int renterId);
     public Task<Renter> Login(string username, string password);
     public Task<Renter?> RenterLogin(string username, string password);
-
 }

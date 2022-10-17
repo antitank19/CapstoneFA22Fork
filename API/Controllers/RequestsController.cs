@@ -25,7 +25,8 @@ public class RequestsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IQueryable<RequestGetDto>>> GetRequests(ODataQueryOptions<RequestTypeGetDto>? options)
+    public async Task<ActionResult<IQueryable<RequestGetDto>>> GetRequests(
+        ODataQueryOptions<RequestTypeGetDto>? options)
     {
         var list = _serviceWrapper.Requests.GetRequestList();
         if (!list.Any())
@@ -50,13 +51,13 @@ public class RequestsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutRequest(int id, RequestCreateDto request)
     {
-        if (id != request.RequestId) 
+        if (id != request.RequestId)
             return BadRequest("Request id is not valid");
 
         var requestTypeCheck = await RequestTypeCheck(request.RequestTypeId);
         if (requestTypeCheck == null)
             return NotFound("Request type not found");
-        
+
         var updateRequest = new Request
         {
             RequestId = id,
@@ -79,7 +80,7 @@ public class RequestsController : ControllerBase
         var requestTypeCheck = await RequestTypeCheck(request.RequestTypeId);
         if (requestTypeCheck == null)
             return NotFound("Request type not found");
-        
+
         var newRequest = new Request
         {
             Description = request.Description,

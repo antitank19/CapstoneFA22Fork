@@ -58,7 +58,7 @@ public class FeedbacksController : ControllerBase
         var feedbackTypeCheck = await FeedbackTypeCheck(feedback.FeedbackTypeId);
         if (feedbackTypeCheck == null)
             return NotFound("Feedback not found");
-        
+
         var flatCheck = await FlatCheck(feedback.FlatId);
         if (flatCheck == null)
             return NotFound("Flat not found");
@@ -87,7 +87,7 @@ public class FeedbacksController : ControllerBase
         var feedbackTypeCheck = await FeedbackTypeCheck(feedback.FeedbackTypeId);
         if (feedbackTypeCheck == null)
             return NotFound("Feedback not found");
-        
+
         var addNewFeedback = new Feedback
         {
             FeedbackTypeId = feedback.FeedbackTypeId,
@@ -119,7 +119,7 @@ public class FeedbacksController : ControllerBase
     {
         return await _serviceWrapper.FeedbackTypes.GetFeedbackTypeById(id) ?? null;
     }
-    
+
     private async Task<Flat?> FlatCheck(int id)
     {
         return await _serviceWrapper.Flats.GetFlatById(id) ?? null;

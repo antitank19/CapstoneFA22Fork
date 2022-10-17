@@ -91,7 +91,7 @@ public class BillsController : ControllerBase
             InvoiceId = bill.InvoiceId
         };
 
-       
+
         var result = await _serviceWrapper.Bills.AddBill(newBill);
         if (result == null)
             return NotFound("Bill not created");
@@ -109,7 +109,7 @@ public class BillsController : ControllerBase
 
         return Ok("Bill deleted successfully");
     }
-    
+
     private async Task<Invoice?> InvoiceCheck(int id)
     {
         return await _serviceWrapper.Invoices.GetInvoiceById(id) ?? null;

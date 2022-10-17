@@ -1,6 +1,5 @@
 using AutoMapper;
 using AutoMapper.AspNet.OData;
-using Domain.ControllerEntities;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -138,7 +137,7 @@ public class RentersController : ControllerBase
         return Ok(new { Token = jwtToken });
     }
     */
-    
+
     // DELETE: api/Renters/5
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteRenter(int id)

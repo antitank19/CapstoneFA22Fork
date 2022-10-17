@@ -81,7 +81,7 @@ public class ContractHistoriesController : ControllerBase
         var contractCheck = await _serviceWrapper.Contracts.GetContractById(contractHistory.ContractId);
         if (contractCheck == null)
             return NotFound("Contract not found");
-        
+
         var addNewContractHistory = new ContractHistory
         {
             ContractId = contractHistory.ContractId,

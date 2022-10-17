@@ -12,7 +12,8 @@ public class OrderDetail
     public float Amount { get; set; }
     public int OrderId { get; set; }
     public virtual Order Order { get; set; }
-    [ForeignKey("Service")]
-    public int ServiceId { get; set; }
+
+    [ForeignKey("Service")] public int ServiceId { get; set; }
+
     public virtual ServiceEntity Service { get; set; }
 }

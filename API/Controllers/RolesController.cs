@@ -4,7 +4,6 @@ using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -22,7 +21,7 @@ public class RolesController : ControllerBase
         _mapper = mapper;
         _serviceWrapper = serviceWrapper;
     }
-    
+
     [EnableQuery]
     [HttpGet]
     public async Task<ActionResult<IQueryable<RoleGetDto>>> GetRoleList(ODataQueryOptions<RoleGetDto>? options)
@@ -67,7 +66,7 @@ public class RolesController : ControllerBase
         return Ok(result);
     }
     */
-    
+
     /*
     [HttpDelete]
     public async Task<IActionResult> DeleteRole(int id)

@@ -6,7 +6,6 @@ using Domain.EnumEntities;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -50,11 +49,12 @@ public class UniversitiesController : ControllerBase
         return Ok(result);
     }
     */
-    
+
     // GET: api/Universities
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IQueryable<UniversityGetDto>>> GetUniversity(ODataQueryOptions<UniversityGetDto>? options)
+    public async Task<ActionResult<IQueryable<UniversityGetDto>>> GetUniversity(
+        ODataQueryOptions<UniversityGetDto>? options)
     {
         var list = _serviceWrapper.Universities.GetUniversityList();
         if (!list.Any())
@@ -66,7 +66,8 @@ public class UniversitiesController : ControllerBase
     // GET: api/Universities/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<UniversityGetDto>> GetUniversity(int id, ODataQueryOptions<UniversityGetDto>? options)
+    public async Task<ActionResult<UniversityGetDto>> GetUniversity(int id,
+        ODataQueryOptions<UniversityGetDto>? options)
     {
         var list = _serviceWrapper.Universities.GetUniversityList()
             .Where(x => x.UniversityId == id);
@@ -80,7 +81,7 @@ public class UniversitiesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutUniversity(int id, UniversityUpdateDto university)
     {
-        if (id != university.UniversityId) 
+        if (id != university.UniversityId)
             return BadRequest("University id mismatch");
 
         var updateUniversity = new University
@@ -92,7 +93,7 @@ public class UniversitiesController : ControllerBase
             Address = university.Address,
             Status = university.Status
         };
-        
+
         var result = await _serviceWrapper.Universities.UpdateUniversity(updateUniversity);
         if (result == null)
             return NotFound("University not found");
@@ -113,7 +114,7 @@ public class UniversitiesController : ControllerBase
             Status = Enum.GetName(typeof(StatusEnum), StatusEnum.Success) ??
                      Enum.GetName(typeof(StatusEnum), StatusEnum.Pending)
         };
-        
+
         var result = await _serviceWrapper.Universities.AddUniversity(addNewUniversity);
         if (result == null)
             return NotFound("University failed to add");

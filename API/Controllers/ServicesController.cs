@@ -82,7 +82,7 @@ public class ServicesController : ControllerBase
         var serviceTypeCheck = await ServiceCheck(service.ServiceTypeId);
         if (serviceTypeCheck == null)
             return NotFound("Service type not found");
-        
+
         var newService = new ServiceEntity
         {
             Name = service.Name,

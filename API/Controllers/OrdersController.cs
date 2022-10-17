@@ -51,7 +51,7 @@ public class OrdersController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutOrder(int id, OrderUpdateDto order)
     {
-        if (id != order.OrderId) 
+        if (id != order.OrderId)
             return BadRequest();
 
         var requestCheck = await RequestCheck(order.RequestId);
@@ -69,7 +69,7 @@ public class OrdersController : ControllerBase
 
         if (!flatCheck)
             return BadRequest("This user is not having any active contract");
-            
+
         var updateOrder = new Order
         {
             OrderId = id,
@@ -120,7 +120,7 @@ public class OrdersController : ControllerBase
     {
         return await _serviceWrapper.Requests.GetRequestById(id) ?? null;
     }
-    
+
     private async Task<Renter?> RenterCheck(int id)
     {
         return await _serviceWrapper.Renters.GetRenterById(id) ?? null;

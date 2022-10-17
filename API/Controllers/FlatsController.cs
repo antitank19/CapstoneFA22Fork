@@ -5,7 +5,6 @@ using Domain.EntitiesForManagement;
 using Domain.EnumEntities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.IService;
 
@@ -63,7 +62,7 @@ public class FlatsController : ControllerBase
         var buildingCheck = await BuildingCheck(flat.BuildingId);
         if (buildingCheck == null)
             return NotFound("Building not found");
-        
+
         var updateFlat = new Flat
         {
             FlatId = id,
@@ -88,7 +87,7 @@ public class FlatsController : ControllerBase
         var flatTypeCheck = await FlatTypeCheck(flat.FlatTypeId);
         if (flatTypeCheck == null)
             return NotFound("Flat type not found");
-        
+
         var newFlat = new Flat
         {
             Description = flat.Description,
@@ -117,7 +116,7 @@ public class FlatsController : ControllerBase
     {
         return await _serviceWrapper.FlatTypes.GetFlatTypeById(id) ?? null;
     }
-    
+
     private async Task<Building?> BuildingCheck(int id)
     {
         return await _serviceWrapper.Buildings.GetBuildingById(id) ?? null;

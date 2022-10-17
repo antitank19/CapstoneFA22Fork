@@ -53,9 +53,9 @@ public class InvoiceHistoriesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutInvoiceHistory(int id, InvoiceHistoryUpdateDto invoiceHistory)
     {
-        if (id != invoiceHistory.InvoiceHistoryId) 
+        if (id != invoiceHistory.InvoiceHistoryId)
             return BadRequest("Invoice history not found");
-        
+
         var invoiceCheck = await InvoiceCheck(invoiceHistory.InvoiceId);
         if (invoiceCheck == null)
             return NotFound("Invoice not found");
@@ -71,7 +71,7 @@ public class InvoiceHistoriesController : ControllerBase
             UpdatedDate = invoiceHistory.UpdatedDate,
             InvoiceId = invoiceHistory.InvoiceId
         };
-       
+
         var result = await _serviceWrapper.InvoiceHistories.UpdateInvoiceHistory(updateInvoiceHistory);
         if (result == null)
             return NotFound("Invoice history not found");
@@ -98,7 +98,7 @@ public class InvoiceHistoriesController : ControllerBase
             UpdatedDate = invoiceHistory.UpdatedDate,
             InvoiceId = invoiceHistory.InvoiceId
         };
-        
+
         var result = await _serviceWrapper.InvoiceHistories.UpdateInvoiceHistory(updateInvoiceHistory);
         if (result == null)
             return NotFound("Invoice history not found");

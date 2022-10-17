@@ -53,7 +53,7 @@ public class FeedbackTypesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutFeedbackType(int id, FeedbackTypeUpdateDto feedbackType)
     {
-        if (id != feedbackType.FeedbackTypeId) 
+        if (id != feedbackType.FeedbackTypeId)
             return BadRequest("Id mismatch");
         var updateFeedBackType = new FeedbackType
         {

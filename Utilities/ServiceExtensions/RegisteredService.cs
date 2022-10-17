@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IO;
 using Service.IService;
 using Service.Service;
-using Utilities.Extension;
 
 namespace Utilities.ServiceExtensions;
 

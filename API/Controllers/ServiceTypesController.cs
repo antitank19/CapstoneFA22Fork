@@ -39,7 +39,8 @@ public class ServiceTypesController : ControllerBase
     // GET: api/ServiceTypes/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<ServiceTypeGetDto>> GetServiceType(int id, ODataQueryOptions<ServiceTypeGetDto>? options)
+    public async Task<ActionResult<ServiceTypeGetDto>> GetServiceType(int id,
+        ODataQueryOptions<ServiceTypeGetDto>? options)
     {
         var list = _serviceWrapper.ServiceTypes.GetServiceTypeList()
             .Where(x => x.ServiceTypeId == id);

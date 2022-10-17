@@ -122,7 +122,7 @@ public class RenterRepository : IRenterRepository
     }
 
     /// <summary>
-    /// Get renter based on username and passowrd
+    ///     Get renter based on username and passowrd
     /// </summary>
     /// <param name="username"></param>
     /// <param name="password"></param>
