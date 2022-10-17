@@ -46,6 +46,11 @@ public class AccountsController : ControllerBase
             Status = true,
             RoleId = account.RoleId
         };
+        
+        var roleCheck = await RoleCheck(newAccount.RoleId);
+        if (roleCheck == null)
+            return BadRequest("Role not found");
+        
         var result = await _serviceWrapper.Accounts.AddAccount(newAccount);
         if (result == null)
             return NotFound("Account not created");

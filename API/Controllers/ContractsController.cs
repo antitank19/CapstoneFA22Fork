@@ -50,17 +50,7 @@ public class ContractsController : ControllerBase
     {
         return Ok();
     }
-
-    private async Task<Flat?> FlatCheck(int id)
-    {
-        return await _serviceWrapper.Flats.GetFlatById(id) ?? null;
-    }
-
-    private async Task<Renter?> RenterCheck(int id)
-    {
-        return await _serviceWrapper.Renters.GetRenterById(id) ?? null;
-    }
-
+    
     // PUT: api/Contracts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id:int}")]
@@ -90,6 +80,17 @@ public class ContractsController : ControllerBase
             ContractStatus = contract.ContractStatus,
             FlatId = contract.FlatId
         };
+        
+        var dateCheck = DateRemainingCheck(updateContract.StartDate, updateContract.EndDate);
+        switch (dateCheck)
+        {
+            case <0:
+                return BadRequest("Start date must be before end date");
+            case <7:
+                return BadRequest("Start date and end date is less than one week");
+            case <30:
+                return BadRequest("Start date and end date is less than one month");
+        }
 
         var result1 = await _serviceWrapper.Contracts.UpdateContract(updateContract);
         if (result1 == null)
@@ -136,9 +137,19 @@ public class ContractsController : ControllerBase
             RenterId = contract.RenterId,
             FlatId = contract.FlatId,
             Description = contract.Description
-
             // TODO : get the current user id based on the token
         };
+        
+        var dateCheck = DateRemainingCheck(newContract.StartDate, newContract.EndDate);
+        switch (dateCheck)
+        {
+            case <0:
+                return BadRequest("Start date must be before end date");
+            case <7:
+                return BadRequest("Start date and end date is less than one week");
+            case <30:
+                return BadRequest("Start date and end date is less than one month");
+        }
 
         var result = await _serviceWrapper.Contracts.AddContract(newContract);
         if (result == null)
@@ -157,4 +168,20 @@ public class ContractsController : ControllerBase
 
         return Ok("Contract deleted");
     }
+    
+    private async Task<Flat?> FlatCheck(int id)
+    {
+        return await _serviceWrapper.Flats.GetFlatById(id) ?? null;
+    }
+
+    private async Task<Renter?> RenterCheck(int id)
+    {
+        return await _serviceWrapper.Renters.GetRenterById(id) ?? null;
+    }
+
+    private static int DateRemainingCheck(DateTime start, DateTime end)
+    {
+        return (start - end).Days;
+    }
+
 }

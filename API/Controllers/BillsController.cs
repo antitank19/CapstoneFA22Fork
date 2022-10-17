@@ -91,7 +91,6 @@ public class BillsController : ControllerBase
             InvoiceId = bill.InvoiceId
         };
 
-
         var result = await _serviceWrapper.Bills.AddBill(newBill);
         if (result == null)
             return NotFound("Bill not created");

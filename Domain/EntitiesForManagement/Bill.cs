@@ -12,6 +12,7 @@ public class Bill
     public string Name { get; set; }
     public string Detail { get; set; }
     public DateTime DueDate { get; set; }
+    public int Amount { get; set; }
     public string? Status { get; set; }
     public int InvoiceId { get; set; }
     public virtual Invoice Invoice { get; set; }
