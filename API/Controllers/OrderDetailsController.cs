@@ -25,8 +25,7 @@ public class OrderDetailsController : ControllerBase
     // GET: api/OrderDetails
     [HttpGet]
     [EnableQuery]
-    public async Task<ActionResult<IQueryable<OrderDetailGetDto>>> GetOrderDetails(
-        ODataQueryOptions<OrderDetail>? options)
+    public async Task<ActionResult<IQueryable<OrderDetailGetDto>>> GetOrderDetails(ODataQueryOptions<OrderDetailGetDto>? options)
     {
         var list = _serviceWrapper.OrderDetails.GetOrderDetailList();
         if (!list.Any())
@@ -38,7 +37,7 @@ public class OrderDetailsController : ControllerBase
     // GET: api/OrderDetails/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<OrderDetailGetDto>> GetOrderDetail(int id, ODataQueryOptions<OrderDetail>? options)
+    public async Task<ActionResult<OrderDetailGetDto>> GetOrderDetail(int id, ODataQueryOptions<OrderDetailGetDto>? options)
     {
         var list = _serviceWrapper.OrderDetails.GetOrderDetailList()
             .Where(x => x.OrderDetailId == id);
@@ -52,11 +51,11 @@ public class OrderDetailsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutOrderDetail(int id, OrderDetailUpdateDto orderDetail)
     {
-        if (id != orderDetail.OrderDetailId)
+        if (id != orderDetail.OrderDetailId) 
             return BadRequest("Id mismatch");
 
         var serviceCheck = await ServiceCheck(orderDetail.ServiceId);
-
+        
         if (serviceCheck == null)
             return NotFound("Service not found");
 
@@ -64,7 +63,7 @@ public class OrderDetailsController : ControllerBase
 
         if (orderCheck == null)
             return NotFound("Order not found");
-
+        
         var updateOrderDetail = new OrderDetail
         {
             OrderDetailId = id,
@@ -72,12 +71,12 @@ public class OrderDetailsController : ControllerBase
             OrderId = orderDetail.OrderId,
             ServiceId = orderDetail.ServiceId
         };
-
+        
         var result = await _serviceWrapper.OrderDetails.UpdateOrderDetail(updateOrderDetail);
-
+        
         if (result == null)
             return NotFound("Order detail not found");
-
+        
         return Ok("Order detail updated successfully");
     }
 
@@ -113,9 +112,10 @@ public class OrderDetailsController : ControllerBase
     {
         return await _serviceWrapper.ServicesEntity.GetServiceEntityById(id) ?? null;
     }
-
+    
     private async Task<Order?> OrderCheck(int id)
-    {
+    { 
         return await _serviceWrapper.Orders.GetOrderById(id) ?? null;
     }
+    
 }

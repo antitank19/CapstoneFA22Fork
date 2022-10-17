@@ -24,7 +24,7 @@ public class OrdersController : ControllerBase
 
     // GET: api/Orders
     [HttpGet]
-    [EnableQuery]
+    [EnableQuery(MaxExpansionDepth =10)]
     public async Task<ActionResult<IQueryable<OrderGetDto>>> GetOrders(ODataQueryOptions<OrderGetDto>? options)
     {
         var list = _serviceWrapper.Orders.GetOrderList();
@@ -36,7 +36,7 @@ public class OrdersController : ControllerBase
 
     // GET: api/Orders/5
     [HttpGet("{id:int}")]
-    [EnableQuery]
+    [EnableQuery(MaxExpansionDepth = 10)]
     public async Task<ActionResult<OrderGetDto>> GetOrder(int id, ODataQueryOptions<OrderGetDto>? options)
     {
         var list = _serviceWrapper.Orders.GetOrderList()

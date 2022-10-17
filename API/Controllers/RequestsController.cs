@@ -24,9 +24,9 @@ public class RequestsController : ControllerBase
         _serviceWrapper = serviceWrapper;
     }
 
+    [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<RequestGetDto>>> GetRequests(
-        ODataQueryOptions<RequestTypeGetDto>? options)
+    public async Task<ActionResult<IQueryable<RequestGetDto>>> GetRequests(ODataQueryOptions<RequestGetDto>? options)
     {
         var list = _serviceWrapper.Requests.GetRequestList();
         if (!list.Any())
@@ -36,11 +36,12 @@ public class RequestsController : ControllerBase
     }
 
     // GET: api/Requests/5
+    [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<RequestGetDto>> GetRequest(int id, ODataQueryOptions<RequestTypeGetDto>? options)
+    public async Task<ActionResult<RequestGetDto>> GetRequest(int id, ODataQueryOptions<RequestGetDto>? options)
     {
         var list = _serviceWrapper.Requests.GetRequestList()
-            .Where(x => x.RequestTypeId == id);
+            .Where(x => x.RequestId == id);
         if (list.IsNullOrEmpty())
             return NotFound("Request type not found");
         return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
@@ -51,13 +52,13 @@ public class RequestsController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> PutRequest(int id, RequestCreateDto request)
     {
-        if (id != request.RequestId)
+        if (id != request.RequestId) 
             return BadRequest("Request id is not valid");
 
         var requestTypeCheck = await RequestTypeCheck(request.RequestTypeId);
         if (requestTypeCheck == null)
             return NotFound("Request type not found");
-
+        
         var updateRequest = new Request
         {
             RequestId = id,
@@ -80,7 +81,7 @@ public class RequestsController : ControllerBase
         var requestTypeCheck = await RequestTypeCheck(request.RequestTypeId);
         if (requestTypeCheck == null)
             return NotFound("Request type not found");
-
+        
         var newRequest = new Request
         {
             Description = request.Description,
