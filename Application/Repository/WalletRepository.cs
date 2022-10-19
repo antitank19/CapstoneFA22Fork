@@ -25,9 +25,9 @@ namespace Application.Repository
             return newWallet;
         }
 
-        public async Task<bool> DisableWallet(Guid walletId)
+        public async Task<bool> DisableWallet(Guid walletId, int accountID)
         {
-            var wallet = await _context.Wallets.Where(w => w.WalletId == walletId).FirstOrDefaultAsync();
+            var wallet = await _context.Wallets.Where(w => w.WalletId == walletId && w.AccountId == accountID).FirstOrDefaultAsync();
             if (wallet == null) return false;
             wallet.Status = 0;
             _context.Wallets.Update(wallet);
