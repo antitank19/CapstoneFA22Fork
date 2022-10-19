@@ -15,18 +15,18 @@ var config = builder.Configuration;
 
 builder.Services.AddRegisteredService(config);
 
-builder.Services.AddCors(o =>
-{
-    o.AddPolicy(name: "AllowAnyOrigin", corsPolicyBuilder =>
-    {
-        corsPolicyBuilder
-            .WithOrigins(config.GetValue<string>("Cors:AllowedOrigins"))
-            .SetIsOriginAllowed(x => _ = true)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
-    });
-});
+//builder.Services.AddCors(o =>
+//{
+//    o.AddPolicy(name: "AllowAnyOrigin", corsPolicyBuilder =>
+//    {
+//        corsPolicyBuilder
+//            .WithOrigins(config.GetValue<string>("Cors:AllowedOrigins"))
+//            .SetIsOriginAllowed(x => _ = true)
+//            .AllowAnyMethod()
+//            .AllowAnyHeader()
+//            .AllowCredentials();
+//    });
+//});
 
 builder.Logging.AddLoggerConfig();
 

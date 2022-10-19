@@ -1,0 +1,14 @@
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\bin\Debug\net6.0\Domain.deps.json
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\bin\Debug\net6.0\Domain.runtimeconfig.json
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\bin\Debug\net6.0\Domain.dll
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\bin\Debug\net6.0\Domain.pdb
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\Domain.csproj.AssemblyReference.cache
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\Domain.AssemblyInfoInputs.cache
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\Domain.AssemblyInfo.cs
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\Domain.csproj.CoreCompileInputs.cache
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\Domain.dll
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\refint\Domain.dll
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\Domain.pdb
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\Domain.genruntimeconfig.cache
+D:\FPT\22.3FA\Capstone\Fork\CapstoneFA22Fork\Domain\obj\Debug\net6.0\ref\Domain.dll
