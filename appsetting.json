@@ -1,0 +1,18 @@
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "TotallyNotConnectionString": {
+    "Secret": "Server=DESKTOP-596ASLR\\MSSQLSERVER2019;Database=CapstoneFA22;Trusted_Connection=True;"
+  },
+  "AllowedHosts": "*",
+  "JwtToken": {
+    "NotTokenKeyForSureSourceTrustMeDude": "I do not know why you want to read this but okay",
+    "Issuer": "https://localhost:5001/",
+    "Audience": "https://localhost:5001/"
+  },
+  "LogSettings": {
+    "IsLoggerEnabled": "False"
+  }
