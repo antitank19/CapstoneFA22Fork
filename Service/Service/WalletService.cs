@@ -23,9 +23,9 @@ namespace Service.Service
             return await _repositoryWrapper.Wallets.CreateWallet(wallet);
         }
 
-        public async Task<bool> DisableWallet(Guid walletId)
+        public async Task<bool> DisableWallet(Guid walletId, int accountId)
         {
-            return await _repositoryWrapper.Wallets.DisableWallet(walletId);
+            return await _repositoryWrapper.Wallets.DisableWallet(walletId, accountId);
         }
 
         public IQueryable<WalletType> GetAllWalletType()

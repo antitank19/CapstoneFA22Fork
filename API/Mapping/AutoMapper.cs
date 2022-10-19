@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.EntitiesDTO;
 using Domain.EntitiesForManagement;
+using Infrastructure.Requests;
 
 namespace API.Mapping;
 
@@ -366,5 +367,6 @@ public class AutoMapper : Profile
         CreateMap<WalletType, WalletTypeDTO>()
             .ForAllMembers(o => o.ExplicitExpansion());
         CreateMap<WalletTypeDTO, WalletType>();
+        CreateMap<WalletUpdateRequest, Wallet>();
     }
 }

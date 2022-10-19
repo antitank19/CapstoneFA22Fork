@@ -15,7 +15,7 @@ namespace Application.IRepository
         public Task<Wallet> GetWalletByID(Guid walletId);
         public Task<Wallet> CreateWallet(Wallet wallet);
         public Task<Wallet> UpdateWallet(Wallet wallet);
-        public Task<bool> DisableWallet(Guid walletId);
+        public Task<bool> DisableWallet(Guid walletId, int accountId);
 
     }
 }

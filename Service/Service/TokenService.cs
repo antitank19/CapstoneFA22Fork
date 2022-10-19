@@ -52,7 +52,8 @@ public class TokenService : ITokenService
         {
             new(ClaimTypes.Role, account.Role.RoleName),
             new(ClaimTypes.Email, account.Email),
-            new(ClaimTypes.NameIdentifier, account.Username)
+            new(ClaimTypes.Actor, account.Username),
+            new(ClaimTypes.Name, account.AccountId.ToString())
         };
         var securityKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_configuration["JwtToken:NotTokenKeyForSureSourceTrustMeDude"]));
