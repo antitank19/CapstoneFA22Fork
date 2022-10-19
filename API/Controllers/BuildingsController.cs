@@ -25,24 +25,30 @@ public class BuildingsController : ControllerBase
     // GET: api/Buildings
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<BuildingGetDto>>> GetBuildings(ODataQueryOptions<BuildingGetDto>? options)
+    public async Task<IActionResult> GetBuildings(/*ODataQueryOptions<BuildingGetDto>? options*/)
     {
         var list = _serviceWrapper.Buildings.GetBuildingList();
         if (!list.Any())
             return NotFound("No buildings available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<BuildingGetDto>>(list));
     }
 
     // GET: api/Buildings/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<BuildingGetDto>> GetBuilding(int id, ODataQueryOptions<BuildingGetDto>? options)
+    public async Task<IActionResult> GetBuilding(int id/*, ODataQueryOptions<BuildingGetDto>? options*/)
     {
-        var list = _serviceWrapper.Buildings.GetBuildingList()
-            .Where(e => e.BuildingId == id);
-        if (list.IsNullOrEmpty()) return NotFound("Building not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        //var list = _serviceWrapper.Buildings.GetBuildingList()
+        //    .Where(e => e.BuildingId == id);
+        //if (list.IsNullOrEmpty()) return NotFound("Building not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.Buildings.GetBuildingById(id);
+        if (entity == null)
+            return NotFound("Building not found");
+        var dto = _mapper.Map<BuildingGetDto>(entity);
+        return Ok(dto);
     }
 
     // PUT: api/Buildings/5

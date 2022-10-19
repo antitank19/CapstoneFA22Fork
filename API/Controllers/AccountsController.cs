@@ -24,14 +24,31 @@ public class AccountsController : ControllerBase
 
     // GET: api/Accounts
     [EnableQuery]
-    [HttpGet("get-all")]
-    public async Task<ActionResult<IQueryable<AccountGetDto>>> GetAccounts(ODataQueryOptions<AccountGetDto>? options)
+    [HttpGet]
+    public async Task<IActionResult> GetAccounts(/*ODataQueryOptions<AccountGetDto>? options*/)
     {
         var list = _serviceWrapper.Accounts.GetAccountList();
         if (!list.Any())
             return NotFound("No account available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<AccountGetDto>>(list));
+    }
+
+    [EnableQuery]
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<AccountGetDto>> GetAccount(int id/*, ODataQueryOptions<AccountGetDto>? options*/)
+    {
+        //var list = _serviceWrapper.Accounts.GetAccountList()
+        //    .Where(e => e.AccountId == id).AsQueryable();
+        //if (list.IsNullOrEmpty() || !list.Any())
+        //    return NotFound("Account not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.Accounts.GetAccountById(id);
+        if (entity == null)
+            return NotFound("Account not found");
+        var dto = _mapper.Map<AccountGetDto>(entity);
+        return Ok(dto);
     }
 
     [HttpPost("register")]
@@ -57,16 +74,6 @@ public class AccountsController : ControllerBase
         return CreatedAtAction("GetAccount", new { id = result.AccountId }, result);
     }
 
-    [EnableQuery]
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<AccountGetDto>> GetAccount(int id, ODataQueryOptions<AccountGetDto>? options)
-    {
-        var list = _serviceWrapper.Accounts.GetAccountList()
-            .Where(e => e.AccountId == id).AsQueryable();
-        if (list.IsNullOrEmpty() || !list.Any())
-            return NotFound("Account not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
-    }
 
     // PUT: api/Accounts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

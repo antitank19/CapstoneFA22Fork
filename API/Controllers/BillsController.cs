@@ -26,24 +26,30 @@ public class BillsController : ControllerBase
     // GET: api/Bills
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<BillGetDto>>> GetBills(ODataQueryOptions<BillGetDto>? options)
+    public async Task<IActionResult> GetBills(/*ODataQueryOptions<BillGetDto>? options*/)
     {
         var list = _serviceWrapper.Bills.GetBillList();
         if (!list.Any())
             return NotFound("No bill available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<BillGetDto>>(list));
     }
 
     // GET: api/Bills/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<BillGetDto>> GetBill(int id, ODataQueryOptions<BillGetDto>? options)
+    public async Task<IActionResult> GetBill(int id/*, ODataQueryOptions<BillGetDto>? options*/)
     {
-        var list = _serviceWrapper.Bills.GetBillList()
-            .Where(e => e.BillId == id);
-        if (list.IsNullOrEmpty()) return NotFound("Bill not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        //var list = _serviceWrapper.Bills.GetBillList()
+        //    .Where(e => e.BillId == id);
+        //if (list.IsNullOrEmpty()) return NotFound("Bill not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.Bills.GetBillById(id);
+        if (entity == null)
+            return NotFound("Bill not found");
+        var dto = _mapper.Map<BillGetDto>(entity);
+        return Ok(dto);
     }
 
     // PUT: api/Bills/5

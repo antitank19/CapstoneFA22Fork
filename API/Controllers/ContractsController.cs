@@ -25,24 +25,30 @@ public class ContractsController : ControllerBase
     // GET: api/Contracts
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<ContractGetDto>>> GetContracts(ODataQueryOptions<ContractGetDto>? options)
+    public async Task<IActionResult/*<IQueryable<ContractGetDto>>*/> GetContracts(ODataQueryOptions<ContractGetDto>? options)
     {
         var list = _serviceWrapper.Contracts.GetContractList();
         if (!list.Any())
             return NotFound("No contract available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<ContractGetDto>>(list));
     }
 
     // GET: api/Contracts/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ContractGetDto>> GetContract(int id, ODataQueryOptions<ContractGetDto>? options)
+    public async Task<IActionResult> GetContract(int id/*, ODataQueryOptions<ContractGetDto>? options*/)
     {
-        var list = _serviceWrapper.Contracts.GetContractList()
-            .Where(e => e.ContractId == id);
-        if (list.IsNullOrEmpty() || !list.Any()) return NotFound("Contract not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        //var list = _serviceWrapper.Contracts.GetContractList()
+        //    .Where(e => e.ContractId == id);
+        //if (list.IsNullOrEmpty() || !list.Any()) return NotFound("Contract not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.Contracts.GetContractById(id);
+        if (entity == null)
+            return NotFound("Contract not found");
+        var dto = _mapper.Map<ContractGetDto>(entity);
+        return Ok(dto);
     }
 
     [HttpGet("{id:int}/user")]

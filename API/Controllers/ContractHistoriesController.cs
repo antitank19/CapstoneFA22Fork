@@ -26,27 +26,31 @@ public class ContractHistoriesController : ControllerBase
     // GET: api/ContractHistories
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<ContractHistoryGetDto>>> GetContractHistories(
-        ODataQueryOptions<ContractHistoryGetDto>? options)
+    public async Task<IActionResult> GetContractHistories(/*ODataQueryOptions<ContractHistoryGetDto>? options*/)
     {
         var list = _serviceWrapper.ContractHistories.GetContractHistoryList();
         if (!list.Any())
             return NotFound("No contract history available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<ContractHistoryGetDto>>(list));
     }
 
     // GET: api/ContractHistories/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ContractHistoryGetDto>> GetContractHistory(int id,
-        ODataQueryOptions<ContractHistoryGetDto>? options)
+    public async Task<IActionResult> GetContractHistory(int id /*,ODataQueryOptions<ContractHistoryGetDto>? options*//*ODataQueryOptions<ContractHistoryGetDto>? options*/)
     {
-        var list = _serviceWrapper.ContractHistories.GetContractHistoryList()
-            .Where(e => e.ContractHistoryId == id);
-        if (list.IsNullOrEmpty())
+        //var list = _serviceWrapper.ContractHistories.GetContractHistoryList()
+        //    .Where(e => e.ContractHistoryId == id);
+        //if (list.IsNullOrEmpty())
+        //    return NotFound("Contract history not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.ContractHistories.GetContractHistoryById(id);
+        if (entity == null)
             return NotFound("Contract history not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var dto = _mapper.Map<ContractHistoryGetDto>(entity);
+        return Ok(dto);
     }
 
     // PUT: api/ContractHistories/5

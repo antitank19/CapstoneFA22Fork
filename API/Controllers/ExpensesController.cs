@@ -25,25 +25,31 @@ public class ExpensesController : ControllerBase
 
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<ExpenseGetDto>>> GetExpenses(ODataQueryOptions<ExpenseGetDto>? options)
+    public async Task<IActionResult> GetExpenses(/*ODataQueryOptions<ExpenseGetDto>? options*/)
     {
         var list = _serviceWrapper.Expenses.GetExpenseList();
         if (!list.Any())
             return NotFound();
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<ExpenseGetDto>>(list));
     }
 
     // GET: api/Expenses/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Expense>> GetExpense(int id, ODataQueryOptions<ExpenseGetDto>? options)
+    public async Task<IActionResult> GetExpense(int id/*, ODataQueryOptions<ExpenseGetDto>? options*/)
     {
-        var list = _serviceWrapper.Expenses.GetExpenseList()
-            .Where(x => x.ExpenseId == id);
-        if (list.IsNullOrEmpty())
+        //var list = _serviceWrapper.Expenses.GetExpenseList()
+        //    .Where(x => x.ExpenseId == id);
+        //if (list.IsNullOrEmpty())
+        //    return NotFound("Expense not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.Expenses.GetExpenseById(id);
+        if (entity == null)
             return NotFound("Expense not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var dto = _mapper.Map<ExpenseGetDto>(entity);
+        return Ok(dto);
     }
 
     // PUT: api/Expenses/5

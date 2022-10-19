@@ -24,27 +24,32 @@ public class ApartmentsController : ControllerBase
 
     // GET: api/Apartments
     [EnableQuery]
-    [HttpGet("get-all")]
-    public async Task<ActionResult<IEnumerable<ApartmentGetDto>>> GetApartments(
-        ODataQueryOptions<ApartmentGetDto>? options)
+    [HttpGet()]
+    public async Task<IActionResult> GetApartments(/*ODataQueryOptions<ApartmentGetDto>? options*/)
     {
         var list = _serviceWrapper.Apartments.GetApartmentList();
         if (!list.Any())
             return NotFound("No apartment available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<ApartmentGetDto>>(list));
     }
 
     // GET: api/Apartments/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Apartment>> GetApartment(int id, ODataQueryOptions<ApartmentGetDto>? options)
+    public async Task<IActionResult> GetApartment(int id/*, ODataQueryOptions<ApartmentGetDto>? options*/)
     {
-        var list = _serviceWrapper.Apartments.GetApartmentList()
-            .Where(e => e.ApartmentId == id);
-        if (list.IsNullOrEmpty())
+        //var list = _serviceWrapper.Apartments.GetApartmentList()
+        //    .Where(e => e.ApartmentId == id);
+        //if (list.IsNullOrEmpty())
+        //    return NotFound("Apartment not found");
+        //var dto = (await list.GetQueryAsync(_mapper, options)).ToArray()[0];
+        //return Ok(dto);
+        var entity = await _serviceWrapper.Apartments.GetApartmentById(id);
+        if (entity == null)
             return NotFound("Apartment not found");
-        var dto = (await list.GetQueryAsync(_mapper, options)).ToArray()[0];
+        var dto = _mapper.Map<ApartmentGetDto>(entity);
         return Ok(dto);
     }
 

@@ -25,25 +25,31 @@ public class AreasController : ControllerBase
     // GET: api/Areas
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<AreaGetDto>>> GetAreas(ODataQueryOptions<AreaGetDto>? options)
+    public async Task<IActionResult> GetAreas(/*ODataQueryOptions<AreaGetDto>? options*/)
     {
         var list = _serviceWrapper.Areas.GetAreaList();
         if (!list.Any())
             return NotFound("No area available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<AreaGetDto>(list));
     }
 
     // GET: api/Areas/5
     [HttpGet("{id:int}")]
     [EnableQuery]
-    public async Task<ActionResult<Area>> GetArea(int id, ODataQueryOptions<AreaGetDto>? options)
+    public async Task<ActionResult<Area>> GetArea(int id/*, ODataQueryOptions<AreaGetDto>? options*/)
     {
-        var list = _serviceWrapper.Areas.GetAreaList()
-            .Where(e => e.AreaId == id);
-        if (list.IsNullOrEmpty())
-            return NotFound("Account not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        //var list = _serviceWrapper.Areas.GetAreaList()
+        //    .Where(e => e.AreaId == id);
+        //if (list.IsNullOrEmpty())
+        //    return NotFound("Account not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.Areas.GetAreaById(id);
+        if (entity == null)
+            return NotFound("Area not found");
+        var dto = _mapper.Map<AreaGetDto>(entity);
+        return Ok(dto);
     }
 
     // PUT: api/Areas/5

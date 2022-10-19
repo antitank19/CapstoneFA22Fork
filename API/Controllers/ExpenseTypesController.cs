@@ -25,26 +25,31 @@ public class ExpenseTypesController : ControllerBase
 
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<ExpenseTypeGetDto>>> GetExpenseTypes(
-        ODataQueryOptions<ExpenseTypeGetDto>? options)
+    public async Task<IActionResult> GetExpenseTypes(/*ODataQueryOptions<ExpenseTypeGetDto>? options*/)
     {
         var list = _serviceWrapper.ExpenseTypes.GetExpenseTypeList();
         if (!list.Any())
             return NotFound("No expense type available");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<ExpenseTypeGetDto>>(list));
     }
 
     // GET: api/ExpenseTypes/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ExpenseType>> GetExpenseType(int id, ODataQueryOptions<ExpenseTypeGetDto>? options)
+    public async Task<IActionResult> GetExpenseType(int id/*, ODataQueryOptions<ExpenseTypeGetDto>? options*/)
     {
-        var list = _serviceWrapper.ExpenseTypes.GetExpenseTypeList()
-            .Where(x => x.ExpenseTypeId == id);
-        if (list.IsNullOrEmpty())
-            return NotFound("No expense type not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        //var list = _serviceWrapper.ExpenseTypes.GetExpenseTypeList()
+        //    .Where(x => x.ExpenseTypeId == id);
+        //if (list.IsNullOrEmpty())
+        //    return NotFound("No expense type not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.Expenses.GetExpenseById(id);
+        if (entity == null)
+            return NotFound("Expense type not found");
+        var dto = _mapper.Map<ExpenseTypeGetDto>(entity);
+        return Ok(dto);
     }
 
     // PUT: api/ExpenseTypes/5

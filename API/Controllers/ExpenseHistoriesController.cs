@@ -25,27 +25,31 @@ public class ExpenseHistoriesController : ControllerBase
     // GET: api/ExpenseHistories
     [EnableQuery]
     [HttpGet]
-    public async Task<ActionResult<IQueryable<ExpenseHistoryGetDto>>> GetExpenseHistories(
-        ODataQueryOptions<ExpenseHistoryGetDto>? options)
+    public async Task<IActionResult> GetExpenseHistories(/*ODataQueryOptions<ExpenseHistoryGetDto>? options*/)
     {
         var list = _serviceWrapper.ExpenseHistories.GetExpenseHistoryList();
         if (!list.Any())
             return NotFound("Expense history not found");
 
-        return Ok(await list.GetQueryAsync(_mapper, options));
+        //return Ok(await list.GetQueryAsync(_mapper, options));
+        return Ok(_mapper.Map<List<ExpenseHistoryGetDto>>(list));
     }
 
     // GET: api/ExpenseHistories/5
     [EnableQuery]
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ExpenseHistory>> GetExpenseHistory(int id,
-        ODataQueryOptions<ExpenseHistoryGetDto>? options)
+    public async Task<IActionResult> GetExpenseHistory(int id/*, ODataQueryOptions<ExpenseHistoryGetDto>? options*/)
     {
-        var list = _serviceWrapper.ExpenseHistories.GetExpenseHistoryList()
-            .Where(x => x.ExpenseHistoryId == id);
-        if (list.IsNullOrEmpty())
+        //var list = _serviceWrapper.ExpenseHistories.GetExpenseHistoryList()
+        //    .Where(x => x.ExpenseHistoryId == id);
+        //if (list.IsNullOrEmpty())
+        //    return NotFound("Expense history not found");
+        //return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var entity = await _serviceWrapper.ExpenseHistories.GetExpenseHistoryById(id);
+        if (entity == null)
             return NotFound("Expense history not found");
-        return Ok((await list.GetQueryAsync(_mapper, options)).ToArray()[0]);
+        var dto = _mapper.Map<ExpenseHistoryGetDto>(entity);
+        return Ok(dto);
     }
 
     // PUT: api/ExpenseHistories/5
