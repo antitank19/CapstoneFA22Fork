@@ -146,6 +146,9 @@ public class ContractsController : ControllerBase
             // TODO : get the current user id based on the token
         };
         
+        if (newContract.Price < 0)
+            return BadRequest("Price must be greater than 0 and an integer");
+        
         var dateCheck = DateRemainingCheck(newContract.StartDate, newContract.EndDate);
         switch (dateCheck)
         {
@@ -187,7 +190,7 @@ public class ContractsController : ControllerBase
 
     private static int DateRemainingCheck(DateTime start, DateTime end)
     {
-        return (start - end).Days;
+        return (start.Date - end.Date).Days + 1;
     }
 
 }

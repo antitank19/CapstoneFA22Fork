@@ -19,7 +19,7 @@ public class AuthController : ControllerBase
     /// <param name="loginModel"></param>
     /// <returns></returns>
     [HttpPost("management/v1/login")]
-    public async Task<ActionResult> LoginManagement(LoginModel loginModel)
+    public async Task<ActionResult> LoginManagement([FromBody] LoginModel loginModel)
     {
         var account = await _serviceWrapper.Accounts
             .AccountLogin(loginModel.Username, loginModel.Password);
@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
     /// <param name="loginModel"></param>
     /// <returns></returns>
     [HttpPost("user/v1/login")]
-    public async Task<ActionResult> LoginRenter(LoginModel loginModel)
+    public async Task<ActionResult> LoginRenter([FromBody] LoginModel loginModel)
     {
         var renter = await _serviceWrapper.Renters
             .RenterLogin(loginModel.Username, loginModel.Password);

@@ -56,7 +56,8 @@ public class AccountService : IAccountService
     {
         var list = _repositoryWrapper.Accounts.GetAccountList();
         var logined = await list.SingleOrDefaultAsync(e => e.Username == username && e.Password == password);
-        if (logined != null) logined.Role = await _repositoryWrapper.Roles.GetRoleDetail(logined.RoleId);
+        if (logined != null) 
+            logined.Role = await _repositoryWrapper.Roles.GetRoleDetail(logined.RoleId);
         return logined;
     }
 

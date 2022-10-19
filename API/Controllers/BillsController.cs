@@ -79,17 +79,50 @@ public class BillsController : ControllerBase
         return Ok("Bill updated successfully");
     }
 
+    private async Task<Renter?> GetRenterFromInvoice(Invoice id)
+    {
+        return await _serviceWrapper.Renters.GetRenterById(id.SenderId);
+    }
+    
+    private static int DateRemainingCheck(DateTime start, DateTime end)
+    {
+        return (start.Date - end.Date).Days + 1;
+    }
+    
+    private float CalculateBillAmount(Invoice? invoice)
+    {
+        if (invoice == null)
+            return -1;
+        var dateStart = invoice.Contract.StartDate;
+        var dateEnd = invoice.Contract.EndDate;
+        var dateCheck = DateRemainingCheck(dateStart, dateEnd);
+        switch (dateCheck)
+        {
+            //
+        }
+        return 0;
+    }
+
     // POST: api/Bills
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
     public async Task<ActionResult<Bill>> PostBill(BillCreateDto bill)
     {
+
         var invoiceCheck = await InvoiceCheck(bill.InvoiceId);
         if (invoiceCheck == null)
             return NotFound("Invoice not found");
 
-        var newBill = new Bill
+        var renter = await GetRenterFromInvoice(invoiceCheck);
+        if (renter == null)
+            return NotFound("Renter not found");
+
+        var billAmount = await Task.Run(async () 
+            => CalculateBillAmount(await InvoiceCheck(bill.InvoiceId)));
+
+        var newBill = new Bill()
         {
+            Amount = bill.Amount,
             Name = bill.Name,
             Detail = bill.Detail,
             DueDate = bill.DueDate,
